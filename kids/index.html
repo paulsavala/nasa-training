@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Air Detectives</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="How scientists use satellites, sunlight and sun-watching robots to check the air we breathe. A picture book with experiments and a detective game, for curious kids.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Andika:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: a picture book. Full-width chapter bands that alternate sky and paper,
+   each with a narrow reading column, a big chapter badge, and one hands-on picture.
+   Single bright look by choice (a daytime sky book), so every color is set explicitly. */
+:root{
+  --sky:#DCEFFC;       /* band 1 */
+  --paper:#FFFBF2;     /* band 2 */
+  --ink:#1E2B47;       /* text */
+  --ink-soft:#4A5878;
+  --sun:#FFC23A;       /* highlight */
+  --coral:#F2644E;     /* action */
+  --leaf:#5DB55A;
+  --uv:#8A55E8;
+  --line:#BFD3E6;
+  --card:#FFFFFF;
+  --f-display:"Baloo 2","Trebuchet MS","Comic Sans MS",system-ui,sans-serif;
+  --f-body:"Andika","Atkinson Hyperlegible","Verdana",system-ui,sans-serif;
+  --s-0:1.06rem; --s-1:1.25rem; --s-2:1.6rem; --s-3:2.2rem; --s-4:clamp(2.6rem,7vw,4.2rem);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[hidden]{display:none!important}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--f-body);font-size:var(--s-0);line-height:1.6}
+.band{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:56px}
+.band:nth-of-type(even){background:var(--paper)}
+.band:nth-of-type(odd){background:var(--sky)}
+.col{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance;color:var(--ink)}
+h1{font-size:var(--s-4);font-weight:800;letter-spacing:-.01em}
+h2{font-size:var(--s-3);font-weight:800}
+h3{font-size:var(--s-1);font-weight:700}
+p{margin:0;max-width:62ch}
+a{color:#1F5FBF}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+b{font-weight:700}
+
+/* hero */
+.hero{background:linear-gradient(#9FD3F7,#DCEFFC 75%);padding-block:40px 30px;overflow:hidden}
+.hero .col{gap:14px}
+.hero svg{width:100%;height:auto;max-width:100%;display:block}
+.kicker{font-family:var(--f-display);font-weight:700;font-size:var(--s-1);color:var(--coral);letter-spacing:.02em}
+.lead{font-size:var(--s-1);line-height:1.5}
+.toc{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;padding:0;list-style:none}
+.toc a{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:var(--card);border:2px solid var(--line);text-decoration:none;color:var(--ink);font-family:var(--f-display);font-weight:700;font-size:1rem}
+.toc a span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--sun);font-size:.95rem}
+.toc a:hover{border-color:var(--coral)}
+
+/* chapter head */
+.chead{display:flex;align-items:center;gap:14px}
+.badge{flex:none;width:58px;height:58px;border-radius:50%;background:var(--sun);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.9rem;color:var(--ink);box-shadow:0 3px 0 #D99B10}
+.chead small{display:block;font-family:var(--f-display);font-weight:700;font-size:1rem;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase}
+
+/* the hands-on picture */
+.lab{background:var(--card);border:3px solid var(--ink);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 0 var(--ink)}
+.lab canvas{width:100%;display:block;border-radius:14px;touch-action:manipulation}
+.lab .cap{font-size:.98rem;color:var(--ink-soft)}
+.ctrls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-family:var(--f-display);font-weight:700;font-size:1.05rem;border:2.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:14px;padding:6px 14px;cursor:pointer;box-shadow:0 3px 0 var(--ink);transition:transform .08s}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.btn[aria-pressed="true"]{background:var(--sun)}
+.btn.go{background:var(--coral);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.slider{display:flex;align-items:center;gap:10px;flex:1 1 260px;font-family:var(--f-display);font-weight:700}
+.slider input{flex:1;accent-color:var(--coral);min-width:0}
+.readout{font-family:var(--f-display);font-weight:700;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.say{background:#FFF5D6;border:2px dashed #E3B23C;border-radius:14px;padding:10px 14px;font-size:1.02rem;min-height:3.2em}
+
+/* word box + fact */
+.word{background:var(--card);border-left:8px solid var(--uv);border-radius:6px 16px 16px 6px;padding:10px 14px}
+.word b:first-child{font-family:var(--f-display);font-size:1.15rem;color:var(--uv)}
+.fact{display:flex;gap:12px;align-items:flex-start;background:#E9F7E5;border-radius:16px;padding:12px 14px}
+.fact .ic{flex:none;font-size:1.8rem;line-height:1}
+.grid2{display:grid;align-items:start;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.grid2>*{min-width:0}
+
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;counter-reset:st}
+.steps li{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:12px 14px;counter-increment:st;display:flex;flex-direction:column;gap:4px}
+.steps li::before{content:counter(st);font-family:var(--f-display);font-weight:800;font-size:1.3rem;width:34px;height:34px;border-radius:50%;background:var(--sky);display:grid;place-items:center}
+.steps h3{font-size:1.15rem}
+pre.code{background:#1E2B47;color:#F4F7FF;border-radius:14px;padding:12px 14px;overflow-x:auto;font-size:.95rem;line-height:1.5;margin:0}
+pre.code .c{color:#9FE0A0}
+
+/* game */
+.game-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:center}
+.stars{font-size:1.5rem;letter-spacing:2px}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.choices .btn{padding:10px 8px}
+.ok{background:#E3F6DF!important}
+.no{background:#FDE3DE!important}
+
+/* quiz */
+.q{display:flex;flex-direction:column;gap:8px;background:var(--card);border-radius:16px;padding:14px;border:2px solid var(--line)}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px}
+.q .fb{min-height:1.5em;font-weight:700}
+
+/* steps list for experiment */
+ol.how{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px}
+.grownup{font-size:.98rem;color:var(--ink-soft)}
+footer.band{background:var(--ink)!important;color:#E8EEFA}
+footer h2{color:#fff}
+footer a{color:#FFD36B}
+footer p{max-width:70ch}
+.hide-sm{}
+@media (max-width:520px){.badge{width:48px;height:48px;font-size:1.5rem}.band{padding-block:40px}}
+</style>
+
+<header class="band hero" id="top">
+  <div class="col">
+    <svg viewBox="0 0 760 250" role="img" aria-label="A friendly satellite floating high above the curved Earth, with the Sun shining">
+      <defs>
+        <radialGradient id="sunG"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".6" stop-color="#FFC23A"/><stop offset="1" stop-color="#FFC23A" stop-opacity="0"/></radialGradient>
+        <linearGradient id="earthG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4FA3E3"/><stop offset="1" stop-color="#2C6FB5"/></linearGradient>
+      </defs>
+      <circle cx="80" cy="60" r="70" fill="url(#sunG)"/>
+      <circle cx="80" cy="60" r="32" fill="#FFD449"/>
+      <g stroke="#FFB21A" stroke-width="5" stroke-linecap="round">
+        <line x1="80" y1="8" x2="80" y2="-6"/><line x1="128" y1="60" x2="146" y2="60"/><line x1="114" y1="26" x2="126" y2="14"/><line x1="114" y1="94" x2="126" y2="106"/>
+      </g>
+      <path d="M-20 250 Q380 130 780 250 Z" fill="url(#earthG)"/>
+      <path d="M120 222 q40 -30 90 -20 q30 10 60 -8 q30 -10 50 10 q-20 25 -70 30 q-60 8 -130 -12z" fill="#6CC46A"/>
+      <path d="M470 205 q50 -25 110 -5 q30 12 50 30 q-60 10 -110 5 q-40 -8 -50 -30z" fill="#6CC46A"/>
+      <g fill="#fff" opacity=".85"><ellipse cx="330" cy="215" rx="40" ry="9"/><ellipse cx="600" cy="232" rx="34" ry="8"/></g>
+      <!-- our satellite character -->
+      <g transform="translate(470 40)">
+        <g id="tempoBuddy">
+          <rect x="-118" y="18" width="92" height="40" rx="6" fill="#3B5BA9" stroke="#1E2B47" stroke-width="4"/>
+          <g stroke="#7FA1E6" stroke-width="2"><line x1="-95" y1="20" x2="-95" y2="56"/><line x1="-72" y1="20" x2="-72" y2="56"/><line x1="-49" y1="20" x2="-49" y2="56"/></g>
+          <line x1="-26" y1="38" x2="0" y2="38" stroke="#1E2B47" stroke-width="5"/>
+          <rect x="0" y="0" width="92" height="76" rx="14" fill="#F4F4F0" stroke="#1E2B47" stroke-width="4"/>
+          <rect x="0" y="0" width="92" height="20" rx="10" fill="#E2B443" stroke="#1E2B47" stroke-width="4"/>
+          <circle cx="30" cy="44" r="7" fill="#1E2B47"/><circle cx="62" cy="44" r="7" fill="#1E2B47"/>
+          <circle cx="32" cy="42" r="2.2" fill="#fff"/><circle cx="64" cy="42" r="2.2" fill="#fff"/>
+          <path d="M34 60 q12 9 24 0" stroke="#1E2B47" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <circle cx="46" cy="76" r="13" fill="#9BD0FF" stroke="#1E2B47" stroke-width="4"/>
+          <line x1="92" y1="38" x2="118" y2="38" stroke="#1E2B47" stroke-width="5"/>
+          <rect x="118" y="18" width="92" height="40" rx="6" fill="#3B5BA9" stroke="#1E2B47" stroke-width="4"/>
+          <g stroke="#7FA1E6" stroke-width="2"><line x1="141" y1="20" x2="141" y2="56"/><line x1="164" y1="20" x2="164" y2="56"/><line x1="187" y1="20" x2="187" y2="56"/></g>
+        </g>
+        <path d="M46 92 L-10 196 L102 196 Z" fill="#FFF2A8" opacity=".55"/>
+      </g>
+    </svg>
+    <div class="kicker">A science picture book</div>
+    <h1>Air Detectives</h1>
+    <p class="lead">The air around you is full of things too tiny to see. Scientists check on it from <b>space</b>, from <b>rooftops</b>, and even from <b>airplanes</b>. This book shows you how they do it, and lets you try it yourself.</p>
+    <p>Meet <b>Tempo</b>. Tempo is a real NASA instrument that sits on a satellite high above North America. It watches our air every hour of the day. It doesn't really have a face, but we gave it one.</p>
+    <ul class="toc" aria-label="Chapters">
+      <li><a href="#tiny"><span>1</span>Tiny things</a></li>
+      <li><a href="#light"><span>2</span>Bouncing light</a></li>
+      <li><a href="#orbits"><span>3</span>Two satellites</a></li>
+      <li><a href="#scan"><span>4</span>Pixels</a></li>
+      <li><a href="#game"><span>5</span>Detective game</a></li>
+      <li><a href="#ground"><span>6</span>Sun-watching robot</a></li>
+      <li><a href="#scientists"><span>7</span>What scientists do</a></li>
+      <li><a href="#jar"><span>8</span>Sunset in a jar</a></li>
+      <li><a href="#quiz"><span>9</span>Quiz</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- 1 ------------------------------------------------------------------ -->
+<section class="band" id="tiny">
+  <div class="col">
+    <div class="chead"><div class="badge">1</div><div><small>Chapter one</small><h2>The air is full of tiny things</h2></div></div>
+    <p>Air looks empty. It isn't! Every breath you take has billions and billions of tiny bits floating in it. Some are bits of <b>dust</b> blown off dry ground. Some are specks of <b>smoke</b> from fires and chimneys. And some are gas molecules, like <b>nitrogen dioxide</b> (scientists write it <b>NO₂</b>), which comes out of car and truck engines and power plants.</p>
+    <p>How tiny are they? Let's compare them with one of your hairs. Slide the zoom and keep going.</p>
+    <div class="lab">
+      <canvas id="cvTiny" aria-label="Microscope view of a hair with dust, a PM2.5 speck and smoke specks drawn to scale"></canvas>
+      <div class="ctrls"><label class="slider" for="zoomTiny">Zoom <input id="zoomTiny" type="range" min="0" max="100" value="0"></label></div>
+      <div class="say" id="sayTiny" aria-live="polite"></div>
+    </div>
+    <div class="word"><b>PM2.5</b> means “particles 2.5 micrometers across or smaller.” A micrometer (µm) is one-thousandth of a millimeter. About 30 PM2.5 specks lined up would be as wide as one hair. They are so small they can sneak deep into your lungs, so scientists keep a close eye on them.</div>
+    <div class="fact"><span class="ic" aria-hidden="true">🔬</span><p>NO₂ molecules are too small to see even with the strongest zoom here. About <b>1,000</b> of them in a row would only be as wide as one smoke speck.</p></div>
+  </div>
+</section>
+
+<!-- 2 ------------------------------------------------------------------ -->
+<section class="band" id="light">
+  <div class="col">
+    <div class="chead"><div class="badge">2</div><div><small>Chapter two</small><h2>Sunlight bounces back to space</h2></div></div>
+    <p>Satellites can't scoop up air to test it. They are much too far away. Instead, they use <b>sunlight</b>.</p>
+    <p>Sunlight looks white, but it is really a mix of colors: red, green, blue, and more. It also has a color our eyes can't see at all, called <b>ultraviolet</b> or <b>UV</b>. (Bees can see it!) In the picture, we drew UV light purple so you can see it.</p>
+    <p>When sunlight hits something, some colors bounce off and some get soaked up. Tempo catches the light that bounces back up and measures how much of each color came back. Pick something for the light to hit and watch.</p>
+    <div class="lab">
+      <canvas id="cvLight" aria-label="Sunlight going down from the Sun and bouncing up to a satellite"></canvas>
+      <div class="ctrls" role="group" aria-label="What is under the satellite">
+        <button class="btn" data-surf="grass" aria-pressed="true">🌱 Grass</button>
+        <button class="btn" data-surf="snow">❄️ Snow</button>
+        <button class="btn" data-surf="cloud">☁️ Cloud</button>
+        <button class="btn" data-surf="smoke">🔥 Smoke</button>
+        <button class="btn" data-surf="dust">🏜️ Dust</button>
+      </div>
+      <div class="say" id="sayLight" aria-live="polite"></div>
+    </div>
+    <div class="fact"><span class="ic" aria-hidden="true">💡</span><p>Light is super fast. It takes about <b>8 minutes</b> to travel from the Sun to Earth, and only about <b>one-eighth of a second</b> to bounce from the ground up to Tempo.</p></div>
+    <div class="word"><b>Why is the sky blue?</b> Air itself bounces a little light around, and it bounces blue and UV light much more than red. That scattered blue light comes at your eyes from every part of the sky. That's why you see a little blue and UV even over plain grass in the picture.</div>
+  </div>
+</section>
+
+<!-- 3 ------------------------------------------------------------------ -->
+<section class="band" id="orbits">
+  <div class="col">
+    <div class="chead"><div class="badge">3</div><div><small>Chapter three</small><h2>The zoomer and the hoverer</h2></div></div>
+    <p>Scientists use two kinds of satellites to watch the air.</p>
+    <div class="grid2">
+      <p><b>The zoomer</b> flies low, about 700 km up. It races all the way around Earth in about 100 minutes, which is about 14 laps every day! Since Earth turns underneath it, it sees a new strip each lap. But it only passes over your house about once a day.</p>
+      <p><b>The hoverer</b> flies far out, 35,786 km up. Out there, one lap takes exactly one day, the same time Earth takes to spin once. So it seems to <b>hang still</b> over the same spot. Tempo rides on a hoverer, so it can look at North America again and again, every hour.</p>
+    </div>
+    <div class="lab">
+      <canvas id="cvOrbit" aria-label="Earth spinning, with a fast low satellite and a slow far satellite that stays above North America"></canvas>
+      <div class="ctrls">
+        <button class="btn go" id="orbPlay">⏸ Pause</button>
+        <button class="btn" id="orbFar" aria-pressed="false">📏 Show real distance</button>
+        <span class="readout" id="orbClock"></span>
+      </div>
+      <div class="say" id="sayOrbit" aria-live="polite">The orange dots show where the zoomer has been. The yellow beam shows Tempo looking at North America.</div>
+    </div>
+    <div class="fact"><span class="ic" aria-hidden="true">🏀</span><p>If Earth were a basketball, the zoomer would fly only about <b>1 cm</b> above it, about the thickness of your finger. Tempo would be about <b>67 cm</b> away, as far as from your shoulder to your fingertips!</p></div>
+    <div class="fact"><span class="ic" aria-hidden="true">🌙</span><p>Tempo needs sunlight to work, so it takes a rest at night, when it's dark over North America.</p></div>
+  </div>
+</section>
+
+<!-- 4 ------------------------------------------------------------------ -->
+<section class="band" id="scan">
+  <div class="col">
+    <div class="chead"><div class="badge">4</div><div><small>Chapter four</small><h2>A picture made of squares</h2></div></div>
+    <p>Tempo doesn't snap a whole picture at once. It looks at one thin stripe, then the next, sweeping from east to west across the whole country. It takes about an hour, and then it starts again.</p>
+    <p>Each little square in the picture is called a <b>pixel</b>. One Tempo pixel covers about 2 km by 5 km of ground. Walking across one the long way would take you more than an hour! Pick a time of day and press Scan.</p>
+    <div class="lab">
+      <canvas id="cvScan" aria-label="A cartoon town being scanned stripe by stripe into colored squares that show NO2"></canvas>
+      <div class="ctrls" role="group" aria-label="Time of day">
+        <button class="btn" data-hour="8" aria-pressed="true">🌅 8 am</button>
+        <button class="btn" data-hour="13">☀️ 1 pm</button>
+        <button class="btn" data-hour="17">🚗 5 pm</button>
+        <button class="btn" id="scanWind" aria-pressed="false">💨 Windy</button>
+        <button class="btn go" id="scanGo">▶ Scan!</button>
+      </div>
+      <div class="ctrls"><label class="slider" for="scanPeek">Peek at the town <input id="scanPeek" type="range" min="0" max="100" value="40"></label></div>
+      <div class="say" id="saySc" aria-live="polite"></div>
+    </div>
+    <div class="word"><b>Rush hour</b> is when lots of people drive to work or home at the same time. More cars means more NO₂ near the roads. On hot, sunny days, sunlight can “cook” NO₂ together with other gases into <b>ozone</b>, which makes it harder to breathe.</div>
+  </div>
+</section>
+
+<!-- 5 ------------------------------------------------------------------ -->
+<section class="band" id="game">
+  <div class="col">
+    <div class="chead"><div class="badge">5</div><div><small>Chapter five</small><h2>Be the detective: cloud, smoke or dust?</h2></div></div>
+    <p>Here is a real puzzle scientists solve every day. Tempo sends back how much of each color bounced up from one pixel. Your job is to figure out what was there. Use the clues!</p>
+    <div class="grid2">
+      <div class="word"><b>Clue cards</b><br>☁️ <b>Cloud:</b> every bar is tall, even UV. Clouds are bright and white.<br>🔥 <b>Smoke:</b> UV is tiny, and the other three bars are about the same height. Smoke is gray and soaks up UV.<br>🏜️ <b>Dust:</b> the bars go up like stairs, with red the tallest. Dust is yellow-brown.<br>🌱 <b>Clean air:</b> all bars low, with green a bit taller.</div>
+      <div class="lab">
+        <div class="game-top"><span class="readout" id="gRound"></span><span class="stars" id="gStars" aria-label="Score"></span></div>
+        <canvas id="cvGame" aria-label="Bar chart of how much UV, blue, green and red light came back from one pixel"></canvas>
+        <div class="choices" role="group" aria-label="Your answer">
+          <button class="btn" data-ans="cloud">☁️ Cloud</button>
+          <button class="btn" data-ans="smoke">🔥 Smoke</button>
+          <button class="btn" data-ans="dust">🏜️ Dust</button>
+          <button class="btn" data-ans="clear">🌱 Clean air</button>
+        </div>
+        <div class="say" id="sayGame" aria-live="polite">Look at the four bars. Which clue card matches?</div>
+        <div class="ctrls"><button class="btn go" id="gNext" disabled>Next pixel ▶</button></div>
+      </div>
+    </div>
+    <p class="grownup">The real smoke and dust detector uses the same kinds of clues: how bright a pixel is, how much UV it soaks up, and how its colors compare. It also uses a second satellite that sees heat, to tell clouds and dust apart better.</p>
+  </div>
+</section>
+
+<!-- 6 ------------------------------------------------------------------ -->
+<section class="band" id="ground">
+  <div class="col">
+    <div class="chead"><div class="badge">6</div><div><small>Chapter six</small><h2>A robot that stares at the Sun</h2></div></div>
+    <p>How do scientists know Tempo is getting the right answer? They check it from the ground! On rooftops all over the world sit instruments called <b>Pandoras</b>. A Pandora is a little robot with a telescope that follows the Sun all day long.</p>
+    <p>Sunlight has to pass through all the air above the rooftop to reach the Pandora. Gases like NO₂ soak up a tiny bit of certain colors on the way, so Pandora can count how much NO₂ is up there. It measures every few minutes. Tempo measures once an hour. Slide through the day and see if they agree.</p>
+    <div class="lab">
+      <canvas id="cvSky" aria-label="A rooftop Pandora instrument pointing at the Sun as it crosses the sky"></canvas>
+      <canvas id="cvDay" aria-label="Chart of NO2 through the day: small dots from Pandora and stars from Tempo"></canvas>
+      <div class="ctrls">
+        <button class="btn go" id="dayPlay">▶ Play the day</button>
+        <label class="slider" for="dayT">Time <input id="dayT" type="range" min="420" max="1140" value="600" step="5"></label>
+        <span class="readout" id="dayClock"></span>
+      </div>
+      <div class="say" id="sayDay" aria-live="polite"></div>
+    </div>
+    <div class="fact"><span class="ic" aria-hidden="true">🌍</span><p>There are Pandoras in more than 100 places around the world. Their measurements go to one big shared collection that any scientist can use. Even kids!</p></div>
+  </div>
+</section>
+
+<!-- 7 ------------------------------------------------------------------ -->
+<section class="band" id="scientists">
+  <div class="col">
+    <div class="chead"><div class="badge">7</div><div><small>Chapter seven</small><h2>What do air scientists actually do?</h2></div></div>
+    <p>Most of a scientist's day isn't spent with rockets. It's spent asking good questions and being careful with numbers. Here's how a real project goes, in order:</p>
+    <ol class="steps">
+      <li><h3>Ask a question</h3><p>“Was our air worse on the day smoke blew in from faraway fires?”</p></li>
+      <li><h3>Collect data</h3><p>Download Tempo's pictures and Pandora's measurements for that day.</p></li>
+      <li><h3>Clean it up</h3><p>Throw out pixels covered by clouds and measurements marked “not sure.”</p></li>
+      <li><h3>Make maps and graphs</h3><p>Turn thousands of numbers into pictures people can understand.</p></li>
+      <li><h3>Compare</h3><p>Do the satellite and the rooftop robot agree? If not, why not?</p></li>
+      <li><h3>Share and ask again</h3><p>Tell other scientists what you found. Every answer leads to a new question!</p></li>
+    </ol>
+    <p>Scientists use computers for the “clean it up” step, because there are millions of pixels. They write instructions called <b>code</b>. Here's a tiny bit of real-looking code. Can you read what it does?</p>
+    <pre class="code"><span class="c"># keep only the clear pixels</span>
+for pixel in picture:
+    if pixel.cloud &gt; 0.3:
+        throw_away(pixel)
+    else:
+        keep(pixel)</pre>
+    <p class="grownup">It says: look at every pixel. If more than 3 tenths of it is cloud, throw it away. Otherwise, keep it.</p>
+  </div>
+</section>
+
+<!-- 8 ------------------------------------------------------------------ -->
+<section class="band" id="jar">
+  <div class="col">
+    <div class="chead"><div class="badge">8</div><div><small>Chapter eight</small><h2>Try it: make a sunset in a jar</h2></div></div>
+    <p>Tiny bits in the air bounce blue light around more than red light. You can see this yourself with a glass of water and a few drops of milk. The milk is full of tiny bits too.</p>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <h3>You need</h3>
+        <p>A tall clear glass or jar, water, milk, a spoon, a flashlight, and a dark room. <b>Ask a grown-up to help.</b></p>
+        <h3>What to do</h3>
+        <ol class="how">
+          <li>Fill the glass with water.</li>
+          <li>Shine the flashlight through the side. Look at the water from the side and through the far end.</li>
+          <li>Stir in a few drops of milk and look again.</li>
+          <li>Add more drops, a few at a time. What happens to the colors?</li>
+        </ol>
+      </div>
+      <div class="lab">
+        <canvas id="cvJar" aria-label="A glass of water lit by a flashlight; adding milk makes the side glow bluish and the far end look orange"></canvas>
+        <label class="slider" for="milk">Drops of milk <input id="milk" type="range" min="0" max="30" value="8"></label>
+        <div class="say" id="sayJar" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="fact"><span class="ic" aria-hidden="true">🌇</span><p>At sunset, sunlight goes sideways through lots and lots of air before it reaches you. Most of the blue gets bounced away on the trip. The light that's left looks orange and red, just like the end of your jar. Smoky or dusty air makes sunsets even redder.</p></div>
+    <h3>Be a haze watcher</h3>
+    <p>Pick something far away you can see from your window: a hill, a tower or a tall tree. Every day, give it a score from 1 (crystal clear) to 5 (can't see it). Write down the date and your score. After a few weeks you'll have your own data, just like a real scientist!</p>
+  </div>
+</section>
+
+<!-- 9 ------------------------------------------------------------------ -->
+<section class="band" id="quiz">
+  <div class="col">
+    <div class="chead"><div class="badge">9</div><div><small>Chapter nine</small><h2>Detective quiz</h2></div></div>
+    <p>Let's see what you remember. Tap an answer.</p>
+    <div id="quizBox" style="display:flex;flex-direction:column;gap:12px"></div>
+    <p class="readout" id="quizScore" aria-live="polite"></p>
+  </div>
+</section>
+
+<footer class="band">
+  <div class="col">
+    <h2>For grown-ups</h2>
+    <p>Everything here is simplified from real science, and the pictures are toy versions of real instruments. The orbit heights, the lap times, the 2 km × 5 km pixel size and the hourly east-to-west scan are real. TEMPO (Tropospheric Emissions: Monitoring of Pollution) launched in 2023. It sits on a commercial satellite above the equator at 91° W. Pandora instruments belong to the Pandonia Global Network.</p>
+    <p>Learn more: <a href="https://tempo.si.edu/" target="_blank" rel="noopener">TEMPO mission site</a> · <a href="https://science.nasa.gov/mission/tempo/" target="_blank" rel="noopener">NASA's TEMPO page</a> · <a href="https://www.pandonia-global-network.org/" target="_blank" rel="noopener">Pandonia Global Network</a> · <a href="https://paulsavala.github.io/nasa-training/" target="_blank" rel="noopener">The grown-up training site this book is based on</a></p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const C = { ink:"#1E2B47", soft:"#4A5878", sun:"#FFC23A", coral:"#F2644E", leaf:"#5DB55A", uv:"#8A55E8", blue:"#3E7BEA", green:"#3BAA4A", red:"#E2443A", paper:"#FFFBF2", sky:"#DCEFFC" };
+const FONT = '"Andika","Verdana",sans-serif', DFONT = '"Baloo 2","Trebuchet MS",sans-serif';
+const $ = (s, r=document) => r.querySelector(s), $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const clamp = (x,a,b) => Math.max(a, Math.min(b, x));
+const lerp = (a,b,t) => a + (b-a)*t;
+
+/* canvas helper: keeps an aspect ratio, handles retina, redraws on resize */
+function surface(cv, aspect, draw, minH=0){
+  const ctx = cv.getContext("2d"); const S = { ctx, w:0, h:0 };
+  function fit(){
+    const w = cv.clientWidth || cv.parentNode.clientWidth; const h = Math.max(minH, Math.round(w*aspect));
+    const d = Math.min(2, window.devicePixelRatio || 1);
+    cv.style.height = h + "px"; cv.width = Math.round(w*d); cv.height = Math.round(h*d);
+    ctx.setTransform(d,0,0,d,0,0); S.w = w; S.h = h; draw(S);
+  }
+  new ResizeObserver(fit).observe(cv.parentNode); fit();
+  S.redraw = () => draw(S); return S;
+}
+/* run an animation only while it is on screen */
+function whenVisible(el, start, stop){
+  new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? start() : stop()), { threshold: 0.05 }).observe(el);
+}
+function label(ctx, txt, x, y, opt={}){
+  ctx.font = `${opt.weight||700} ${opt.size||14}px ${opt.display?DFONT:FONT}`;
+  ctx.textAlign = opt.align || "left"; ctx.textBaseline = opt.base || "middle";
+  if (opt.halo !== false){ ctx.lineWidth = 4; ctx.strokeStyle = opt.halo || "rgba(255,255,255,.9)"; ctx.lineJoin="round"; ctx.strokeText(txt, x, y); }
+  ctx.fillStyle = opt.color || C.ink; ctx.fillText(txt, x, y);
+}
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x,y,w,h,r) : ctx.rect(x,y,w,h); }
+function mulberry(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* ===================================================== 1. TINY THINGS */
+(function(){
+  const cv = $("#cvTiny"), sl = $("#zoomTiny"), say = $("#sayTiny");
+  const rnd = mulberry(7);
+  // positions in micrometers; hair centre at origin, radius 35 (a 70 µm hair)
+  const dust = [], smoke = [];
+  for (let i=0;i<9;i++){ const a=i/9*Math.PI*2; dust.push([Math.cos(a)*(4.2+rnd()*1.4), Math.sin(a)*(4.2+rnd()*1.4)]); }
+  const smokeC = [36.5, -1.2];
+  for (let i=0;i<7;i++) smoke.push([smokeC[0]+(i%4-1.5)*0.55+(rnd()-.5)*0.2, smokeC[1]+(i<4?-0.4:0.45)+(rnd()-.5)*0.25, 0.1+rnd()*0.08]);
+  const pm = [43.5, 6.5, 1.25];
+  const dustC = [52, -13];
+  const S = surface(cv, 0.62, draw, 230);
+  function view(){
+    const t = sl.value/100, z = Math.pow(40, t);
+    return { z, t, vw: 120/z, cx: lerp(8, 36.2, Math.pow(t,0.85)), cy: lerp(0, -1.2, t) };
+  }
+  function draw({ctx,w,h}){
+    const V = view(), s = w / V.vw;
+    const X = x => w/2 + (x - V.cx)*s, Y = y => h/2 + (y - V.cy)*s;
+    // background like a microscope slide
+    const g = ctx.createRadialGradient(w/2,h/2,0,w/2,h/2,w*0.7); g.addColorStop(0,"#FBFDFF"); g.addColorStop(1,"#D9EAF7");
+    ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+    // hair
+    ctx.save(); ctx.beginPath(); ctx.arc(X(0),Y(0),35*s,0,7); ctx.fillStyle="#8A5A34"; ctx.fill();
+    ctx.clip(); ctx.strokeStyle="rgba(255,255,255,.18)"; ctx.lineWidth=Math.max(1,1.2*s);
+    for (let r=6;r<35;r+=4.5){ ctx.beginPath(); ctx.arc(X(-4),Y(-3),r*s,0,7); ctx.stroke(); }
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(X(0),Y(0),35*s,0,7); ctx.lineWidth=3; ctx.strokeStyle="#5B3A20"; ctx.stroke();
+    // dust grain (10 µm)
+    ctx.beginPath(); dust.forEach((p,i)=>{ const x=X(dustC[0]+p[0]), y=Y(dustC[1]+p[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.closePath(); ctx.fillStyle="#D9A55B"; ctx.fill(); ctx.lineWidth=2; ctx.strokeStyle="#9A6B2A"; ctx.stroke();
+    // PM2.5 speck
+    ctx.beginPath(); ctx.arc(X(pm[0]),Y(pm[1]),pm[2]*s,0,7); ctx.fillStyle="#6E6A78"; ctx.fill();
+    // smoke specks
+    smoke.forEach(p=>{ ctx.beginPath(); ctx.arc(X(p[0]),Y(p[1]),Math.max(0.8,p[2]*s),0,7); ctx.fillStyle="#3B3846"; ctx.fill(); });
+    // labels
+    const L = [];
+    if (35*s < w*3) L.push(["Your hair", X(-12), Y(0), 0]);
+    else L.push(["← The edge of your hair!", Math.max(10, X(35)+8), h*0.1, 1]);
+    const lab = (txt, x, y, r) => { if (x>-40 && x<w+40 && y>-20 && y<h+20) L.push([txt, x, y - r - 14, 2]); };
+    lab("Dust grain", X(dustC[0]), Y(dustC[1]), 6*s);
+    lab("PM2.5 speck", X(pm[0]), Y(pm[1]), pm[2]*s);
+    if (V.t > 0.35) L.push(["Smoke specks", X(smokeC[0]), Y(smokeC[1]+0.75)+16, 2]);
+    else lab("smoke", X(smokeC[0]), Y(smokeC[1]-0.6), 2);
+    L.forEach(([t,x,y,k]) => label(ctx, t, x, y, {align: k===1?"left":"center", size: k===0?18:15, color: k===0?"#fff":C.ink, halo: k===0? "rgba(60,30,10,.6)":undefined}));
+    // scale bar
+    const nice = [0.5,1,2,5,10,20,50]; let len = nice[0];
+    for (const n of nice) if (n*s < w*0.28) len = n;
+    const bx = 14, by = h-18;
+    ctx.fillStyle = C.ink; ctx.fillRect(bx, by, len*s, 5);
+    label(ctx, `${len} µm`, bx + len*s + 8, by+2, {size:13});
+    // say
+    say.textContent = V.t < 0.15 ? "This is the end of one hair, cut across, seen through a microscope. The little brown chunk is a grain of dust. See the tiny gray dots? Zoom in!"
+      : V.t < 0.55 ? "The dust grain is about 10 µm across, seven times thinner than the hair. The PM2.5 speck is even smaller. Smoke specks are smaller still."
+      : V.t < 0.9 ? "Now the hair looks like a giant wall! Smoke specks are less than half a micrometer across."
+      : "Smoke specks are about 200 times thinner than your hair. A cloud of them can still block sunlight, because there are so many.";
+  }
+  sl.addEventListener("input", S.redraw);
+  document.fonts && document.fonts.ready.then(S.redraw);
+})();
+
+/* ===================================================== 2. BOUNCING LIGHT */
+const SURF = {
+  // how much of each colour comes back: [UV, blue, green, red]
+  grass: { refl:[0.03,0.05,0.18,0.07], air:1, say:"Grass soaks up most light. It sends back a little green (that's why it looks green!). The UV and blue you see come from the air itself bouncing light." },
+  snow:  { refl:[0.80,0.88,0.88,0.86], air:1, say:"Snow bounces back almost everything, even UV. That's why snow is so bright, and why you can get sunburned skiing!" },
+  cloud: { refl:[0.70,0.76,0.77,0.77], air:0.6, say:"Clouds are made of water drops. They bounce back all the colors, including UV, so they look white and bright." },
+  smoke: { refl:[0.005,0.13,0.13,0.12], air:0.45, say:"Smoke soaks up UV light! Even though the air is hazy, less UV comes back than over clean air. The other colors come back about the same, because smoke is gray." },
+  dust:  { refl:[0.02,0.10,0.18,0.30], air:0.5, say:"Dust is yellow-brown. It soaks up UV and blue, and bounces back more green and even more red. The bars go up like stairs!" },
+};
+const AIR = [0.10, 0.07, 0.03, 0.015];
+const COLS = [C.uv, C.blue, C.green, C.red], CNAMES = ["UV","Blue","Green","Red"];
+function brightness(k){ const s = SURF[k]; return s.refl.map((r,i) => Math.min(1, r + AIR[i]*s.air)); }
+function drawBars(ctx, x, y, w, h, vals, opt={}){
+  const n = vals.length, gap = w*0.06, bw = (w - gap*(n+1))/n;
+  ctx.fillStyle = opt.bg || "rgba(255,255,255,.92)"; rr(ctx,x,y,w,h,12); ctx.fill();
+  ctx.lineWidth=2; ctx.strokeStyle=C.ink; ctx.stroke();
+  const top = y + (opt.title?26:10), base = y + h - 24, ph = base - top;
+  if (opt.title) label(ctx, opt.title, x + w/2, y + 14, {align:"center", size: opt.ts||13, halo:false});
+  ctx.strokeStyle="rgba(30,43,71,.15)"; ctx.lineWidth=1;
+  for (let q=0.25;q<1.01;q+=0.25){ ctx.beginPath(); ctx.moveTo(x+6, base-ph*q); ctx.lineTo(x+w-6, base-ph*q); ctx.stroke(); }
+  vals.forEach((v,i) => {
+    const bx = x + gap + i*(bw+gap), bh = Math.max(2, ph*v);
+    ctx.fillStyle = COLS[i]; rr(ctx, bx, base-bh, bw, bh, 4); ctx.fill();
+    label(ctx, CNAMES[i], bx + bw/2, base + 12, {align:"center", size: opt.ls||12, halo:false});
+  });
+}
+(function(){
+  const cv = $("#cvLight"), say = $("#sayLight"); let surf = "grass";
+  const btns = $$("[data-surf]");
+  const rnd = Math.random; let photons = [], last = 0, run = false, raf = 0, spawn = 0, shown = brightness(surf);
+  const S = surface(cv, 0.62, draw, 260);
+  function geom(w,h){ return { sun:[w*0.1,h*0.14], sat:[w*0.84,h*0.13], groundY:h*0.84, layer:[h*0.52,h*0.7] }; }
+  function draw({ctx,w,h}){
+    const G = geom(w,h);
+    const sky = ctx.createLinearGradient(0,0,0,h); sky.addColorStop(0,"#9ED2F6"); sky.addColorStop(1,"#E6F4FD");
+    ctx.fillStyle = sky; ctx.fillRect(0,0,w,h);
+    // ground
+    ctx.fillStyle = surf==="snow" ? "#F3F7FB" : surf==="dust" ? "#D8B27A" : "#79C26A";
+    ctx.fillRect(0, G.groundY, w, h-G.groundY);
+    if (surf==="dust"){ ctx.fillStyle="#C99B5D"; for(let i=0;i<8;i++){ ctx.beginPath(); ctx.ellipse(w*(i/7), G.groundY+8, w*0.08, 8, 0, 0, 7); ctx.fill(); } }
+    if (surf!=="snow" && surf!=="dust"){ ctx.strokeStyle="#4E9B45"; ctx.lineWidth=2; for(let x=6;x<w;x+=14){ ctx.beginPath(); ctx.moveTo(x,G.groundY+12); ctx.lineTo(x+3,G.groundY+4); ctx.stroke(); } }
+    // the layer
+    const [l0,l1] = G.layer;
+    if (surf==="cloud"){
+      ctx.fillStyle="#fff";
+      [[.32,.6,.09],[.42,.56,.11],[.53,.58,.1],[.63,.61,.08],[.47,.64,.1],[.37,.65,.07],[.58,.66,.08]].forEach(([x,y,r])=>{ ctx.beginPath(); ctx.arc(w*x,h*y,w*r*0.75,0,7); ctx.fill(); });
+    } else if (surf==="smoke" || surf==="dust"){
+      const base = surf==="smoke" ? [120,112,118] : [214,170,110];
+      for (let i=0;i<26;i++){ const x=w*(0.12+((i*37)%76)/100), y=lerp(l0,l1,((i*53)%100)/100);
+        const gr = ctx.createRadialGradient(x,y,0,x,y,w*0.11); gr.addColorStop(0,`rgba(${base},.32)`); gr.addColorStop(1,`rgba(${base},0)`);
+        ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x,y,w*0.11,0,7); ctx.fill(); }
+      if (surf==="smoke"){ ctx.fillStyle="#7A4B2A"; ctx.fillRect(w*0.06,G.groundY-34,10,34); ctx.fillStyle="#F28C28"; ctx.beginPath(); ctx.moveTo(w*0.06-6,G.groundY); ctx.quadraticCurveTo(w*0.06+5,G.groundY-30,w*0.06+16,G.groundY); ctx.fill(); }
+    }
+    // sun
+    ctx.fillStyle="#FFD449"; ctx.beginPath(); ctx.arc(G.sun[0],G.sun[1],Math.max(18,w*0.045),0,7); ctx.fill();
+    label(ctx,"Sun",G.sun[0],G.sun[1]+Math.max(18,w*0.045)+12,{align:"center",size:13});
+    // satellite
+    const [sx,sy] = G.sat; ctx.fillStyle="#3B5BA9"; ctx.fillRect(sx-38,sy-6,22,12); ctx.fillRect(sx+16,sy-6,22,12);
+    ctx.fillStyle="#F4F4F0"; ctx.strokeStyle=C.ink; ctx.lineWidth=2.5; rr(ctx,sx-15,sy-14,30,28,6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=C.ink; ctx.beginPath(); ctx.arc(sx-5,sy,2.6,0,7); ctx.arc(sx+5,sy,2.6,0,7); ctx.fill();
+    label(ctx,"Tempo",sx,sy+26,{align:"center",size:13});
+    // photons
+    photons.forEach(p => {
+      ctx.globalAlpha = p.a; ctx.fillStyle = COLS[p.c];
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.c===0?4.2:3.6,0,7); ctx.fill();
+      if (p.c===0){ ctx.strokeStyle=C.uv; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(p.x,p.y,7,0,7); ctx.stroke(); }
+    });
+    ctx.globalAlpha = 1;
+    // meter
+    const mw = Math.min(170, w*0.34), mh = Math.min(120, h*0.34);
+    drawBars(ctx, w - mw - 10, h*0.24, mw, mh, shown, {title:"Light caught by Tempo", ts: w<450?11:13, ls: w<450?10:12});
+  }
+  function target(G,w){
+    const x = w*(0.3+rnd()*0.38);
+    if (surf==="cloud") return [x, G.layer[0]+ (G.layer[1]-G.layer[0])*0.3 + rnd()*10, "layer"];
+    if (surf==="smoke"||surf==="dust") return [x, lerp(G.layer[0],G.layer[1],rnd()), "layer"];
+    return [x, G.groundY+2, "ground"];
+  }
+  function newPhoton(){
+    const {w,h} = S, G = geom(w,h), c = Math.floor(rnd()*4), t = target(G,w);
+    const p = { c, x:G.sun[0], y:G.sun[1], tx:t[0], ty:t[1], a:1, st:"down", sp: Math.max(160, w*0.5) };
+    // air scatters some blue/UV on the way down, straight to the satellite
+    if (rnd() < AIR[c]*SURF[surf].air*2.2){ p.st="downAir"; p.cut = 0.3 + rnd()*0.4; }
+    photons.push(p);
+  }
+  function step(dt){
+    const {w,h} = S, G = geom(w,h), s = SURF[surf];
+    spawn += dt*(w<500?14:22); while (spawn>1){ spawn--; newPhoton(); }
+    photons.forEach(p => {
+      if (p.st==="dead"){ p.a -= dt*2.5; return; }
+      const dx = p.tx-p.x, dy = p.ty-p.y, d = Math.hypot(dx,dy), m = p.sp*dt;
+      if (p.st==="downAir"){ const tot = Math.hypot(p.tx-G.sun[0], p.ty-G.sun[1]); if (d < tot*(1-p.cut)){ p.st="up"; p.tx=G.sat[0]; p.ty=G.sat[1]; return; } }
+      if (d <= m){
+        if (p.st==="up"){ p.st="dead"; p.a=0; return; }
+        if (rnd() < s.refl[p.c]/Math.max(0.05, 1 - AIR[p.c]*s.air*2.2)){ p.st="up"; p.tx=G.sat[0]+(rnd()-.5)*12; p.ty=G.sat[1]; }
+        else { p.st="dead"; }
+      } else { p.x += dx/d*m; p.y += dy/d*m; }
+    });
+    photons = photons.filter(p => p.a > 0);
+  }
+  function loop(t){ const dt = Math.min(0.05, (t-last)/1000 || 0); last = t;
+    const target = brightness(surf); shown = shown.map((v,i)=> v + (target[i]-v)*Math.min(1,dt*4));
+    step(dt); S.redraw(); if (run) raf = requestAnimationFrame(loop); }
+  function start(){ if (run || RM) return; run = true; last = performance.now(); raf = requestAnimationFrame(loop); }
+  function stop(){ run = false; cancelAnimationFrame(raf); }
+  function pick(k){ surf = k; photons = []; btns.forEach(b => b.setAttribute("aria-pressed", b.dataset.surf===k)); say.textContent = SURF[k].say; if (RM){ shown = brightness(k); S.redraw(); } }
+  btns.forEach(b => b.addEventListener("click", () => pick(b.dataset.surf)));
+  pick("grass"); whenVisible(cv, start, stop);
+  document.fonts && document.fonts.ready.then(S.redraw);
+})();
+
+/* ===================================================== 3. ORBITS */
+const LAND = (function(){ const b = atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+//8fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/P////8DAAAA4P//////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////8BAAAf/P///x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7//////w/4////7///////B/gHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4PD//////wP8////////////9/8/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/4H/////P+D///////////////8BAAAAAAAAAAAAAAAAAADwHwAAAAAAAAAAAAD+BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA//8c/P//B/7//////////////wcAAAAAAAAAAPD/HwAAAADgAwAAAAAAAAAAAID/PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA///5////AOD//////////////wcAAAAAAACAwwf/HwAAAAAAAAAAAAAAAAAAAAD8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAA4P/n/38AAP7//////////////wEAAAAAAADg//8AAAAAAAAAAAAAAAAAAAAAAADw/3gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHwH944P/+//8A/v///////////////wEAAAAAAACA//8AAAAAAAAAAAAAAAAAAAAAAAAAAPwDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPj4AA/+///g/////////////////wEAAAAAAAAA/h88AAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAPAACAD4D3/weA/////////////////wEAAAAAAAAA+A98AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfwAAAAAAAAD//wEA+P///////////////wMAAAAAAAAAwAMAAAAAAAAAAAAAAAAAAAAAAAAAAPgDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgPwAwAACA/+P//wcA+P//////////////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAPwBAAAAAAAAAPw/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4Aw9wAPgf4AMA8AAAwP//////////////PwAAAAAAAAAAAAAAAAAAAAAAAAAA//8BAAAAAAAA+P///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP/gD/gfwB8ADwAAAAAA/////////////wAAAAAAAAAAAAAAAAAAAAAAAADg/w8AAAAAAID//////w8AAAAAAPw/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P//D8DPz////wAAAAAA+P///////////wEAAAAAAAAAAAAAAAAAAAAAAAD+AQAAAAAAAPj//////wcAAAAAAPj/8QMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMADAACAD/7/fwAAAAAA8P///////////wAAAAAAAAAAAAAAAAAAAAAAAIA/AAAAAAAA4P//////fwAAAAAAAGAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAMA/AAAAAAAAAAAAAAAAAAAAwP//////////fwAAAAAAAAAAAAAAAAAAAAAAAOAPAAAAAAAA4P//////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID//wAAAMAY/wMOzwEAAAAAgP//////////PwAAAAAAAAAAAAAAAAAAAAAAAPAHAAAAAAD4/////////+MDAAAAAAAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID/fwcAOOAf/8Hnnx8AAAAAAP//////////AQAAAAAAAAAAAAAAAAAAAAAAAPgBAAAAAAD+//////////8/wH8AAAB8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD/7+eYD9gfH+D3PxsAAAAAAPz/////////AwAAAAAAAAAAAAAAAAAAAAAAAP4AAAD8IQD+//////////////8BAIAfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD//P8/H/B/DvD/P/8AAAAAAPz///////9/BgAAAAAAAAAAAAAAAAAAAAAAAH4AAAD+Q/7+//////////////8BAMD/PwAAAAAAAAAAAAAAAAAAAAAAAAAAAMB//v9/P4B/HvD///8PAAAAAP7/////////AwAAAAAAAAAAAAAAAAAAAAAAgH8AAAD/cf////////////////8BA4D//w8AAAAAAAAAHwAAAADgAAAAAAAAAAAO4P//PwAAP/D/////AQAAAOD////////fDwAAAAAAAAAAAAAAAAAAAAAAAP4AAMD/+P7///////////////+D/////38AAAAAAAAAAAAAAAD/ewAAAAAAAAAA+P///wCAf8D/////DwAAAPz///////8fDwAAAAAAAAAAAAAA/wcAAAAAAMADAOD/8f//////////////////////////fwAAAAAAAAAAAPj//38AAAAAgAMAAMD//w+A/wDw////fwAAAPz///////8PAAAAAAAAAAAAAACP/x8AAAAAAAAAAMD/8////////////////////////////wAAAAAAAAAAAPz/////HwCA/2c8wP///z84/wDgf8D//wAAAPj9////////AAAAAAAAAAAAAOD//58DAAAAAAAAD8D/+f//////////////////////////fwAA8P8DAAAAAP///////wf/////g/n//wf+/CfgD4D//wEAAAD8//////8fAAAAAADA/////wcAAADA////////Af8ABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAA/v//BwAAAAAAAAAAAAAAAAj49///D4gP4P8AAP////8BAAAAAAD8/////////////wMAAAAA+P////GPAfABHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAA8P//BwAAAAAAAAAAAAAAAPx/wP/HB4AH4H8GAP///z8AAAAAAMD/////////////fwAAAAAAgH/8PzgAAIABGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//PwAAAAAAAAAAAAAAAHhgADgAAIAD8D8cAID//x8AAAAAgP//////////////HwAAAAAAAH7gAwAAAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7//wAAAAAAAAAAAAAAAAAAAAAAAAAB4D8+AAD//w8AAAAA4P//////////////DwAAAAAAAPz4AAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT+/wMAAAAAAAAAAAAAAAAAAAAAAAAA+P8fAADw/x8AAAAA8P//////////////BwAAAAA4AP4xAAAAAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4Hw8AAAAAAAAAAAAAAAAAAAAAAADw//8HAA/w/x8AAAAA/v//4Dn4////////AwAAAADwx4cAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwD4AQAAAAAAAAAAAAAAAAAAAAAAAAD4//8HAB/4/x8AAADw//9/wAD4////////AADAAQDA/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/4D/AQAAAAAAAAAAAAAAAAAAAAAAAACM/w8AAH7+/z8AAID/////DwDw//////9/AAD4BwDA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH4A/O/////////////////////////wB/j//wcAAID//38AAAAA/P8HAAAAAADA//8D//8/Dv////////////////////////////////////////////8/AAAAAOD//////////////////////3/4H3D4/x8AAAD//38AAAAA+P8AAAAAAADw///D//9//P////////////////////////////////////////////8PAAABAOD//////////////////////wf8fQDA/z8AAAD+/z8AAAAA4B8AAAAAAAD8///x//////////////////////////////////////////////////8fAAA4APz//////////////////////wMwAAAAfn8AAAD8/x8AAAAAAAAAAAAAAAD//3/4//////////////////////////////////////////////////8/AAAAwP//////////////////////fwAADgAA8DMAAAD4/wcAAAAAAAAAAAAAAOD//x/8//////////////////////////////////////////////////9/AAAA4P//////////////////////PwAAh/EbAAYAAADw/wMAAAAAAAAAAAAAAPj//wf8/////////////////////////////////////////////z/+//8AAAAA8P//////////////////////HwAAgPF/AAAAAADg/wcAAAAAAAAAAAAAAPz//wP4////////////////////////////////////////////jx///w8AAAAA8P////v/////////////////DwAAAPD/AQAAAADA/wMAAAAAAAAAAAAAAPz//wP4////////////////////////////////////////////gI///wEAAAAA4P////35////////////////DwAAAPD/HwAAAAAA8AMAAAAAAAAAAAAAAPz//wf4//////////////////////////////////////////8/AOH/PwAAAAAAnP//f/7A////////////////BwAAAOD/H0AAAAAA4AEAAAAAAAAAAAAAAPj//x/gB/7///////////////////////////////////////8fAPh/GAAAAAAAAPj/Hz8A8P//////////////BwAAAPD/H+AAAAAAAAAAAAAAAAAAAAAAAPj//x8AAP7///////////////////////////////////////8PAH4HAAAAAAAAAPD/DwMAAP7/////////////BwAAAPj/H/AAAAAAAAAAAAAAAAAAAAAAAPjv/w8A//////////////////////////////////////9/wIMfgD8AAAAAAAAAALD6HwAAAPj/////////////PwAAAPj/f/gBAAAAAAAAAAAAAAAAAAAAAPjD/weA//////////////////////////////////////8HAAAAwB8AAAAAAAAAAADgDwAAAOD/////////////PwAAAPD///wDAAAAAAAAAAAAAAAAAOABAHCA/wMA/v////////////////////////////////////8DAAAA4A8AAAAAAAAAAADgewAAAADw////////////PwAAAOD///8HAAAAAAAAAAAAAAAAAPAAAAAA/wEQ/v////////////////////////////////////8AAAAA/B8AAAAAAAAAAABweAAAAADg////////////fw8AAMD///8PAAAAAAAAAAAAAAAAAPAPAAAY/wE8/////////////////////////////////////38AAAAA/j8AAAAAAAAAAAAeGAAAAADA/////////////38AAID///8PAAAAAAAAAAAAAAAAAPAHAAAf/gH8/////////////////////////////////////x8AAAAA/z8AAAAAAAAAAIAHAAAAAAAA//////////////8AAMD///8fAAAAAAAAAAAAAAAAAOADAAAf/gD8/////////////////////////////////////w8AAACA/z8AAAAAAAAAAPgDAAAAAAAA//////////////8DAOD///9/AAAAAAAAAAAAAAAAAMAPAADPDQD8/////////////////////////////////////wMAAACA/wcAAAAAAAAAAB4AAAAAAAAA/v////////////9/APD/////AAAAAAAAAAAAAAAAAMAfAACHAAD4/////////////////////////////////////wAAAACA/wcAAAAAAAAAgAcAAAAAAAAA+P//////////////B/z/////DwAAAAAAAAAAAAAAAI8/AAAOAIz/////////////////////////////////////fwAAAACA/wMAAAAAAAAAAAAAAAAAAAAA+P//////////////B/7/////HwAAAAAAAAAAAAAAwA9+AAA+g////////////////////////////////////////2EQAACA/wEAAAAAAAAAAAAAAAAAAADA8f//////////////D/z/////fwAAAAAAAAAAAAAA4A/8AAD+//////////////////////////////////////////8xAAAA/wAAAAAAAAAAAAAAAAAAAADA4P//////////////D/z//////wAAAAAAAAAAAAAAwM//APz///////////////////////////////////////////87AAAA/wAAAAAAAAAAAAAAAAAAAACAgP//////////////D/j//////wAAAAAAAAAAAAAA4If/A/7///////////////////////////////////////////9/AAAAHwAAAAAAAAAAAAAAAAAAAAAAAf//////////////H/j//////wEAAAAAAAAAAAAA8MH/B/////////////////////////////////////////////8/AAAADwAAAAAAAAAAAAAAAAAAAAAAAP//////////////P/z/////PwAAAAAAAAAAAAAA4OD/A/////////////////////////////////////////////87AAAABgAAAAAAAAAAAAAAAAAAAAAAAP//////////////f/7/////zwEAAAAAAAAAAAAAAAD/w/////////////////////////////////////////////8xAAAAAgAAAAAAAAAAAAAAAAAAAAAAgPj/////////////////////4QAAAAAAAAAAAAAAAMAP+P////////////////////////////////////////////9xAAAAAAAAAAAAAAAAAAAAAAAAAAAAgO///////////////////w/8YAAAAAAAAAAAAAAAACAB+P////////////////////////////////////////////9xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJz//////////////////wMB8AAAAAAAAAAAAAAAAAAQ///////////////////////////////////////////////xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHj+/////////////////wAM+A8AAAAAAAAAAAAAAADw//////////////////////////////////////////////+wAQAAAAAAAAAAAAAAAAAAAAAAAAAAAMD8////////////////P34A/A8AAAAAAAAAAAAAAADn//////////////////////////////////////////////8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID4////////////////338A/j8AAAAAAAAAAAAAAID//////////////////////////////////////////////38QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID7////////////////7z8A/jcAAAAAAAAAAAAAAAD//////////////////////////////////////////////z8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID/////////////////9z8AAHMAAAAAAAAAAAAAAAD4////////////3////////////////////////////////x8wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////79AADAAAAAAAAAAAAAAAADw////////////8////////////////////////////////w9wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////39mAAAAAAAAAAAAAAAAAADg/////////x8++P///////////////////////////////w9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////////////94AAAAAAAAAAAAAAAAAADA/////////w88+P///////////////////////////////wcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////8cfAAAAAAAAAAAAAAAAAADA////+f///wf8/f///////////////////////////////wMIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//////////////////+EDAAAAAAAAAAAAAAAAAADg////wf///wMY/P///////////////////////////////wEYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////f3AAAAAAAAAAAAAAAAAAAADg///9wf///wEAwP///////////////////////////////wB4BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////HzAAAAAAAAAAAAAAAAAAAADw/3/wg////wEAgP//////////////////////////////PwD4BwAAAAAAAAAAAAAAAAAAAAAAAAAAAID/////////////////BwAAAAAAAAAAAAAAAAAAwP//fzjgB/7//wAAAP//////////////////////////////DgD+AQAAAAAAAAAAAAAAAAAAAAAAAAAAAID/////////////////AwAAAAAAAAAAAAAAAAAA4P//PwDkD/D/fwAAAPz///////////////////////////9/AAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////AwAAAAAAAAAAAAAAAAAAwP//PwDGH8D/fwAAAPj///////////////////////////8vAAA3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/////////////////DwAAAAAAAAAAAAAAAAAAwP//HwCA/4D//wD8APj///////////////////////////8HAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////////8/AAAAAAAAAAAAAAAAAAAAwP//DwAA/IH//4P/B/z///////////////////////////8HAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////////83AAAAAAAAAAAAAAAAAAAAwP//AQAH8I//MPz/////////////////////////////+/8DAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////////8PAAAAAAAAAAAAAAAAAAAAwP//AAAO4JHf0P//////////////////////////////+P8BAAAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////////8PAAAAAAAAAAAAAAAAAAAA4P9/AAAGgAE/4P////////////////////////////8/eH4AAAAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+//////////////8HAAAAAAAAAAAAAAAAAAAA4P9/AAAGgAM/4P////////////////////////////8fHHwAAAAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+//////////////8DAAAAAAAAAAAAAAAAAAAA4P//AAAAAAE+wP////////////////////////////8HAPwAAIAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8/////////////38BAAAAAAAAAAAAAAAAAAAAwP9/AAAAgAB84P////////////////////////////8HAP4BAIADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/////////////38BAAAAAAAAAAAAAAAAAAAAgP9/AAAAPgC44P////////////////////////////8/AvwDAOADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/////////////38AAAAAAAAAAAAAAAAAAAAAwP8fAAAEPAA4wP////////////////////////////8/H+ADAPIDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw//////////////8AAAAAAAAAAAAAAAAAAAAAAPgP8PMPIAAwgP/f////////////////////////////B+AHAP8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg//////////////8AAAAAAAAAAAAAAAAAAAAAABAA//8fAAAAAAwP////////////////////////////AfAHAP8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg//////////////8BAAAAAAAAAAAAAAAAAAAAADCA//8fAAAAAAAA////////////////////////////AOAHgP8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA//////////////8AAAAAAAAAAAAAAAAAAAAAAPDj//8/AAAABwAM//////////////////////////8/AOAD//8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA/////////////z8AAAAAAAAAAAAAAAAAAAAAAPj///8fAAAAAAAG//////////////////////////9/AGCA/38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v///////////w8AAAAAAAAAAAAAAAAAAAAAAPz///8PAAAAAACA////////////////////////////AADAyQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P///////////wMAAAAAAAAAAAAAAAAAAAAAAP7///8/AAAAAACA////////////////////////////AQAgngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////////wMAAAAAAAAAAAAAAAAAAAAAAP////8/AAAAAADA////////////////////////////AQB4BgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P///////////wAAAAAAAAAAAAAAAAAAAAAAwP//////BwAMAADA////////////////////////////AwDwAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//////////PwAAAAAAAAAAAAAAAAAAAAAA4P//////PwA+AADA////////////////////////////AwBgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgPv/////////HwAAAAAAAAAAAAAAAAAAAAAA4P//////fwD/AwDg////////////////////////////BwBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgOP/////////HwAAAAAAAAAAAAAAAAAAAAAA8P///////wD//3jh////////////////////////////DwAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgMP/////////HwAAAAAAAAAAAAAAAAAAAAAA8P///////5//////////////////////////////////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMf//////x/4HwAAAAAAAAAAAAAAAAAAAAAA4P///////////////////f//////////////////////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMf/////3x9wHgAAAAAAAAAAAAAAAAAAAAAA8P//////////////////8P//////////////////////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIz/////Ax4APAAAAAAAAAAAAAAAAAAAAAAA+P/////////////f////4P//////////////////////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABj/////AQAAPAAAAAAAAAAAAAAAAAAAAAAA/P/////////////d////wf//////////////////////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADD+//8/AAAAfAAAAAAAAAAAAAAAAAAAAAAA/v/////////////t////gf//////////////////////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADj4//8fAAAAfAAAAAAAAAAAAAAAAAAAAADA///////////////L////A///////////////////////AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHz4//8fAAAA+AAAAAAAAAAAAAAAAAAAAADg//////////////+H////B/z/////////////////////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD4//8fAAAA8BwAAAAAAAAAAAAAAAAAAADw//////////////8H////BzD8////////////////////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDh//8fAAAA8CAAAAAAAAAAAAAAAAAAAAD4//////////////8P/v//DwD9////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIDh//8/AAAA4AAAAAAAAAAAAAAAAAAAAAD8//////////////8P/v//b4D5//////////////////9/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADD//8fAAAAYAAAAAAAAAAAAAAAAAAAAAD8//////////////8f/P//f8AB/uf///////////////8/BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH//8fAAAAAAgAAAAAAAAAAAAAAAAAAAD8//////////////8//P//f+ABAMD///////////////8fDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO/v8fAAAAABAAAAAAAAAAAAAAAAAAAAD+//////////////9/+P////ADAMD///////////////8PDgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM/P8PAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////////9/8P////8HAID///////////////8HBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY+P8PAAAAAAAAAAAAAAAAAAAAAAAAAID///////////////9/4P////8fAAD+//////////////8BAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P8PAAAA/wEAAAAAAAAAAAAAAAAAAID///////////////9/wP////8/AAD4/////5///////38AAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P8PAACA8Q8AAAAAAAAAAAAAAAAAAID/////////////////wP//////AAD8/////x///////xcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P8fAAAAAB8AAAAAAAAAAAAAAAAAAMD/////////////////w/////9/AAD4/////wP//////wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P8fAPADADgAAAAAAAAAAAAAAAAAAMD/////////////////w/////8/AABw/v//PwD///9/OAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA4P8/APgBAPgBAAAAAAAAAAAAAAAAAMD/////////////////g/////8fAAAA/P//PwD///8/GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P8/APgBAOAHAAAAAAAAAAAAAAAAAID/////////////////A/////8PAAAA/P//HwD+//8PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAA4P9/APwBAADgBgAAAAAAAAAAAAAAAID/////////////////A/7///8HAAAA/P//BwD8//8PPgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAwP9/AP4BAADAHwAAAAAAAAAAAAAAAID/////////////////A/z///8HAAAA/P//AQD4//8HHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP//Af8AAADAPwAAAAAAAAAAAAAAAID/////////////////B/z///8BAAAA/P//AADw//8HHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/8/8AADj4SwwAAAAAAAAAAAAAAAD/////////////////D/j///8BAAAA/P9/AADg//8PDAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD//38AACAAAAAAAAAAAAAAAAAAAAD/////////////////H/D//38AAAAA/P8/AADg//8fAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD//38AAAAAAAAAAAAAAAAAAAAAAID/////////////////P+D//38AAAAA/P8fAADg//8/AAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID//38AAAAAAAAAAAAAAAAAAAAAAID/////////////////P+D//wcAAAAA+P8PAADw/f9/AAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/38AAAAAAAAAAAAAAAAAAAAAAID/////////////////f8D//wAAAAAA+P8DAADw+P//AAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABA8D9/AAAAAAAAAAAAAAAAAAAAAID/////////////////f+D//wAAAAAA+P8BAABA+P//AQAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//AQAAAAAAAAAAAAAAAAAAAMD//////////////////+D/fwAAAAAA8P8AAAAA8P//AwAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP//AQAAAAAAAAAAAAAAAAAAAOD//////////////////8H/DwAAAAAA4P8AAAAA8P//AwAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AQAAAAAAAAAAAAAAAAAAAMD//////////////////8P/AwAAAAAA4P8AAAAA8P//BwAALgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPj/AQAAAAAAAAAAAAAAAAAAAID//////////////////49/AAAAAAAA4P8AAAAA8P//BwAA9gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD+AQAAAAAAAAAAAAAAAAAAAMD//////////////////98HAAAAAAAA4P8BAAAA8Pz/BwAAwgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+AQAAAAAAAAAAAAAAAAAAAMD//////////////////98DAAAAAAAAwP8BAAAA4Pz/BwAAhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8AQAAAQAAAAAAAAAAAAAAAID//////////////////38AAAAAAAAAwP8AAAAA4PD/AwAABAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4AQCACQAAAAAAAAAAAAAAAID//////////////////z8AIAAAAAAAgP8AAAAAYOD/AwAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAADIfAAAAAAAAAAAAAAAAAD+/////////////////38APwAAAAAAgP8AAAAAQMD/AQAAMAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAQD+/wAgAAAAAAAAAAAAAAD8/////////////////3/wPwAAAAAAAP8AAAAAYMB/AABA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwAQD+/s83AAAAAAAAAAAAAAD4////////////////////PwAAAAAAAH8AAAAAIAA+AAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAwD+/P8fAAAAAAAAAAAAAADw////////////////////HwAAAAAAAD8BAAAAIAAcAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAh4f///8/AAAAAAAAAAAAAADg////////////////////HwAAAAAAAD4DAAAAIAAMAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/tz///9/AAAAAAAAAAAAAADA////////////////////HwAAAAAAAI4HAAAA8AAEAAAEAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAevj/////AQAAAAAAAAAAAADA////////////////////DwAAAAAAAIQHAAAA8AEAAAAAYB8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYPj/////AwAAAAAAAAAAAADA////////////////////DwAAAAAAAIAPAAAAwAEAAAAA4B8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD/////BwAAAAAAAAAAAAAA////////////////////BwAAAAAAAAAPAAAAgAEAAAAAEBcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD/////DwAAAAAAAAAAAAAA/v//////////////////BwAAAAAAAAAHAAAAgAMAAAACAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD/////HwAAAAAAAAAAAAAA/P//D/7/////////////AwAAAAAAAAACAAAAAAcAAAAHAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD//////w8AAAAAAAAAAAAA+P//APz/////////////AQAAAAAAAAAAAAAAAB8AAIAPAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD//////z8AAAAAAAAAAAAA4P8/APz/////////////AQAAAAAAAAAAAACAAT8AAMA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD//////38AAAAAAAAAAAAAgAcYAPj+////////////AAAAAAAAAAAAAACAD34AAPAfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD///////8AAAAAAAAAAAAAAAAAABD+//////////9/AAAAAAAAAAAAAAAAH34AAPgPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD///////8BAAAAAAAAAAAAAAAAAAD8//////////8/AAAAAAAAAAAAAAAAPnwAAPgPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD///////8DAAAAAAAAAAAAAAAAAAD4//////////8fAAAAAAAAAAAAAAAAPHgAAPwHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD///////8DAAAAAAAAAAAAAAAAAAD4//////////8PAAAAAAAAAAAAAAAAeHgAgP8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPj///////8HAAAAAAAAAAAAAAAAAAD4//////////8HAAAAAAAAAAAAAAAA8PAAwP8PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz///////8HAAAAAAAAAAAAAAAAAAD4//////////8DAAAAAAAAAAAAAAAA4O8A7P8PAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7///////8PAAAAAAAAAAAAAAAAAAD4//////////8BAAAAAAAAAAAAAAAAwF8A/P8fAoIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////8PAAAAAAAAAAAAAAAAAAD4/////////38AAAAAAAAAAAAAAAAAwD8A/P8P/4EBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP////////8HAAAAAAAAAAAAAAAAAAD4/////////z8AAAAAAAAAAAAAAAAAgH8A/P8HwYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP////////9/AAAAAAAAAAAAAAAAAAD8/////////x8AAAAAAAAAAAAAAAAAgH8A/P8HAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP//////////AQAAAAAAAAAAAAAAAAD8/////////w8AAAAAAAAAAAAAAAAAAH8A/P+HYIDAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//////////DwAAAAAAAAAAAAAAAAD8/////////w8AAAAAAAAAAAAAAAAAAP4B+P+DHQDgDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//////////PwAAAAAAAAAAAAAAAAD4/////////wMAAAAAAAAAAAAAAAAAAPwB8P/BDwAADxwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQP//////////fwAAAAAAAAAAAAAAAAD4/////////wEAAAAAAAAAAAAAAAAAAPwB8P/BBwAAGH4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP///////////wcAAAAAAAAAAAAAAADw/////////wEAAAAAAAAAAAAAAAAAAPgH8P/BDQAAHv8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP////////////8BAAAAAAAAAAAAAADw/////////wAAAAAAAAAAAAAAAAAAAPgPgPnAHTAfvv8PAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP////////////8HAAAAAAAAAAAAAADg/////////wAAAAAAAAAAAAAAAAAAAPAPAGCAHSAg9P9/AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P////////////8PAAAAAAAAAAAAAADA////////fwAAAAAAAAAAAAAAAAAAAMAPAACAOQAA4P//A4ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P////////////8fAAAAAAAAAAAAAACA////////PwAAAAAAAAAAAAAAAAAAAIAPAACAKQAAAP7/B4ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//////////////AQAAAAAAAAAAAAAA////////HwAAAAAAAAAAAAAAAAAAAAAPAACAMQAAAPj/D8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4P//////////////AwAAAAAAAAAAAAAA////////HwAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAPD/H34gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP//////////////AwAAAAAAAAAAAAAA////////HwAAAAAAAAAAAAAAAAAAAABwAAAAAAAAEOD/fxxgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP//////////////AwAAAAAAAAAAAAAA////////PwAAAAAAAAAAAAAAAAAAAAD4YQAAAAAAAOD/PwDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//////////////BwAAAAAAAAAAAAAA/v//////PwAAAAAAAAAAAAAAAAAAAADg/wEAAAAAAOD/PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7/////////////BwAAAAAAAAAAAAAA/P//////PwAAAAAAAAAAAAAAAAAAAACA8QcAAAAAAPD/fAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP7/////////////AwAAAAAAAAAAAAAA/P//////PwAAAAAAAAAAAAAAAAAAAAAAwD8IIwAAALh/8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPz/////////////AwAAAAAAAAAAAAAA/P//////PwAAAAAAAAAAAAAAAAAAAAAAADAeDxwAAAB+4AEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPj/////////////AQAAAAAAAAAAAAAA/P//////fwAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAAAAw4AcAgAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPj/////////////AAAAAAAAAAAAAAAA/P///////wAAAAAAAAAAAAAAAAAAAAAAAACAgQEAAAAAgAcAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////9/AAAAAAAAAAAAAAAA/P///////wAAAAAAAAAAAAAAAAAAAAAAAAAAgQAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8/AAAAAAAAAAAAAAAA+P///////wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOD///////////8/AAAAAAAAAAAAAAAA+P///////wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8fAAAAAAAAAAAAAAAA+P///////wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8PAAAAAAAAAAAAAAAA+P///////wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAg/wE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8HAAAAAAAAAAAAAAAA/P///////wEABAAAAAAAAAAAAAAAAAAAAAAAAADw/wE4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////8HAAAAAAAAAAAAAAAA/v///////wEADAAAAAAAAAAAAAAAAAAAAAAAAADw/wF4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////8DAAAAAAAAAAAAAAAA/v///////wEADgAAAAAAAAAAAAAAAAAAAAAAAADw/wB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////8DAAAAAAAAAAAAAAAA/////////wGADwAAAAAAAAAAAAAAAAAAAAAAAHD4fwB4AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///////////8DAAAAAAAAAAAAAAAA/////////wPADwAAAAAAAAAAAAAAAAAAAAAAAPz4fwD4AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+//////////8DAAAAAAAAAAAAAAAA/////////wHAHwAAAAAAAAAAAAAAAAAAAAAAAP7//wD4BwAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4//////////8DAAAAAAAAAAAAAAAA/////////wDgBwAAAAAAAAAAAAAAAAAAAAAAAP7//wH4BwAAAAAAAAAA//////////////////////////////////8PAAAAAAAAAAD8//////////9/AACA////////fwD+DwAAAAAAAAAAAAAAAAAAAAAAgP7//wf4BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA//////////8DAAAAAAAAAACA//9/AAAAAAAAwP8B8P//////////////////////fwAAAPAD+P////////8fAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//////////8DAAAAAAAAAAAAAACA////////DwD/BwAAAAAAAAAAAAAAAAAAAAAA4P///z/8DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////////8BAAAAAAAAAAAAAACA////////AwD/BwAAAAAAAAAAAAAAAAAAAAAA4P//////DwAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/P////////8BAAAAAAAAAAAAAAAA////////AQD/BwAAAAAAAAAAAAAAAAAAAAAA+P//////DwAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P////////8BAAAAAAAAAAAAAAAA/v//////AAD/AwAAAAAAAAAAAAAAAAAAAAAA+P//////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P////////8AAAAAAAAAAAAAAAAA/v////9/AAD/AwAAAAAAAAAAAAAAAAAAAAAA/P//////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P////////8AAAAAAAAAAAAAAAAA/P////8/AAD+AQAAAAAAAAAAAAAAAAAAAAAA/v//////fwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////38AAAAAAAAAAAAAAAAA/P////8fAAD+AQAAAAAAAAAAAAAAAAAAAADA/////////wEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////z8AAAAAAAAAAAAAAAAA+P////8fAAD/AQAAAAAAAAAAAAAAAAAAAAD//////////wEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////z8AAAAAAAAAAAAAAAAA+P////8/AID/AQAAAAAAAAAAAAAAAAAAAID//////////wMAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////z8AAAAAAAAAAAAAAAAA8P////8/AID/AAAAAAAAAAAAAAAAAAAAAMD//////////wcAAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8P///////x8AAAAAAAAAAAAAAAAA4P////9/AID/AAAAAAAAAAAAAAAAAAAAAPj//////////w8AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P///////w8AAAAAAAAAAAAAAAAA4P////9/AID/AAAAAAAAAAAAAAAAAAAAAPj//////////x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P///////wAAAAAAAAAAAAAAAAAA4P////9/AIB/AAAAAAAAAAAAAAAAAAAAAPj//////////z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P//////PwAAAAAAAAAAAAAAAAAA4P////9/AIB/AAAAAAAAAAAAAAAAAAAAAPj//////////z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P//////AwAAAAAAAAAAAAAAAAAA4P////8/AAB/AAAAAAAAAAAAAAAAAAAAAPj//////////38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P//////AQAAAAAAAAAAAAAAAAAA4P////8fAAA/AAAAAAAAAAAAAAAAAAAAAPj///////////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P//////AAAAAAAAAAAAAAAAAAAA4P////8HAAAOAAAAAAAAAAAAAAAAAAAAAPj///////////8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P////9/AAAAAAAAAAAAAAAAAAAA4P////8BAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+P////9/AAAAAAAAAAAAAAAAAAAAwP////8DAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/P////9/AAAAAAAAAAAAAAAAAAAAwP////8DAAAAAAAAAAAAAAAAAAAAAAAAAPj///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/P////9/AAAAAAAAAAAAAAAAAAAAwP////8BAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/P////9/AAAAAAAAAAAAAAAAAAAAgP////8BAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8/AAAAAAAAAAAAAAAAAAAAAP////8BAAAAAAAAAAAAAAAAAAAAAAAAAPD///////////8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8fAAAAAAAAAAAAAAAAAAAAAP7///8AAAAAAAAAAAAAAAAAAAAAAAAAAOD///////////8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8fAAAAAAAAAAAAAAAAAAAAAP7//38AAAAAAAAAAAAAAAAAAAAAAAAAAOD///////////8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8PAAAAAAAAAAAAAAAAAAAAAPz//z8AAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8PAAAAAAAAAAAAAAAAAAAAAPz//x8AAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8HAAAAAAAAAAAAAAAAAAAAAPj//w8AAAAAAAAAAAAAAAAAAAAAAAAAAMD///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8DAAAAAAAAAAAAAAAAAAAAAPD//wcAAAAAAAAAAAAAAAAAAAAAAAAAAID///////////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v////8BAAAAAAAAAAAAAAAAAAAAAPD//wMAAAAAAAAAAAAAAAAAAAAAAAAAAID///8B//////8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v///38AAAAAAAAAAAAAAAAAAAAAAPD//wEAAAAAAAAAAAAAAAAAAAAAAAAAAAD//2cA+P////8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v///38AAAAAAAAAAAAAAAAAAAAAAPD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAID//wEA8P////8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////z8AAAAAAAAAAAAAAAAAAAAAAOD/PwAAAAAAAAAAAAAAAAAAAAAAAAAAAID//wAA4Pf//38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////x8AAAAAAAAAAAAAAAAAAAAAAPD/DwAAAAAAAAAAAAAAAAAAAAAAAAAAAMD/fwAAwPv//38AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////w8AAAAAAAAAAAAAAAAAAAAAAOAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMB/AAAAwPn//z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA////jwcAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAgPD//x8AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA////HwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPD//x8AAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA////HwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMD//x8AAAAAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID//w8AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//w8AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//w8AAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg////HwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wcAAAAAAOAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg////BwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8PAAAAAAAAOAfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAEAAAAAAAAOAPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA//8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg//8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg//8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg//8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAMIBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw/z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/gEAAAAAAOsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw/z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/AEAAAAAgA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADQ/78AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+AAAAAAAwAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACY//8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA+AAAAAAA4AMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQ/z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAA8AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/z8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADI/x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgHwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8/wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4/x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8/w8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/wcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+fwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+PwAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+PwCADwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8fwBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4dwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADYewAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/x8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPgHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgP8DAAAAAAAAAAAAAPABwB8AAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwP8HAAAAAAAAgAEAAP4H+P8D8P/9/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/v8PAAAAAABg//9///////8//v//////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADw////gx8AAAD8////////////////////DwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+//////8DAID//////////////////////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4APj///////8HAPD///////////////////////8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8h/////////8HAPj/////////////////////////AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAnv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAID/z/////////8DwP//////////////////////////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAvv8HAAAAAAAAAAAAAAAAAAAAAOAPn/8HAP7///////////8A+P///////////////////////////wMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/8PAAAAAAAAAAAAAAAAAAAAAP6f//////////////////8D/v////////////////////////////8BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgf/4fAAAAAAAAAAAAAAAAAA54+P////////////////////8B////////////////////////////////DwAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAAAAAD8f/4fAAAAAAAAAAAAAAAA/v/////////////////////////A////////////////////////////////PwAAAAAAAAAAAAAAAAAAAAAAAAAAAPh/AAAAAACYH/4fAAAAAAAAAAAAAAAA///////////////////////////j////////////////////////////////HwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAP8/AAAAAAAAAAAAAADw////////////////////////////////////////////////////////////DwAAAAAAAAAAAAAAAAAAAAwAAAAAAP4PwPAfgAAA/P8/AAAAAAAAAAAAAAD/////////////////////////////////////////////////////////////BwAAAAAAAAAAAAAAAAAAACDwAwgAAPz/////z3/4//8fAAAAAAAAAAAAAID/////////////////////////////////////////////////////////////AQAAAAAAAAAAAAAAAAAAAAAA/B8AAOD///////////8PAAAAAAAAAAAAAAD+//////////////////////////////////////////////////////////8fAAAAAAAAAAAAAAAAAPj///////8DAID///////////8BAAAAAAAAAAAAAAD///////////////////////////////////////////////////////////8HAAAAAAAAAAAAAAAg+P///////////5////////////8AAAAAAAAAAAAAAPj///////////////////////////////////////////////////////////8BAAAAAAAAAAAAAAD4/////////////////////////wcAAAAAAAAAAAAAgP////////////////////////////////////////////////////////////8AAAAAAAAAAAAAAADw////////////////////////BwAAAAAAAAAAAADA/////////////////////////////////////////////////////////////38AAAAAAAAAAAAAAAD//////////////////////z8AAAAAAAAAAAAAAOD//////////////////////////////////////////////////////////////38AAAAAAAAAAACYH/z//////////////////////38AAAAAAAAAAAAAAPj//////////////////////////////////////////////////////////////38AAAAAAAAAAADw//////////////////////////8PAAAAAAAAAAAAwP////////////////////////////////////////////////////////////////8AAAAAAAAAAA7w/////////////////////////x8AAAAAAADAfwAA//////////////////////////////////////////////////////////////////8HAAAAAAAAAP4A/////////////////////////w8AAAAAAADw/wAA//////////////////////////////////////////////////////////////////8fAAAAAAAAAPwBgP///////////////////////x8AAAAAAAD8/wEA/////////////////////////////////////////////////////////////////wcAAAAAAAAAAAAAAAD+/////////////////////z8AAADAAAD+/wEAAOD//////////////////////////////////////////////////////////////wEAAAAAAAAAAAAAAAD8//////////////////////8AAADgAPD/fwAAAMD//////////////////////////////////////////////////////////////wEAAAAAAAAAAAAAAAD/////////////////////////A8D/AOD/AQAAAP7//////////////////////////////////////////////////////////////wAAAAAAAAAAAACA//H/////////////////////////PwAAAAAAAADg/////////////////////////////////////////////////////////////////wEAAAAAAAAAAAAA/P////////////////////////////8HAAD8B/j//////////////////////////////////////////////////////////////////w8AAAAAAAAAAAAAwP////////////////////////////9/AID//////////////////////////////////////////////////////////////////////z8AAAAAAAAAAAAAwP//////////////////////////////g/////////////////////////////////////////////////////////////////////////8HAAAAAAAAAAAA4P////////////////////////////////////////////////////////////////////////////////////////////////////////9/AAAAAAAAAAAAgP//////////////////////////////////////////////////////////////////////////////////////////////////////////AwAAxvH/AAAAAPj//////////////////////////////////////////////////////////////////////////////////////////////////////////+EDAAAA4P//////AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB/wP9/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"); const a = new Uint8Array(b.length); for (let i=0;i<b.length;i++) a[i]=b.charCodeAt(i); return a; })();
+function isLand(latDeg, lonDeg){
+  let i = Math.floor((lonDeg + 180)/0.5); i = ((i % 720) + 720) % 720;
+  const j = clamp(Math.floor((90 - latDeg)/0.5), 0, 359); const p = j*720 + i;
+  return (LAND[p>>3] >> (p&7)) & 1;
+}
+(function(){
+  const cv = $("#cvOrbit"), playB = $("#orbPlay"), farB = $("#orbFar"), clock = $("#orbClock");
+  const D = Math.PI/180, TILT = 22*D, ce = Math.cos(TILT), se = Math.sin(TILT);
+  const LIGHT = (()=>{ const v=[-1,0.0,0.45]; const n=Math.hypot(...v); return v.map(x=>x/n); })();
+  const TEMPO_LON = -91, LAPS = 14.4;
+  let day = 0, run = false, playing = !RM, raf = 0, last = 0, far = false, scale = 3.0, trail = [];
+  const beta = -55*D;
+  let img = null, imgR = 0;
+  function earthImage(R, theta){
+    const n = Math.round(R*2); if (!img || imgR!==n){ img = new ImageData(n,n); imgR = n; }
+    const d = img.data;
+    for (let py=0; py<n; py++){ const v = 1 - (py+0.5)/n*2;
+      for (let px=0; px<n; px++){ const u = (px+0.5)/n*2 - 1, q = u*u + v*v, k = (py*n+px)*4;
+        if (q > 1){ d[k+3]=0; continue; }
+        const zc = Math.sqrt(1-q);
+        // undo the camera tilt: screen (u, v, zc) -> world (X, Y, Z)
+        const X = u, Y = v*ce + zc*se, Z = -v*se + zc*ce;
+        const lat = Math.asin(Y)/D, lon = (Math.atan2(X, Z) - theta)/D;
+        const land = isLand(lat, ((lon+540)%360)-180);
+        const ice = Math.abs(lat) > 68;
+        let r,g,b; if (ice){ r=236;g=242;b=248; } else if (land){ r=104;g=178;b=92; if (lat>12&&lat<35&&(lon<60&&lon>-20)) { r=214; g=186; b=120; } } else { r=46; g=118; b=200; }
+        const lit = X*LIGHT[0] + Y*LIGHT[1] + Z*LIGHT[2];
+        const f = lit > 0.04 ? 0.55 + 0.45*Math.min(1, lit*1.6) : lit > -0.04 ? lerp(0.16, 0.6, (lit+0.04)/0.08) : 0.16;
+        const rim = 0.85 + 0.15*zc;
+        d[k]=r*f*rim; d[k+1]=g*f*rim; d[k+2]=(b*f+ (f<0.3?18:0))*rim; d[k+3]=255;
+      } }
+    return img;
+  }
+
+  const off = document.createElement("canvas"), octx = off.getContext("2d");
+  function project(X,Y,Z){ return [X, Y*ce - Z*se, Y*se + Z*ce]; } // -> screen x, screen y(up), depth
+  function draw({ctx,w,h}){
+    const theta = (day*360 + 61)*D;
+    const target = far ? 6.62 : 3.0; scale = target;
+    const R = Math.min(w, h) * (far ? 0.068 : 0.2);
+    const cx = w*0.5, cy = h*0.52;
+    // space
+    ctx.fillStyle = "#0F1A33"; ctx.fillRect(0,0,w,h);
+    const rnd = mulberry(3); ctx.fillStyle="#fff";
+    for (let i=0;i<90;i++){ ctx.globalAlpha = 0.3 + rnd()*0.6; ctx.fillRect(rnd()*w, rnd()*h, 1.4, 1.4); } ctx.globalAlpha=1;
+    // sun glow on the left
+    const sg = ctx.createRadialGradient(-w*0.05, cy, 0, -w*0.05, cy, w*0.35); sg.addColorStop(0,"rgba(255,214,90,.9)"); sg.addColorStop(1,"rgba(255,214,90,0)");
+    ctx.fillStyle=sg; ctx.fillRect(0,0,w*0.4,h);
+    label(ctx, "☀ Sunlight", 12, 20, {size:14, color:"#FFE08A", halo:false});
+    const P = (x,y,z) => { const p = project(x,y,z); return [cx + p[0]*R, cy - p[1]*R, p[2]]; };
+    const hidden = (p) => p[2] < 0 && Math.hypot(p[0]-cx, p[1]-cy) < R;
+    // orbits (back halves first)
+    function ring(fn, color, dash, front){
+      ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.setLineDash(dash);
+      ctx.beginPath(); let pen = false;
+      for (let i=0;i<=200;i++){ const a = i/200*Math.PI*2; const p = P(...fn(a)); const vis = front ? (p[2] >= 0 || !hidden(p)) : p[2] < 0;
+        if (vis){ pen ? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]); pen = true; } else pen = false; }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    const rz = 1.11, rg = far ? 6.62 : 3.0;
+    const polar = a => [rz*(Math.cos(a)*Math.sin(beta)), rz*Math.sin(a), rz*(Math.cos(a)*Math.cos(beta))];
+    const geo = a => [rg*Math.sin(a), 0, rg*Math.cos(a)];
+    ring(geo, "rgba(255,210,80,.45)", [5,6], false);
+    // earth
+    const ER = Math.round(R*Math.min(2, devicePixelRatio||1));
+    const im = earthImage(ER, theta); off.width = off.height = im.width; octx.putImageData(im,0,0);
+    ctx.drawImage(off, cx-R, cy-R, R*2, R*2);
+    // zoomer trail on the ground (Earth-fixed lat/lon)
+    trail.forEach((t,i) => { const lam = t[1]*D + theta, ph = t[0]*D;
+      const p = P(1.0*Math.cos(ph)*Math.sin(lam), Math.sin(ph), Math.cos(ph)*Math.cos(lam));
+      if (p[2] > 0.02){ ctx.fillStyle = `rgba(255,140,60,${0.25 + 0.6*i/trail.length})`; ctx.fillRect(p[0]-1.4,p[1]-1.4,2.8,2.8); } });
+    ring(polar, "rgba(255,150,90,.8)", [], true);
+    ring(geo, "rgba(255,210,80,.75)", [5,6], true);
+    // TEMPO
+    const ta = (TEMPO_LON*D + theta); const tp = P(...geo(ta));
+    const sub = [Math.sin(ta), 0.0, Math.cos(ta)];
+    const subLit = sub[0]*LIGHT[0] + sub[2]*LIGHT[2];
+    const tHidden = hidden(tp);
+    const naP = P(Math.cos(38*D)*Math.sin(-97*D+theta), Math.sin(38*D), Math.cos(38*D)*Math.cos(-97*D+theta));
+    if (!tHidden && subLit > -0.05 && naP[2] > 0){
+      ctx.fillStyle = "rgba(255,236,120,.28)"; ctx.beginPath(); ctx.moveTo(tp[0],tp[1]);
+      ctx.lineTo(naP[0]-R*0.3, naP[1]-R*0.22); ctx.lineTo(naP[0]+R*0.3, naP[1]+R*0.22); ctx.closePath(); ctx.fill();
+    }
+    if (!tHidden){ sat(ctx, tp[0], tp[1], "#FFD449", far?0.8:1); label(ctx, "Tempo (hoverer)", tp[0], tp[1]-18, {align:"center", size:13, color:"#FFE9A8", halo:"rgba(15,26,51,.85)"}); }
+    // zoomer
+    const za = day*LAPS*Math.PI*2; const zp = P(...polar(za));
+    if (!hidden(zp)){ sat(ctx, zp[0], zp[1], "#FF8C4A", 0.75); label(ctx, "Zoomer", zp[0]+12, zp[1]-12, {size:13, color:"#FFC9A8", halo:"rgba(15,26,51,.85)"}); }
+    // clock
+    const solar = ((Math.atan2(sub[0], sub[2]) - Math.atan2(LIGHT[0], LIGHT[2]))/D/15 + 12 + 48) % 24;
+    const hh = Math.floor(solar), mm = Math.floor((solar-hh)*60/10)*10;
+    const ampm = (hh%12||12) + ":" + String(mm).padStart(2,"0") + (hh<12?" am":" pm");
+    clock.textContent = `Day ${Math.floor(day)+1} · ${ampm} in Texas · zoomer laps: ${Math.floor(day*LAPS)}`;
+    if (far) label(ctx, "Real distances! Tempo is 6½ Earth-widths from Earth's center... far out.", w/2, h-16, {align:"center", size: w<480?11:13, color:"#DCE6FF", halo:false});
+    else label(ctx, "Not to scale: Tempo is really much farther away", w/2, h-16, {align:"center", size: w<480?11:13, color:"#DCE6FF", halo:false});
+  }
+  function sat(ctx,x,y,col,k){ ctx.save(); ctx.translate(x,y); ctx.scale(k,k);
+    ctx.fillStyle="#5B7BD0"; ctx.fillRect(-20,-4,12,8); ctx.fillRect(8,-4,12,8);
+    ctx.fillStyle=col; ctx.strokeStyle="#0F1A33"; ctx.lineWidth=1.5; ctx.fillRect(-7,-7,14,14); ctx.strokeRect(-7,-7,14,14); ctx.restore(); }
+  function loop(t){ const dt = Math.min(0.05,(t-last)/1000||0); last = t;
+    if (playing){ const prev = day; day += dt/24; // one day = 24 seconds
+      const steps = 4; for (let k=1;k<=steps;k++){ const dd = prev + (day-prev)*k/steps;
+        const a = dd*LAPS*Math.PI*2, th = (dd*360+61)*D; const p = [Math.cos(a)*Math.sin(beta), Math.sin(a), Math.cos(a)*Math.cos(beta)];
+        trail.push([Math.asin(p[1])/D, (Math.atan2(p[0],p[2]) - th)/D]); }
+      if (trail.length > 1600) trail.splice(0, trail.length-1600); }
+    S.redraw(); if (run) raf = requestAnimationFrame(loop); }
+  function start(){ if (run) return; run = true; last = performance.now(); raf = requestAnimationFrame(loop); }
+  function stop(){ run = false; cancelAnimationFrame(raf); }
+  const S = surface(cv, 0.68, draw, 300);
+  function setPlay(p){ playing = p; playB.textContent = p ? "⏸ Pause" : "▶ Play"; }
+  playB.addEventListener("click", () => setPlay(!playing));
+  farB.addEventListener("click", () => { far = !far; farB.setAttribute("aria-pressed", far); S.redraw(); });
+  setPlay(playing); whenVisible(cv, start, stop);
+})();
+
+/* ===================================================== 4. PIXEL SCAN */
+(function(){
+  const cv = $("#cvScan"), say = $("#saySc"), peek = $("#scanPeek"), go = $("#scanGo"), windB = $("#scanWind");
+  let hour = 8, windy = false, prog = 1, scanning = false, raf = 0;
+  const NX = 18, NY = 11;
+  const TRAFFIC = { 8: 1.0, 13: 0.55, 17: 0.9 };
+  const S = surface(cv, 0.6, draw, 220);
+  function no2(u, v){ // u,v in 0..1 map coordinates (u east = right)
+    const tr = TRAFFIC[hour], sh = windy ? 0.16 : 0, sp = windy ? 1.8 : 1;
+    let f = 0.06;
+    // highway along v = 0.55 (east-west) and a north-south road at u = 0.45
+    f += tr*0.55*Math.exp(-((v-0.55)**2)/(2*(0.05*sp)**2));
+    f += tr*0.4*Math.exp(-((u-0.45-sh*0.5)**2)/(2*(0.045*sp)**2)) * (v>0.1&&v<0.95?1:0.3);
+    // downtown
+    f += tr*0.8*Math.exp(-(((u-0.47-sh*0.6)/(1.1*sp))**2 + ((v-0.5)/sp)**2)/(2*0.08**2));
+    // power plant in the east, plume drifts west when windy
+    const pu = 0.85, pv = 0.25; const du = u - (pu - sh*1.4), dv = v - pv;
+    f += 0.7*Math.exp(-((du/(windy?0.22:0.06))**2 + (dv/0.06)**2)/2);
+    // a park keeps the west clean
+    return clamp(f, 0, 1.2);
+  }
+  function ramp(x){ x = clamp(x/1.0, 0, 1);
+    const st = [[0,[70,140,220]],[0.35,[120,200,180]],[0.6,[250,215,80]],[0.8,[245,140,50]],[1,[200,50,50]]];
+    for (let i=1;i<st.length;i++) if (x <= st[i][0]){ const t=(x-st[i-1][0])/(st[i][0]-st[i-1][0]); return st[i-1][1].map((c,k)=>Math.round(lerp(c,st[i][1][k],t))); }
+    return st[st.length-1][1]; }
+  function town(ctx,w,h){
+    ctx.fillStyle="#BFE3A8"; ctx.fillRect(0,0,w,h);
+    // river
+    ctx.strokeStyle="#7CC0EE"; ctx.lineWidth=Math.max(8,w*0.025); ctx.beginPath(); ctx.moveTo(w*0.12,0); ctx.bezierCurveTo(w*0.22,h*0.35,w*0.05,h*0.6,w*0.2,h); ctx.stroke();
+    // park
+    ctx.fillStyle="#7DBE65"; for (let i=0;i<14;i++){ ctx.beginPath(); ctx.arc(w*(0.02+((i*29)%20)/100), h*(0.1+((i*41)%80)/100), w*0.022,0,7); ctx.fill(); }
+    // roads
+    ctx.strokeStyle="#6B6F7A"; ctx.lineWidth=Math.max(5,w*0.014);
+    ctx.beginPath(); ctx.moveTo(0,h*0.55); ctx.lineTo(w,h*0.55); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(w*0.45,h*0.08); ctx.lineTo(w*0.45,h*0.95); ctx.stroke();
+    ctx.strokeStyle="#FFF"; ctx.lineWidth=1.5; ctx.setLineDash([8,8]); ctx.beginPath(); ctx.moveTo(0,h*0.55); ctx.lineTo(w,h*0.55); ctx.stroke(); ctx.setLineDash([]);
+    // buildings downtown
+    const rnd = mulberry(11);
+    for (let i=0;i<16;i++){ const bx = w*(0.33+rnd()*0.26), by = h*(0.33+rnd()*0.36); if (Math.abs(by-h*0.55)<h*0.04 || Math.abs(bx-w*0.45)<w*0.025) continue;
+      ctx.fillStyle = ["#F2C6A0","#E8E3D8","#C9D7E8","#F0B3A8"][i%4]; ctx.fillRect(bx,by,w*0.035,h*0.05); ctx.strokeStyle=C.ink; ctx.lineWidth=1; ctx.strokeRect(bx,by,w*0.035,h*0.05); }
+    // houses
+    for (let i=0;i<14;i++){ const bx = w*(0.62+rnd()*0.3), by = h*(0.62+rnd()*0.3);
+      ctx.fillStyle="#F7E2B5"; ctx.fillRect(bx,by,w*0.025,h*0.03); ctx.fillStyle="#C95A45"; ctx.beginPath(); ctx.moveTo(bx-2,by); ctx.lineTo(bx+w*0.0125,by-h*0.025); ctx.lineTo(bx+w*0.025+2,by); ctx.fill(); }
+    // power plant
+    const px = w*0.85, py = h*0.25; ctx.fillStyle="#9AA0AC"; ctx.fillRect(px-w*0.04,py,w*0.08,h*0.08);
+    ctx.fillStyle="#7B808C"; ctx.fillRect(px+w*0.015,py-h*0.1,w*0.018,h*0.1);
+    // cars
+    const n = Math.round(TRAFFIC[hour]*14); ctx.fillStyle=C.coral;
+    for (let i=0;i<n;i++){ ctx.fillRect(w*((i*0.071+0.02)%1), h*0.55-4 + (i%2?3:-5), 8, 5); }
+    for (let i=0;i<Math.round(n*0.6);i++){ ctx.fillRect(w*0.45-3+(i%2?3:-5), h*((i*0.13+0.12)%0.85), 5, 8); }
+    label(ctx,"Power plant",px,py+h*0.12,{align:"center",size:12});
+    label(ctx,"Downtown",w*0.5,h*0.28,{align:"center",size:12});
+    label(ctx,"Park",w*0.1,h*0.06,{align:"center",size:12});
+  }
+  function draw({ctx,w,h}){
+    const mapH = h - 34;
+    ctx.save(); ctx.beginPath(); ctx.rect(0,0,w,mapH); ctx.clip();
+    town(ctx,w,mapH);
+    const pw = w/NX, ph = mapH/NY, edgeU = 1 - prog; // scanned from east (u=1) toward west
+    const alpha = 1 - peek.value/100*0.85;
+    for (let i=0;i<NX;i++) for (let j=0;j<NY;j++){
+      const u = (i+0.5)/NX, v = (j+0.5)/NY; if (u < edgeU) continue;
+      const c = ramp(no2(u,v)); ctx.fillStyle = `rgba(${c},${alpha})`; ctx.fillRect(i*pw, j*ph, pw+0.5, ph+0.5);
+    }
+    if (prog > 0){ ctx.strokeStyle="rgba(30,43,71,.25)"; ctx.lineWidth=1;
+      for (let i=0;i<=NX;i++){ const x=i*pw; if ((i/NX) < edgeU - 1e-6) continue; ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,mapH); ctx.stroke(); }
+      for (let j=0;j<=NY;j++){ ctx.beginPath(); ctx.moveTo(Math.max(0,edgeU*w),j*ph); ctx.lineTo(w,j*ph); ctx.stroke(); } }
+    if (prog < 1){ const x = edgeU*w; ctx.fillStyle="rgba(255,236,120,.55)"; ctx.fillRect(x-pw*0.5,0,pw,mapH); ctx.fillStyle="#E0A400"; ctx.fillRect(x-1.5,0,3,mapH); }
+    ctx.restore();
+    // compass and legend
+    label(ctx,"← West",8,mapH-12,{size:12}); label(ctx,"East →",w-8,mapH-12,{align:"right",size:12});
+    const lw = Math.min(220, w*0.5), lx = (w-lw)/2, ly = mapH + 10;
+    for (let k=0;k<60;k++){ ctx.fillStyle=`rgb(${ramp(k/59)})`; ctx.fillRect(lx + k*lw/60, ly, lw/60+0.6, 14); }
+    ctx.strokeStyle=C.ink; ctx.lineWidth=1.5; ctx.strokeRect(lx,ly,lw,14);
+    label(ctx,"less NO₂",lx-6,ly+7,{align:"right",size:12,halo:false}); label(ctx,"more NO₂",lx+lw+6,ly+7,{size:12,halo:false});
+  }
+  function words(){
+    const t = hour===8 ? "At 8 am, it's morning rush hour. Look how much NO₂ hangs over the busy roads and downtown!"
+      : hour===13 ? "At 1 pm, fewer cars are driving, so there's less NO₂ along the roads. The power plant keeps puffing away."
+      : "At 5 pm, everyone drives home. The roads light up again.";
+    say.textContent = t + (windy ? " The wind is blowing toward the west, so the pollution gets spread out and pushed over the park." : "");
+  }
+  function scan(){
+    if (scanning) return; scanning = true; go.disabled = true; prog = 0;
+    const t0 = performance.now(), dur = RM ? 1 : 3200;
+    const tick = t => { prog = clamp((t-t0)/dur, 0, 1); S.redraw(); if (prog < 1) raf = requestAnimationFrame(tick); else { scanning = false; go.disabled = false; } };
+    raf = requestAnimationFrame(tick);
+  }
+  $$("[data-hour]").forEach(b => b.addEventListener("click", () => { hour = +b.dataset.hour; $$("[data-hour]").forEach(x => x.setAttribute("aria-pressed", x===b)); words(); scan(); }));
+  windB.addEventListener("click", () => { windy = !windy; windB.setAttribute("aria-pressed", windy); words(); scan(); });
+  go.addEventListener("click", scan); peek.addEventListener("input", S.redraw);
+  words(); document.fonts && document.fonts.ready.then(S.redraw);
+})();
+
+/* ===================================================== 5. DETECTIVE GAME */
+(function(){
+  const cv = $("#cvGame"), say = $("#sayGame"), next = $("#gNext"), roundEl = $("#gRound"), starsEl = $("#gStars");
+  const btns = $$("[data-ans]"); const ROUNDS = 6;
+  const KINDS = ["cloud","smoke","dust","clear"];
+  const WHY = {
+    cloud: "Every bar was tall, even UV. Only clouds (or snow) are that bright in every color.",
+    smoke: "UV was tiny and the other bars were about the same height. Gray smoke soaks up UV light.",
+    dust:  "The bars went up like stairs, with red the tallest. That yellow-brown color means dust.",
+    clear: "All the bars were low and green poked up a little. That's plain ground and clean air.",
+  };
+  let round = 0, score = 0, kind = "cloud", vals = [0,0,0,0], answered = false, order = [];
+  const S = surface(cv, 0.6, ({ctx,w,h}) => { ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h); drawBars(ctx, 4, 4, w-8, h-8, vals.map(v=>v/0.95), {title:"Light that came back from this pixel", ts:14, ls:14, bg:"#FFFFFF"}); }, 200);
+  function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+  function make(k){
+    const base = k==="clear" ? brightness("grass") : brightness(k);
+    return base.map(v => clamp(v*(0.93+Math.random()*0.14), 0.015, 0.95));
+  }
+  function newRound(){
+    if (round === 0){ order = shuffle([...KINDS, ...shuffle([...KINDS]).slice(0,2)]); score = 0; }
+    kind = order[round]; vals = make(kind); answered = false;
+    btns.forEach(b => { b.disabled = false; b.classList.remove("ok","no"); });
+    next.disabled = true; next.textContent = "Next pixel ▶";
+    roundEl.textContent = `Pixel ${round+1} of ${ROUNDS}`;
+    say.textContent = "Look at the four bars. Which clue card matches?";
+    starsEl.textContent = "⭐".repeat(score) + "☆".repeat(ROUNDS-score);
+    S.redraw();
+  }
+  btns.forEach(b => b.addEventListener("click", () => {
+    if (answered) return; answered = true; const ok = b.dataset.ans === kind;
+    if (ok) score++;
+    btns.forEach(x => { x.disabled = true; if (x.dataset.ans === kind) x.classList.add("ok"); });
+    if (!ok) b.classList.add("no");
+    const name = { cloud:"a cloud", smoke:"smoke", dust:"dust", clear:"clean air" }[kind];
+    say.textContent = (ok ? "Yes! Great detective work. " : `Not quite. It was ${name}. `) + WHY[kind];
+    starsEl.textContent = "⭐".repeat(score) + "☆".repeat(ROUNDS-score);
+    round++;
+    if (round >= ROUNDS){ next.textContent = "Play again ▶"; say.textContent += ` You found ${score} out of ${ROUNDS}! ` + (score>=5 ? "You're a real air detective." : "Try again and use the clue cards."); round = 0; }
+    next.disabled = false;
+  }));
+  next.addEventListener("click", newRound);
+  newRound(); document.fonts && document.fonts.ready.then(S.redraw);
+})();
+
+/* ===================================================== 6. PANDORA */
+(function(){
+  const sky = $("#cvSky"), chart = $("#cvDay"), sl = $("#dayT"), play = $("#dayPlay"), clock = $("#dayClock"), say = $("#sayDay");
+  const CLOUD = [790, 860]; // a cloud hides the Sun from 1:10 to 2:20 pm
+  const truth = m => { const h = m/60; return 1.2 + 4.2*Math.exp(-((h-8.2)**2)/(2*1.0**2)) + 2.6*Math.exp(-((h-17.8)**2)/(2*1.1**2)) + 0.8*Math.exp(-((h-12.5)**2)/(2*2.5**2)); };
+  const rnd = mulberry(5);
+  const pan = []; for (let m=440; m<=1125; m+=8){ if (m>CLOUD[0] && m<CLOUD[1]) continue; pan.push([m, truth(m)*(1+(rnd()-.5)*0.18)]); }
+  const tem = []; for (let hr=8; hr<=18; hr++){ const m = hr*60+5; if (m>CLOUD[0] && m<CLOUD[1]+30) { tem.push([m,null]); continue; } tem.push([m, truth(m)*(1+(rnd()-.5)*0.14)]); }
+  let playing = false, raf = 0, last = 0;
+  const fmt = m => { const h = Math.floor(m/60), mm = Math.round(m%60); return (h%12||12) + ":" + String(mm).padStart(2,"0") + (h<12?" am":" pm"); };
+  const sunAt = m => { const f = (m - 420)/720; return { f, alt: Math.sin(Math.PI*f) }; };
+  const SS = surface(sky, 0.45, ({ctx,w,h}) => {
+    const m = +sl.value, s = sunAt(m), cloudy = m > CLOUD[0] && m < CLOUD[1];
+    const g = ctx.createLinearGradient(0,0,0,h);
+    const low = 1 - s.alt; g.addColorStop(0, `rgb(${lerp(110,90,s.alt)|0},${lerp(150,180,s.alt)|0},${lerp(210,240,s.alt)|0})`);
+    g.addColorStop(1, `rgb(${lerp(255,214,s.alt*1.2>1?1:s.alt*1.2)|0},${lerp(190,236,s.alt)|0},${lerp(150,250,s.alt)|0})`);
+    ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+    const gy = h*0.86, cx = w*0.5, R = Math.min(w*0.44, h*0.74);
+    const ang = Math.PI*(1 - s.f), sx = cx + Math.cos(ang)*R, sy = gy - Math.sin(ang)*R*0.95;
+    // sun path
+    ctx.strokeStyle="rgba(255,255,255,.6)"; ctx.setLineDash([4,6]); ctx.lineWidth=2; ctx.beginPath();
+    for (let i=0;i<=40;i++){ const a = Math.PI*(1-i/40); const x = cx+Math.cos(a)*R, y = gy - Math.sin(a)*R*0.95; i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle="#FFD449"; ctx.beginPath(); ctx.arc(sx,sy,16,0,7); ctx.fill();
+    // cloud
+    if (cloudy){ ctx.fillStyle="rgba(255,255,255,.95)"; [[-20,0,18],[0,-8,22],[22,0,18],[0,6,18]].forEach(([dx,dy,r])=>{ ctx.beginPath(); ctx.arc(sx+dx,sy+dy,r,0,7); ctx.fill(); }); }
+    // building + pandora
+    ctx.fillStyle="#8D96A8"; ctx.fillRect(cx-w*0.16, gy-18, w*0.32, h-gy+18);
+    ctx.fillStyle="#6E7A90"; for (let i=0;i<5;i++) ctx.fillRect(cx-w*0.14+i*w*0.06, gy-6, w*0.03, 10);
+    ctx.fillStyle="#6CB45E"; ctx.fillRect(0,gy,cx-w*0.16,h-gy); ctx.fillRect(cx+w*0.16,gy,w,h-gy);
+    const px = cx, py = gy - 18;
+    ctx.strokeStyle=C.ink; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(px-12,py); ctx.lineTo(px,py-24); ctx.lineTo(px+12,py); ctx.stroke();
+    const a2 = Math.atan2(sy-(py-26), sx-px);
+    ctx.save(); ctx.translate(px,py-26); ctx.rotate(a2);
+    ctx.fillStyle="#E2B443"; ctx.strokeStyle=C.ink; ctx.lineWidth=2; rr(ctx,-6,-7,34,14,4); ctx.fill(); ctx.stroke();
+    ctx.fillStyle="#1E2B47"; ctx.beginPath(); ctx.arc(28,0,4,0,7); ctx.fill(); ctx.restore();
+    if (!cloudy){ ctx.strokeStyle="rgba(255,220,90,.75)"; ctx.lineWidth=2; ctx.setLineDash([3,5]); ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(px+Math.cos(a2)*28,py-26+Math.sin(a2)*28); ctx.stroke(); ctx.setLineDash([]); }
+    label(ctx,"Pandora",px,gy+14,{align:"center",size:13,color:"#fff",halo:"rgba(30,43,71,.7)"});
+    // TEMPO flash
+    const sinceScan = ((m - 5) % 60 + 60) % 60;
+    if (m >= 480 && m <= 1090 && sinceScan < 6){ ctx.fillStyle=`rgba(255,255,200,${0.5*(1-sinceScan/6)})`; ctx.fillRect(0,0,w,h); label(ctx,"📸 Tempo scans by!",w-10,18,{align:"right",size:14}); }
+    label(ctx,"East",10,gy-10,{size:12}); label(ctx,"West",w-10,gy-10,{align:"right",size:12});
+  }, 170);
+  const SC = surface(chart, 0.42, ({ctx,w,h}) => {
+    const m = +sl.value, padL = 34, padR = 10, padT = 26, padB = 30;
+    const X = t => padL + (t-420)/(1140-420)*(w-padL-padR), Y = v => h-padB - v/6.5*(h-padT-padB);
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,w,h);
+    // cloud band
+    ctx.fillStyle="rgba(140,150,170,.15)"; ctx.fillRect(X(CLOUD[0]), padT, X(CLOUD[1])-X(CLOUD[0]), h-padT-padB);
+    ctx.strokeStyle="rgba(30,43,71,.12)"; ctx.lineWidth=1;
+    for (let hr=8; hr<=18; hr+=2){ ctx.beginPath(); ctx.moveTo(X(hr*60),padT); ctx.lineTo(X(hr*60),h-padB); ctx.stroke(); label(ctx, (hr%12||12)+(hr<12?"am":"pm"), X(hr*60), h-padB+14, {align:"center",size:11,halo:false,color:C.soft}); }
+    ctx.strokeStyle=C.ink; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,h-padB); ctx.lineTo(w-padR,h-padB); ctx.stroke();
+    ctx.save(); ctx.translate(12,(padT+h-padB)/2); ctx.rotate(-Math.PI/2); label(ctx,"more NO₂ ↑",0,0,{align:"center",size:11,halo:false,color:C.soft}); ctx.restore();
+    pan.forEach(([t,v]) => { if (t > m) return; ctx.fillStyle="#3E7BEA"; ctx.beginPath(); ctx.arc(X(t),Y(v),2.6,0,7); ctx.fill(); });
+    tem.forEach(([t,v]) => { if (t > m) return; if (v===null){ label(ctx,"✕",X(t),Y(1.0),{align:"center",size:14,color:C.coral,halo:false}); return; } star(ctx,X(t),Y(v),7); });
+    ctx.strokeStyle=C.coral; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(X(m),padT); ctx.lineTo(X(m),h-padB); ctx.stroke();
+    // legend (needed: two kinds of marks)
+    ctx.fillStyle="#3E7BEA"; ctx.beginPath(); ctx.arc(padL+10,12,3,0,7); ctx.fill(); label(ctx,"Pandora (every few minutes)",padL+18,12,{size:12,halo:false});
+    const lx = Math.min(w-110, padL+210); star(ctx,lx,12,6); label(ctx,"Tempo (every hour)",lx+10,12,{size:12,halo:false});
+  }, 150);
+  function star(ctx,x,y,r){ ctx.fillStyle=C.sun; ctx.strokeStyle=C.ink; ctx.lineWidth=1.2; ctx.beginPath();
+    for (let i=0;i<10;i++){ const a = -Math.PI/2 + i*Math.PI/5, rr = i%2?r*0.45:r; ctx.lineTo(x+Math.cos(a)*rr, y+Math.sin(a)*rr); } ctx.closePath(); ctx.fill(); ctx.stroke(); }
+  function update(){
+    const m = +sl.value; clock.textContent = fmt(m);
+    const hr = m/60;
+    say.textContent = (m > CLOUD[0] && m < CLOUD[1]) ? "A cloud is covering the Sun! Pandora can't see it, so there are no blue dots for a while. Tempo's 2 pm pixel was cloudy too, so scientists threw it out (✕)."
+      : hr < 7.7 ? "Early morning. Pandora wakes up when the Sun rises and starts tracking it across the sky."
+      : hr < 10.5 ? "Morning rush hour: NO₂ goes up. See how Tempo's stars land right among Pandora's dots? They agree!"
+      : hr < 16 ? "Midday. The busy morning air has spread out, so there's less NO₂ above the roof."
+      : hr < 18.6 ? "Evening rush hour brings NO₂ back up."
+      : "Sunset. Both instruments rest until tomorrow. Scientists now have a whole day of data to compare.";
+    SS.redraw(); SC.redraw();
+  }
+  function loop(t){ const dt = Math.min(0.05,(t-last)/1000||0); last = t; let m = +sl.value + dt*60; if (m >= 1140){ m = 1140; setPlay(false); } sl.value = m; update(); if (playing) raf = requestAnimationFrame(loop); }
+  function setPlay(p){ playing = p; play.textContent = p ? "⏸ Pause" : "▶ Play the day"; if (p){ if (+sl.value >= 1140) sl.value = 420; last = performance.now(); raf = requestAnimationFrame(loop); } else cancelAnimationFrame(raf); }
+  play.addEventListener("click", () => setPlay(!playing));
+  sl.addEventListener("input", () => { setPlay(false); update(); });
+  update(); document.fonts && document.fonts.ready.then(update);
+})();
+
+/* ===================================================== 8. SUNSET JAR */
+(function(){
+  const cv = $("#cvJar"), sl = $("#milk"), say = $("#sayJar");
+  const S = surface(cv, 0.72, ({ctx,w,h}) => {
+    const n = +sl.value, k = n/30;
+    ctx.fillStyle="#1C2238"; ctx.fillRect(0,0,w,h);
+    const gx = w*0.3, gw = w*0.48, gy = h*0.2, gh = h*0.5;
+    // light that gets through the long way: blue scattered out first
+    const tr = [Math.exp(-k*0.6), Math.exp(-k*1.6), Math.exp(-k*3.4)]; // red, green, blue
+    const end = tr.map(x => Math.round(255*x));
+    const side = [0.25,0.45,1].map((f,i) => Math.round(clamp(40 + 230*f*(1-Math.exp(-k*3))*(i===2?1:0.9), 0, 255)));
+    // flashlight
+    ctx.fillStyle="#9AA0AC"; rr(ctx, w*0.04, gy+gh*0.4, w*0.16, gh*0.2, 6); ctx.fill();
+    ctx.fillStyle="#FFF6C8"; ctx.fillRect(w*0.2, gy+gh*0.4, 6, gh*0.2);
+    // beam inside glass
+    const beam = ctx.createLinearGradient(gx,0,gx+gw,0);
+    beam.addColorStop(0,"rgba(255,250,235,.9)"); beam.addColorStop(1,`rgba(${end},.9)`);
+    // water + milk glow
+    ctx.fillStyle = `rgba(${side},${0.25+0.55*Math.min(1,k*2)})`; ctx.fillRect(gx,gy,gw,gh);
+    ctx.fillStyle = beam; ctx.fillRect(gx, gy+gh*0.4, gw, gh*0.2);
+    ctx.strokeStyle="rgba(255,255,255,.8)"; ctx.lineWidth=3; ctx.strokeRect(gx,gy,gw,gh);
+    // end-view spot on the wall
+    ctx.fillStyle = `rgb(${end})`; ctx.beginPath(); ctx.ellipse(w*0.9, gy+gh*0.5, w*0.045, gh*0.22, 0, 0, 7); ctx.fill();
+    label(ctx,"Through the end",w-8,gy+gh+22,{align:"right",size:12,color:"#fff",halo:false});
+    label(ctx,"From the side",gx+gw/2,gy-14,{align:"center",size:12,color:"#fff",halo:false});
+    label(ctx,`${n} drops of milk`,gx+gw/2,h-16,{align:"center",size:13,color:"#FFE08A",halo:false});
+    say.textContent = n === 0 ? "Plain water: the light goes straight through and stays white. From the side you can barely see the beam."
+      : n < 10 ? "A few drops: the side of the glass starts to glow a little blue! The tiny milk bits are bouncing blue light out sideways, just like air does."
+      : n < 20 ? "More milk: the beam coming out the end is turning yellow-orange, because lots of blue got bounced away."
+      : "Lots of milk: the end looks orange-red, like a sunset, and the side glows pale blue, like the sky.";
+  }, 200);
+  sl.addEventListener("input", S.redraw); document.fonts && document.fonts.ready.then(S.redraw);
+})();
+
+/* ===================================================== 9. QUIZ */
+(function(){
+  const QS = [
+    ["What does Tempo use to check the air?", ["A long straw", "Sunlight that bounces back", "A net"], 1, "Tempo measures the colors of sunlight that bounce back up to space."],
+    ["Which color of light can't we see, but bees can?", ["Ultraviolet (UV)", "Green", "Red"], 0, "UV is invisible to us. Bees use it to find flowers."],
+    ["Why does Tempo seem to stay over North America?", ["It is tied to a rope", "It goes around once a day, as fast as Earth spins", "It isn't moving at all"], 1, "Far out at 35,786 km, one lap takes one day, so it keeps pace with Earth."],
+    ["A pixel's UV bar is the shortest one. What's probably there?", ["Snow", "A cloud", "Smoke"], 2, "Smoke soaks up UV light."],
+    ["What does a Pandora robot look at all day?", ["The Moon", "The Sun", "Cars"], 1, "It tracks the Sun and measures what the sunlight passed through."],
+    ["Why do sunsets look orange?", ["The Sun gets colder", "Blue light gets bounced away on the long trip through the air", "Clouds paint them"], 1, "Just like the end of your milk jar!"],
+  ];
+  const box = $("#quizBox"), scoreEl = $("#quizScore"); let right = 0, done = 0;
+  QS.forEach(([q, opts, ans, why], qi) => {
+    const d = document.createElement("div"); d.className = "q";
+    d.innerHTML = `<b>${qi+1}. ${q}</b><div class="opts"></div><div class="fb" aria-live="polite"></div>`;
+    const o = d.querySelector(".opts"), fb = d.querySelector(".fb");
+    opts.forEach((t, i) => { const b = document.createElement("button"); b.className = "btn"; b.textContent = t; b.id = `q${qi}o${i}`;
+      b.addEventListener("click", () => {
+        o.querySelectorAll("button").forEach((x, j) => { x.disabled = true; if (j === ans) x.classList.add("ok"); });
+        if (i === ans){ right++; fb.textContent = "✅ Right! " + why; } else { b.classList.add("no"); fb.textContent = "Not quite. " + why; }
+        done++; if (done === QS.length) scoreEl.textContent = `You got ${right} out of ${QS.length}! ` + (right === QS.length ? "Perfect score, Air Detective! 🏅" : "Scroll up and see if you can find the ones you missed.");
+      }); o.appendChild(b); });
+    box.appendChild(d);
+  });
+})();
+</script>
+
+</body>
+</html>

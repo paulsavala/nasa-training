@@ -6,6 +6,7 @@ A companion website for NASA ARSET's training on TEMPO aerosol products, written
 - **Part 1:** TEMPO's aerosol products, following NASA ARSET's 2026 training, with the training's slides.
 - **Part 2:** working with the measurements: columns vs. surface concentrations, matching instruments in space and time, a day of measurements, file contents and quality flags.
 - **Part 3:** a hands-on Python walkthrough (also as a Colab notebook in `notebooks/`).
+- **For kids:** *Air Detectives*, a separate illustrated picture book for curious young readers, at `kids/` (linked from the sidebar).
 
 Most sections are built around an interactive 3D scene made from one real TEMPO scan over Austin, Texas (August 27, 2026, 7:15 pm CDT), or around 2D interactive figures.
 
@@ -39,6 +40,7 @@ An internet connection is needed for three.js (loaded from jsDelivr) and the Goo
 | `data/land-110m.js` | World land outline for the orbit globe (Natural Earth 1:110m). |
 | `data/na-map.js` | Detailed North America map for the viewing-angle explorer (Natural Earth 1:10m land, lakes, borders). |
 | `slides/` | Slide images: `p1-NN.jpg` (ARSET aerosols 2026, Part 1) and `f-NN.jpg` (remote sensing fundamentals, 2023). `NN` is the slide number. |
+| `kids/index.html` | *Air Detectives*, the kids' picture book. One self-contained page with no external data. |
 | `notebooks/hands_on.ipynb` | The Part 3 walkthrough as a notebook (opens in Google Colab from the site). Keep its cells in sync with `PY` in `sections.js`. |
 | `tools/` | Scripts that rebuild `data/tempo-data.js` from the original files. |
 

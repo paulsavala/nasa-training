@@ -1,0 +1,118 @@
+D|Frost Bank Tower|157|541|1n4h.1mdz 1n43.1mfg 1n3p.1mgt 1n4y.1mha 1n5b.1mfw 1n5s.1mfx 1n61.1mex 1n65.1mek 1n5u.1meh 1n5f.1meb 1n4h.1mdz
+D|William P. Clements, Jr. Buildin|54|11|1o27.1mg8 1o1p.1mi1 1o0i.1mhm 1o10.1mfs 1o27.1mg8
+D|Dobie Twenty21|112|6248|1ogy.1mib 1ogr.1mkm 1ogb.1mkk 1ogc.1mkb 1og3.1mkj 1of7.1mkg 1ofa.1mje 1ofc.1miq 1ofd.1mi5 1ogy.1mib
+D|Hilton Garden Inn Austin Downtow|65|6910|1n1l.1myo 1n19.1mzs 1n2f.1n08 1n2r.1mz5 1n1l.1myo
+D|Hanover Brazos Street|156|3199|1mzy.1mhh 1n0a.1mgb 1mze.1mfz 1mz2.1mh5 1mzy.1mhh
+D|ATX Tower|206|3375|1nam.1m6w 1nbg.1m78 1nbu.1m5v 1naz.1m5j 1nam.1m6w
+D|Norwood Tower|100|9291|1ncd.1m6e 1ndb.1m6l 1ncq.1m8n 1nc4.1m8j 1nbv.1m8b 1nc3.1m7e 1ncd.1m6e
+D|IBC Bank Plaza|47|7401|1nbo.1m1q 1nbp.1m1d 1ncb.1lzo 1nc0.1lzk 1nbq.1lz6 1nav.1m1f 1nbo.1m1q
+D|Westgate Tower|80|1182|1nqo.1meu 1nql.1mfo 1npr.1mfi 1npv.1mek 1nq4.1meh 1nqp.1mep
+D||72|5526|1ng6.1mfr 1nft.1mh3 1ngk.1mhd 1ngp.1mgy 1ngy.1mgt 1nh3.1mh1 1nhi.1mg7 1nhx.1mer 1ngz.1mee 1ngl.1mfq 1ng6.1mfr
+D|Fairmont Austin|133|6582|1mu6.1mrr 1mu3.1mr7 1mtm.1mr0 1msm.1mqn 1msd.1mqp 1mrr.1mst 1ms9.1mt1 1msn.1mt6 1msz.1mta 1mtp.1mtk 1mtr.1mtb 1mu4.1ms0 1mu6.1mrr
+D|San Jacinto Center|76|8807|1mut.1mez 1mtg.1mej 1mt4.1meg 1msu.1mem 1mt5.1meq 1mt0.1mf8 1mum.1mfs 1mut.1mez
+D|The Monarch|98|7396|1ndb.1lp3 1nd1.1loz 1ncl.1lox 1ncc.1lox 1nbu.1loy 1nbk.1lpd 1nbj.1lpm 1nbw.1lpp 1ncb.1lpr 1nck.1lpr 1ncz.1lpq 1nd8.1lpp 1ndb.1lp3
+D|The Shore|79|1714|1ml6.1mod 1ml4.1moo 1mkt.1mov 1mkw.1mp5 1mma.1mpr 1mmm.1mom 1mmb.1moo 1mlg.1mo8 1ml6.1mod
+D|Omni Austin Hotel Downtown|54|9415|1ncs.1mmw 1ncm.1mn3 1ncd.1mnc 1nau.1mms 1nap.1mmg 1nb0.1mla 1nc1.1mkn 1nd2.1ml2 1nd7.1mld 1ncz.1mm4 1ncv.1mml 1ncs.1mmw
+D|One Texas Center|47|3524|1mgr.1lxt 1mgo.1lxe 1mgb.1lxa 1mg8.1lwy 1mfv.1lwq 1mfa.1lwv 1mf7.1lxb 1mfr.1lxl 1mfu.1lxw 1mg8.1ly3 1mgr.1lxt
+D|Spring|123|931|1nc0.1lii 1ncr.1liw 1nda.1lj6 1ndd.1ljh 1nd2.1lk8 1ncr.1lk3 1ncc.1ll6 1nby.1lkz 1nbb.1lkn 1nbm.1lji 1nc0.1lii
+D|The Austonian|202|7086|1n19.1ma9 1mzy.1m9r 1mzs.1mac 1mzm.1max 1n0w.1mbj 1n12.1maz 1n19.1ma9
+D|One American Center|115|6507|1nah.1mcw 1nab.1mdh 1n9y.1mev 1nas.1mf8 1nbk.1mfi 1nbx.1me2 1nc0.1mds 1nc0.1mdg 1nah.1mcw
+D|100 Congress|79|5672|1mx4.1ma6 1mxi.1m8t 1mzc.1m9i 1mz0.1map 1mym.1maq 1myl.1maf 1myf.1ma8 1mxt.1m9v 1mxn.1ma2 1mxd.1ma4 1mx4.1ma6
+D|Colorado Tower|104|2674|1n2z.1m99 1n2t.1m9s 1n2o.1mac 1n2y.1mak 1n3y.1max 1n48.1m9x 1n43.1m9n 1n3c.1m9e 1n32.1m9a
+D|The Catherine|68|530|1mnf.1m00 1mn0.1m0e 1mmn.1m19 1mm8.1m1l 1mly.1m1s 1mlp.1m1u 1mlg.1m1x 1ml9.1m1r 1ml3.1m10 1mm2.1m0r 1mmf.1lzy 1mn0.1lzf 1mnf.1m00
+D|Windsor on the Lake|103|4357|1mcf.1mo4 1mc4.1mo0 1mbt.1mnw 1mbl.1mo4 1mbl.1mom 1mc6.1mp2 1mcf.1mo4
+D|William P. Hobby Building|47|1435|1n5e.1m4z 1n54.1m4c 1n5o.1m40 1n5i.1m3o 1n4w.1m3f 1n4o.1m3k 1n45.1m55 1n4c.1m5j 1n5e.1m4z
+D|Hyatt Centric Congress Avenue Au|105|5989|1nea.1mhm 1ndw.1miy 1ndl.1miu 1ndy.1mhi 1nea.1mhm
+D|415 Colorado|195|3428|1n6e.1mag 1n7l.1mav 1n77.1mc8 1n61.1mbs 1n6e.1mag
+D|301 Congress|79|1247|1n27.1mf5 1n26.1mg3 1n1x.1mg6 1n16.1mfw 1n1v.1md3 1n2p.1mdc 1n2c.1meo 1n27.1mf5
+D|Capitol Tower|75|7430|1ngc.1mmp 1nha.1mn2 1ngq.1moz 1nft.1mom 1ngc.1mmp
+D|111 Congress|151|3756|1mxl.1md9 1mxg.1mdr 1mwu.1me4 1mwf.1mdy 1mvy.1mdt 1mw3.1mda 1mwe.1md3 1mwo.1mcy 1mwy.1mcs 1mx8.1mcm 1mxh.1mcg 1mxx.1mck 1mxv.1md3 1mxl.1md9
+D|Aloft Austin Downtown|115|7545|1nb5.1mgh 1nbe.1mgl 1nbo.1mgo 1nbl.1mgx 1nbi.1mh9 1nbb.1mhz 1nas.1mhs 1nb2.1mgq 1nb5.1mgh
+D|Third + Shoal|119|8770|1n5j.1lw4 1n58.1lw1 1n5f.1luh 1n5w.1lun 1n6e.1lum 1n6a.1lv1 1n62.1lvv 1n5y.1lwa 1n5j.1lw4
+D|Skyhouse Austin|86|6731|1mga.1mpj 1mg7.1mpw 1mg2.1mq7 1mfs.1mq3 1mfa.1mpw 1mez.1mps 1meq.1mpn 1met.1mp7 1mf7.1mp4 1mfi.1mp8 1mft.1mpb 1mg7.1mpf
+D|DoubleTree Suites by Hilton Aust|58|9466|1nzv.1mfe 1nzf.1mgz 1nyv.1mgs 1nzc.1mf7 1nzv.1mfe
+D|Moody Bank Tower|73|9618|1o2a.1meu 1o1e.1mei 1o1s.1md7 1o2o.1mdj 1o2a.1meu
+D|The Westin Austin Downtown|65|5213|1n67.1mls 1n59.1mlf 1n4y.1mml 1n5v.1mmx 1n67.1mls
+D|Cambridge Tower|55|5553|1o9t.1mm3 1o9m.1mmp 1o7l.1mlw 1o7p.1mlk 1o7s.1mla 1o8j.1mll 1o8y.1mlr 1o9t.1mm3
+D|Texas Medical Association|49|6886|1o06.1mcq 1o0x.1md1 1o0o.1mdy 1o0i.1me7 1o09.1me7 1nzs.1me0 1o06.1mcq
+D|Heman Marion Sweatt Travis Count|63|5180|1noy.1m7s 1nov.1m83 1np5.1m8c 1nov.1m9a 1nok.1m96 1noh.1m9g 1noa.1m9a 1nnw.1m95 1nnq.1m8w 1nne.1m8s 1nno.1m7u 1nnz.1m7y 1no5.1m7h 1not.1m7q
+D|Rise on 8th|79|8623|1nja.1m23 1nj1.1m2z 1nji.1m35 1nj4.1m4j 1njk.1m4p 1njr.1m41 1njy.1m38 1nk2.1m2w 1nk7.1m2f 1nja.1m23
+D|Seaholm Residences|104|7158|1n6h.1loo 1n6e.1lp0 1n69.1lph 1n66.1lpq 1n7g.1lq9 1n7v.1lqe 1n86.1lpc 1n70.1low 1n6h.1loo
+D|The Independent|209|383|1n9h.1lrr 1n96.1lsu 1n84.1lsg 1n8e.1lrd 1n9h.1lrr
+D|Northshore|137|3870|1n33.1lw0 1n2o.1lxi 1n2i.1ly4 1n1p.1lxt 1n1b.1lxn 1n0p.1lxf 1n0v.1lwu 1n19.1lw2 1n18.1lva 1n1z.1lvl 1n2b.1lvp 1n33.1lw0
+D||122|407|1n3r.1lw9 1n34.1lyj 1n3t.1lyt 1n4l.1lwl 1n3r.1lw9
+D|5th and Colorado|65|3229|1n87.1m8o 1n79.1m8b 1n6u.1m9s 1n7s.1ma5 1n87.1m8o
+D|Oneut|68|7764|1ndk.1mca 1ne4.1mae 1ned.1ma3 1nf4.1mae 1neh.1mcm 1ndk.1mca
+D|Capitol Center|54|7196|1njf.1mjl 1nj3.1mkr 1ni2.1mki 1nif.1mj7 1njf.1mjl
+D|Ion Austin|59|1605|1oht.1mdg 1ohq.1mei 1oj9.1men 1oja.1med 1ojd.1mdl 1oiv.1mdj 1oht.1mdg
+D|Norwood Tower|54|5187|1nd1.1mee 1nd8.1mdl 1ne5.1mdx 1ndz.1mej 1nd1.1mee
+D|Austin Proper|121|6242|1n4u.1lvx 1n4k.1lvu 1n3z.1lvm 1n42.1luw 1n49.1lu5 1n4v.1lue 1n5a.1luf 1n4u.1lvx
+D|Shoal Creek Walk|67|7823|1ngo.1lpk 1ng1.1lp9 1nfr.1lov 1nfl.1log 1nft.1lnw 1nh3.1loj 1ngw.1lp2 1ngv.1lpf
+D|Hanover Republic Square|157|5458|1n8x.1m62 1n8t.1m6e 1n8l.1m77 1n7o.1m6v 1n7z.1m5q 1n8x.1m62
+D|RiverSouth|59|8218|1ml8.1lx5 1ml3.1lxk 1mjt.1lyn 1mj5.1lwh 1mjc.1lw1 1ml8.1lx5
+D|Hotel ZaZa|86|5050|1n7z.1m50 1n7i.1m6s 1n78.1m6p 1n6l.1m6g 1n6n.1m67 1n6r.1m5u 1n6w.1m5c 1n70.1m4y 1n73.1m4o 1n7z.1m50
+D|405 Colorado|111|5843|1n6e.1mag 1n5u.1ma8 1n5k.1ma4 1n57.1mbg 1n61.1mbs 1n6e.1mag
+D|300 Colorado|136|7219|1n4h.1m79 1n41.1m8s 1n3b.1m8i 1n39.1m89 1n3m.1m6x 1n48.1m76 1n4h.1m79
+D|Indeed Tower|165|3076|1ndc.1maq 1ncy.1mak 1ncg.1maj 1nca.1mas 1nbc.1maf 1nb0.1mbe 1ncx.1mc5 1ndc.1maq
+D|Hilton Garden Inn|70|934|1o4f.1mj1 1o4y.1mj8 1o58.1mi5 1o4q.1mhy 1o4f.1mj1
+D|The Quincy|112|6019|1mq5.1mq2 1mpu.1mpy 1mp0.1mpn 1mog.1mpg 1mo8.1mpw 1mo3.1mqf 1mpv.1mr3 1mpy.1mqt 1mq2.1mqd 1mq5.1mq2
+D|George H.W. Bush State Office Bu|50|3480|1o7o.1mtn 1o7f.1mtk 1o78.1mtc 1o6x.1mt7 1o6n.1mt6 1o6b.1mt8 1o69.1msq 1o6b.1msh 1o5w.1msb 1o5m.1msh 1o5i.1msu 1o5c.1mtf 1o57.1mty 1o50.1mun 1o5n.1muv 1o6g.1mv7 1o76.1mvg 1o7m.1mtv
+D|Block 185|181|9245|1n3q.1lty 1n2y.1lth 1n2j.1lt9 1n1x.1lsv 1n1g.1lui 1n1v.1luq 1n27.1luv 1n2h.1luz 1n3d.1lvb 1n3q.1lty
+D|Hotel Trinity|47|4989|1n4c.1mmd 1n41.1mnj 1n34.1mn7 1n3f.1mm1 1n4c.1mmd
+D|Alexan Waterloo|110|9004|1ni6.1n5c 1nhg.1n53 1nh1.1n4x 1nhi.1n39 1ni3.1n3h 1nin.1n3o 1ni6.1n5c
+D|44 East|175|6789|1mco.1mpj 1mbr.1mp7 1mb6.1mp0 1may.1mpt 1mbd.1mpz 1mc7.1mqe 1mcg.1mqc 1mco.1mpj
+D|Natiivo|109|5162|1mdq.1mpv 1mcs.1mpj 1mci.1mql 1mct.1mqp 1md4.1mqt 1mdg.1mqx 1mdq.1mpv
+D|The Waller|115|2675|1njg.1n1q 1nj5.1n1m 1nil.1n1s 1nhx.1n1j 1nhu.1n1s 1nho.1n2f 1nj4.1n2z 1njf.1n1t
+D|Sixth and Guadalupe|238|4469|1nf8.1m3u 1ndr.1m3b 1nda.1m34 1ncn.1m5f 1ndt.1m5u 1ne2.1m5y 1ne9.1m58 1nes.1m5g 1nf8.1m3u
+D|Innovation Tower|58|5498|1nr4.1n2o 1nqv.1n2n 1nqm.1n2k 1npv.1n2a 1npe.1n23 1nph.1n1q 1npk.1n1f 1npy.1n17 1nqj.1n14 1nqy.1n12 1nr9.1n10 1nrg.1n1a 1nrj.1n1j 1nr8.1n24 1nr4.1n2o
+D|citizenM Austin Downtown|62|774|1nch.1mdt 1nc5.1mdp 1nc7.1mdg 1nbv.1mdc 1nc3.1mcl 1ncr.1mcu 1nch.1mdt
+D|Cambria Hotel Austin Downtown|53|4478|1mj8.1msy 1mja.1msp 1mjd.1msf 1miv.1ms8 1mix.1mrv 1mie.1mrn 1mi9.1ms4 1mi3.1msn 1mis.1msw 1mj3.1msz
+D|Fairfield Inn & Suites Austin Do|59|2512|1mkf.1msf 1mjt.1ms7 1mjj.1mt6 1mk5.1mte 1mkf.1msf
+D|The Republic|216|1661|1n6v.1m0p 1n6g.1m0k 1n61.1m0e 1n5i.1m07 1n5c.1m0s 1n58.1m16 1n55.1m1g 1n52.1m1s 1n4w.1m2d 1n56.1m2l 1n5n.1m2r 1n68.1m30 1n6g.1m2r 1n6k.1m2f 1n6k.1m26 1n6q.1m1j 1n6x.1m0y 1n6v.1m0p
+D|Modern Austin Residences|201|3068|1mom.1ms1 1mnu.1mrq 1mo0.1mqn 1mow.1mqz 1mom.1ms1
+D|700 River|152|6404|1mhw.1mq9 1mha.1mq1 1mh0.1mr1 1mgq.1ms1 1mhc.1ms9 1mhm.1mra 1mhw.1mq9
+D|Paseo|173|2352|1mlx.1mr1 1mki.1mqk 1mkt.1mpi 1mm7.1mq0 1mlx.1mr1
+D|Waterline|315|3781|1mrv.1moy 1mrc.1moa 1mra.1mnt 1mr9.1mnj 1mr7.1mn9 1mqp.1mnc 1mqb.1mnk 1mq0.1mnm 1mos.1mn9 1mom.1mnv 1mod.1moq 1mos.1mov 1mpm.1mp7 1mqt.1mpn 1mr5.1mpq 1mrj.1mpc 1mrv.1moy
+S|Fondren Hall|4|4213|1k9u.1lfa 1k9j.1lf4 1k9a.1lf6 1k94.1lfl 1k94.1lg3 1k9f.1lga 1k9u.1lfa
+S||11|9043|1k1u.1ln9 1k43.1lok 1k3f.1lq2 1k17.1lor 1k1u.1ln9
+S|SEU Recreation and Athletic Cent|14|2332|1kcq.1l8l 1kbr.1l83 1kbj.1l8p 1kc7.1l92 1kc0.1l9k 1kb1.1l91 1kav.1l9g 1kal.1l9b 1ka5.1lag 1kaf.1lal 1kac.1lau 1kak.1lay 1kab.1lbm 1kb1.1lbz 1kax.1lc9 1kb9.1lbt 1kbh.1lbt 1kcb.1l9r 1kce.1l95 1kcq.1l8l
+S|UFCU Alumni Gym||8406|1kdz.1l9j 1kdb.1l96 1kcu.1lab 1kdc.1lal 1kdz.1l9j
+S|Fleck Hall|7|2293|1kgq.1l8w 1kgx.1l9x 1kgu.1la8 1kgj.1laa 1kgh.1la1 1kg8.1l90 1kgi.1l8u 1kgq.1l8w
+S|Ragsdale Center|11|8760|1kau.1lcw 1ka3.1lch 1k9v.1ld0 1ka2.1ld4 1k9l.1le9 1k9e.1le5 1k9a.1leg 1k9a.1leq 1k9i.1lev 1k9r.1lez 1k9z.1lex 1ka6.1lei 1kae.1lec 1kag.1le1 1kak.1lds 1kap.1ldk 1kap.1lda 1kau.1ld3
+S|Holy Cross Hall|11|7980|1kc5.1leb 1kbs.1le4 1kbl.1lej 1kbf.1lew 1kbb.1lf5 1kbo.1lfc 1kbs.1lf4 1kbw.1let 1kc0.1lej 1kc5.1leb
+S|Munday Library|7|5267|1ken.1l9g 1kf8.1l9r 1kf4.1l9z 1kfp.1laa 1kf1.1lbw 1kee.1lbk 1kel.1lb2 1ke5.1lat 1keb.1lag 1kea.1la5 1ken.1l9g
+S|Main Building|14|4308|1kba.1lh3 1kbh.1lgo 1kav.1lgc 1kap.1lgr 1kao.1lh4 1kaj.1lhc 1kag.1lhn 1ka6.1li0 1kar.1lic 1kay.1lhw 1kb0.1lhg 1kb6.1lh1
+S|Trustee Hall|7|8604|1keq.1ldg 1kea.1lei 1ke5.1lex 1kdg.1ler 1kdn.1lec 1kdv.1leh 1ke2.1le1 1kea.1ldi 1kec.1ld8 1keq.1ldg
+S|||3005|1k56.1lub 1k52.1lu4 1k4k.1ltt 1k48.1luj 1k48.1lur 1k4g.1luw 1k4p.1luc 1k52.1luk 1k56.1lub
+S|Facilities||1248|1kag.1lt1 1k9g.1lse 1k96.1lt0 1ka6.1ltm 1kag.1lt1
+S|Moody Hall||1765|1k9e.1lid 1k8z.1lif 1k8q.1lii 1k8s.1lia 1k85.1lhy 1k81.1li7 1k7p.1lir 1k84.1liz 1k8e.1liy 1k8a.1lj7 1k8v.1ljj 1k8z.1lj7 1k9e.1lid
+S|||7473|1k5c.1lx7 1k4s.1lwv 1k4z.1lwg 1k58.1lwl 1k5h.1lw2 1k5s.1lw8 1k5c.1lx7
+S|||4634|1k8v.1lue 1k8t.1lva 1k8w.1lvo 1k9b.1lwe 1k92.1lwl 1k8m.1lvt 1k8h.1lv7 1k8j.1luc 1k8v.1lue
+S|Hunt-LeMans Hall||8308|1k7i.1lmy 1k6k.1lmg 1k6g.1lm8 1k6b.1lmj 1k5t.1lm9 1k5m.1lmp 1k5k.1lmx 1k68.1lna 1k6g.1lmr 1k6w.1lmz 1k6q.1lne 1k6i.1ln9 1k68.1lnw 1k6j.1lo3 1k6q.1lnj 1k72.1lns 1k7c.1lnb 1k74.1ln6 1k7d.1ln9 1k7i.1lmy
+S|||3447|1k7t.1len 1k6z.1le5 1k6u.1leh 1k6x.1ler 1k7b.1lex 1k7k.1lev 1k7t.1len
+S|||6915|1k48.1lv6 1k40.1lvu 1k4d.1lvz 1k49.1lwb 1k3l.1lw0 1k3v.1lv8 1k42.1lv4
+S|||6410|1k8m.1le3 1k82.1lds 1k7v.1ldm 1k7m.1ldx 1k7l.1le8 1k7h.1leg 1k7q.1lel 1k7y.1le3 1k8h.1lee 1k8m.1le3
+S|Tereasa Hall|7|1825|1kb1.1lqw 1ka9.1lr1 1k9i.1lr0 1k8q.1lqm 1k8l.1lr4 1k9e.1lrj 1k9m.1lrh 1ka5.1lrl 1kb5.1lrb 1kb1.1lqw
+S|||6360|1k6o.1le5 1k6d.1ldz 1k60.1leb 1k67.1leh 1k5x.1lej 1k5s.1lev 1k5w.1lf2 1k67.1lf8 1k6k.1lew 1k6c.1les 1k6g.1lek 1k6n.1leo 1k6t.1lec 1k6m.1le8
+S|John Brooks Williams Natural Sci|14|6498|1k7y.1lk8 1k7i.1lla 1k6s.1lkv 1k6o.1ll4 1k68.1lkw 1k63.1ll9 1k6y.1llq 1k7t.1lm9 1k8k.1lkd 1k88.1lk6 1k7y.1lk8
+S|Mary Moody Northern Theater||347|1kae.1lmp 1ka7.1lmi 1k9x.1lmh 1k9p.1lmn 1k9m.1lmy 1k9p.1ln8 1k9x.1lnf 1ka7.1lne 1kae.1ln6 1kag.1lmv
+S|||3578|1kay.1lug 1ka2.1lue 1ka0.1luz 1kam.1lv1 1kak.1lvn 1ka5.1lvm 1k9v.1lv7 1k9v.1lud 1k9c.1lud 1k9b.1lv3 1k9l.1lvd 1k9f.1lvj 1k9o.1lvy 1ka3.1lvx 1ka3.1lwl 1kad.1lwl 1kad.1lw8 1kaz.1lwa 1kb2.1lv8 1kb9.1lv0 1kaw.1luy 1kay.1lug
+S|||4784|1k7e.1lfq 1k7b.1lff 1k6y.1lf9 1k6r.1lf4 1k6i.1lf7 1k6d.1lfi 1k6e.1lfu 1k5v.1lfl 1k5m.1lg3 1k66.1lge 1k6d.1lgl 1k6m.1lga 1k6q.1lfq 1k79.1lg1 1k7e.1lfq
+S|Johnson Hall||7875|1k8o.1lnn 1k7s.1ln7 1k7q.1lnf 1k80.1lnk 1k7o.1lnm 1k7h.1lo2 1k7r.1lo7 1k82.1lnz 1k81.1lnr 1k8g.1lnz 1k8o.1lnn
+S|||5465|1k6a.1lux 1k5v.1luo 1k5l.1luy 1k5v.1lv4 1k5k.1lvr 1k5x.1lvy 1k67.1lvb 1k6a.1lux
+S|Equity Hall||4685|1kj2.1ldm 1kj9.1lds 1kj9.1ler 1kjr.1lek 1kk1.1lez 1kjk.1lf3 1kjl.1lfc 1kj1.1lfg 1kis.1ldz 1kii.1le1 1kig.1ldr 1kiq.1ldp 1kj0.1ldk
+S|Fine Arts Center||444|1kic.1lev 1khz.1ley 1khd.1lf0 1kh0.1lf7 1kgy.1lfj 1kh5.1lga 1khr.1lg7 1ki6.1lg1 1kij.1lg1 1kic.1lev
+S|Premont Hall||4973|1kk6.1ld5 1kkc.1ldc 1kkg.1lez 1kkp.1lex 1kkf.1lf7 1kke.1lez 1kk5.1lf1 1kjw.1ldn 1kjl.1ldr 1kjg.1ldj 1kjr.1ldh 1kjq.1ld9 1kk6.1ld5
+S|East Hall||1037|1kej.1lrb 1kdq.1lqt 1kdf.1lqo 1kcn.1lqa 1kcs.1lq2 1kcl.1lpx 1kcs.1lpt 1kdj.1lqa 1kdn.1lq1 1kdt.1lps 1ke1.1lpx 1ke5.1lq4 1ke0.1lqf 1kep.1lqu 1kej.1lr2 1keq.1lr7 1kej.1lrb
+S|Central Plant|12|7796|1k9d.1lb2 1k8v.1las 1k95.1la1 1k9n.1lab 1k9d.1lb2
+S|John Brooks Williams Natural Sci|11|6140|1k7s.1lj6 1k79.1lis 1k6l.1lkh 1k71.1lkq 1k7h.1ljw 1k7n.1ljl 1k7x.1ljt 1k88.1ljz 1k8d.1ljn 1k88.1ljd 1k7z.1lj8
+S|Operations Building|7|1140|1kjj.1ljn 1kje.1ljy 1ki2.1lj3 1ki6.1lir 1kjj.1ljn
+C|St. Edward's University||7301|1jzq.1ls8 1k0h.1lsq 1k2b.1ltv 1k2g.1lum 1k3d.1lux 1k2n.1lwj 1k61.1lyg 1k69.1ly0 1k6q.1lxq 1k7l.1lwi 1ka6.1ly4 1kax.1lxh 1kbs.1lwx 1kct.1lwi 1kdl.1lwy 1kdx.1lwa 1kef.1lv3 1kg9.1lr5 1ki6.1ln3 1kjo.1ljx 1kki.1li5 1kkv.1lhd 1kl4.1lhj 1knz.1lbn 1kkg.1l9a 1kfo.1l6f 1kau.1l3c 1k8u.1l7j 1k6g.1lcp 1k33.1ljk 1k1m.1lmn 1jzg.1lrc 1jzq.1ls8
+R|||8474|1e9h.2gw5 1dxb.2ghy 1dzh.2g16 1e7q.2fl5 1eff.2f11 1dvf.2exq 1dli.2fhh 1d37.2ft5 1ch7.2fwg 1c3c.2gbw 1bwq.2gv7 1c23.2hha 1box.2i5c 1b6y.2ig8 1azu.2iwg 1adz.2j1a 19zx.2ifn 19uv.2hzk 19r2.2hgb 19mx.2gvf 193n.2gu4 18im.2gz7 18l0.2hsc 18tb.2ibj 18uo.2iwu 18fx.2jjg 1862.2jzj 180z.2khw 17n4.2kyd 17ma.2lik 181u.2ltu 181r.2mei 17uh.2muy 17cc.2n29 16sa.2mv0 16eg.2mk6 15vl.2m6s 15dy.2m13 14wp.2lwz 14jn.2m8o 14c2.2msd 14e0.2ncn 14mb.2nsv 14lr.2ocl 14mj.2onz
+R|||4652|14mj.2onz 1442.2otr 13n6.2on9 13nu.2p4e 13td.2po2 14ae.2pri 14qr.2q3e 14n1.2qo6 14eh.2r6w 14ri.2rt0 158a.2s4l 15ru.2s1j 16fc.2rxf 169q.2sjr 15yi.2sxh 15nn.2t5s
+R|||7971|29tn.eij 29g3.f7y 2988.fzv 29kx.gln 2a06.gw9 2aep.hmu 2aep.i3r 2a4j.ihx 29mx.ip5 29dj.j6v 29i7.jp9 29z3.k00 29y4.kje 29vq.l1y 2a79.lk8 2ajd.lw2 2ae3.mm5 2a2o.nde 29xk.nv6 29cx.o9j 28wt.o41 286v.o39 27s6.omv 2829.p52 27nq.pg9 2765.pu7 270q.qcw 2771.qvu 2723.rgo 2770.rx9 27sx.sbr 287q.smu 27xa.t2z 275b.tft 26p0.t5j 26hx.spz 26b6.s7s 25ui.sb6 2504.sig 24ek.ssy 244d.t7h 246j.tq4 24rw.u5x 2555.urs 257c.vew 254j.w09 24of.wff 23yc.w2i 23kx.vqw 235j.vi8 22h6.vvd 22cz.wjj 2282.xjj 2225.y1i 21l8.ya8 20w9.xrc 20eg.xoq 1zyu.y3v 20b2.ys9 20vr.zex 21f1.zui 21w2.103t 22lw.10d1 238f.10kq 23ls.10vo 23s1.11ea 23hv.1216 22wd.12dp 227n.12lx 21mk.12dr 21d7.11qv 210p.119r 20gr.10mm 1zur.zzq 1zd9.zs8 1yuk.zt2 1ynk.109r 1ykj.11u3 1yia.12zf 1yfz.13iw 1xzq.13su 1x6b.12m5 1wi4.11ue 1w5i.11hm 1vl3.11ft 1vhg.12nc 1vlv.137x 1vtm.13o0 1w5g.140p 1wmo.14fv 1wz9.153c 1x1o.15o3 1x05.164s 1x1a.16wd 1xcz.17fh 1y61.1705 1ywy.16b2 1zdr.1640 1zyi.16bb 208r.16op 20fx.1755 20i0.17mk 202y.18ui 1zm4.199j 1z6g.19qc 1ypp.19wx 1xui.19un 1xny.1aaj 1y2l.1aum 1y3r.1bgu 1xlg.1bmb 1x60.1axt 1wyp.1a4i 1wrw.19sk
+R|||7739|1j39.1wd5 1j9c.1wvs 1jtg.1x53 1k58.1xjz 1jxc.1y1t 1jht.1xrr 1ix0.1xux 1ihc.1y8p 1ing.1yq4 1j2e.1z29 1j2w.1zj4 1iz7.2010 1ilb.20iq 1it9.2114 1j8j.21dj 1jmf.21n5 1jyv.21y9 1jmr.22bw 1jgc.22wh 1jqr.23df 1k7h.23ec 1k22.23vh 1ji0.23wq 1izt.243f 1ihu.241w 1ij9.23kb 1iip.2333 1i2a.2367 1hu7.23li 1hyg.2454 1ikf.24re 1iov.25c5 1iza.25qh 1ilv.267n 1i4i.263h 1hmj.26ab 1h3p.26fr 1gw7.272q 1gp0.27lr 1goa.283b 1goj.28kn 1gvh.292e 1h0n.29js 1h5w.2a2e 1hap.2alx 1h24.2b3a 1ggf.2aqm 1g3g.2a8m 1foc.29yf 1fa7.29p0 1exa.29cb 1ejc.2903 1e22.28w1 1dq7.29bx 1dld.29ua 1dyk.2ae8 1eev.2aqi 1eqc.2b53 1eva.2bo4 1ewr.2c6y 1fdb.2cg3 1fpg.2cwp 1g6l.2d5f 1gio.2cs5 1h15.2czk 1gxm.2diq 1gnd.2dxh 1gpi.2eg9 1fxg.2eaj 1ffh.2e1b 1f2o.2eej 1f1k.2ew3 1f2d.2fh1 1f6r.2fze 1fcr.2gfv 1f5x.2gxn 1en4.2h2h 1e9h.2gw5
+R|||7625|1wrw.19sk 1wqt.19qd
+R|||5586|1wqt.19qd 1wgf.198l 1vp9.196x 1v7j.197s 1unf.19a9 1tzk.192n 1tc3.18ek 1sut.17y4 1sdj.17ly 1ryw.17uf 1rpr.18dd 1rqv.18w1 1s03.19ex 1sl2.1a2g 1sxz.1alx 1t1u.1b6n 1t4d.1bsg 1tek.1ch7 1ts0.1d0c 1ty4.1dim 1tqq.1e1d 1tcv.1ed5 1swg.1ei5 1rzy.1em7 1rki.1f09 1rnl.1fm2 1ryx.1g1n 1sgv.1ggm 1syt.1gxc 1tji.1hby 1tqy.1ht9 1tpq.1hy8
+R|||1265|1tpq.1hy8 1tia.1ics
+R|||9726|1tia.1ics 1t64.1iu2 1smz.1j7f 1s8m.1jg7 1rgt.1ju2 1qt4.1jt4 1qaz.1jn2 1puz.1jb0 1pnm.1j6h 1pjf.1j3w 1pd8.1j43 1p8o.1j5t 1p1t.1j3r 1oxl.1j4k 1opz.1j42 1om2.1j5r 1of3.1jbf 1ob8.1jf0 1o6w.1jjp 1o1w.1jqs 1nwe.1jxo 1nt2.1k1r 1nnk.1k8h 1ndz.1kmp 1n9s.1kwu 1n7s.1l1s 1n5l.1l78 1n0k.1ll7 1mwo.1lw6 1mt8.1m5t 1mnk.1mea 1mjp.1mgj 1mcy.1mj5 1m5k.1mmq 1m0m.1mr9 1lva.1n3g 1lqi.1nee 1ln7.1nli 1llj.1nut 1lni.1o3k 1lth.1ocw 1lvd.1oiu 1lvp.1ooe 1lur.1oss 1lw8.1ows 1lx6.1p2k 1lvz.1p7c 1lvz.1pc4 1lvm.1phs 1lu6.1pni 1lr1.1pqw 1lmd.1prk 1lig.1puv 1lhj.1pz3 1ljq.1q3a 1lio.1q8w 1lih.1qdh 1lip.1qi1 1lkh.1qmo 1lk6.1qt2 1lkf.1qyk 1llh.1r3z 1ls0.1rk6 1m7f.1rx8 1mj4.1sfz 1mr6.1svg 1mtr.1tic 1mv4.1u2d 1mcx.1u9e 1mav.1uuk 1m9x.1vf1 1lt6.1vfh 1lcb.1v32 1l0j.1uoz 1kwz.1u76 1kr0.1tm2 1kf8.1t7q 1k0b.1sxb 1jic.1t6w 1j34.1tl6 1ise.1u18 1imw.1un7 1ins.1v4e 1it4.1vn9 1izf.1w4b 1j39.1wd5

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A companion to NASA ARSET's TEMPO aerosol training, built around an interactive 3D view of one real TEMPO scan over Austin, Texas.">
+<title>TEMPO Aerosols in 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="kicker">TEMPO aerosols, in 3D</div>
+      <h1>Seeing Smoke and Dust from Geostationary Orbit</h1>
+      <p>A companion to NASA ARSET's 2026 training, built around one real TEMPO scan over Austin.</p>
+    </div>
+    <button class="navtoggle" type="button" id="navtoggle" aria-expanded="false" aria-controls="nav">☰ Sections</button>
+    <nav id="nav" aria-label="Sections"></nav>
+    <div class="side-foot">Slides: NASA ARSET, <i>Geostationary Remote Sensing of Aerosols for Air Quality Applications in North America</i> (C. Mogno and A. Huff, Oct. 2026), and <i>Fundamentals of Satellite Remote Sensing</i> (P. Gupta, M. Follette-Cook, S. Strode and C. Malings, 2023).</div>
+  </aside>
+
+  <main id="main">
+    <div class="eyebrow" id="eyebrow"></div>
+    <h2 class="title" id="title" tabindex="-1"></h2>
+    <p class="lede" id="lede"></p>
+    <div id="topfig"></div>
+
+    <div class="stage" id="viewport" aria-label="3D view of the atmosphere over Austin, with TEMPO pixels, the boundary layer and an adjustable aerosol layer">
+      <div class="labels" id="labels"></div>
+      <div class="stage-tag" id="when"></div>
+      <div class="views" role="group" aria-label="Camera views">
+        <button type="button" id="v-overview">Overview</button>
+        <button type="button" id="v-side">Side view</button>
+        <button type="button" id="v-top">Map view</button>
+        <button type="button" id="v-city">Downtown</button>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="tip" id="tip" hidden></div>
+    </div>
+
+    <div class="trybar" id="trybar" role="group" aria-label="Scenes to try"></div>
+    <p class="try-note" id="trynote" aria-live="polite"></p>
+
+    <details class="controls" id="controls">
+      <summary>Adjust the scene yourself</summary>
+      <div class="ctl-grid">
+        <div class="callout" id="callout"></div>
+
+        <div class="layer" data-layer="aerosol" id="L-aerosol">
+          <div class="layer-head">
+            <span class="layer-title"><input type="checkbox" id="showAer" checked aria-label="Show aerosol layer"> Aerosol layer <span class="tag">illustrative</span></span>
+            <button class="about" type="button" data-about="aerosol">About this</button>
+          </div>
+          <div class="row"><label for="aerPreset">Scenario</label>
+            <select id="aerPreset">
+              <option value="near" selected>Smoke near the surface</option>
+              <option value="aloft">Smoke aloft</option>
+              <option value="dust">Dust lifted by a storm</option>
+              <option value="haze">Thin haze</option>
+              <option value="custom">Custom</option>
+            </select>
+          </div>
+          <div class="row"><span id="aerTypeLabel" style="color:var(--muted)">Type</span>
+            <div class="seg" role="group" aria-labelledby="aerTypeLabel">
+              <button type="button" id="aer-smoke" aria-pressed="true">Smoke</button>
+              <button type="button" id="aer-dust" aria-pressed="false">Dust</button>
+            </div>
+          </div>
+          <div class="row"><label for="aod">AOD</label><input type="range" id="aod" min="0.02" max="2" step="0.02" value="0.8"><span class="val" id="aodV"></span></div>
+          <div class="row"><label for="alh">Height</label><input type="range" id="alh" min="0.3" max="8" step="0.1" value="0.9"><span class="val" id="alhV"></span></div>
+          <div class="row"><label for="thick">Thickness</label><input type="range" id="thick" min="0.3" max="3" step="0.1" value="1.2"><span class="val" id="thickV"></span></div>
+          <div class="row"><input type="checkbox" id="aerBox"><label for="aerBox" style="color:var(--fg)">Show the layer's outline</label></div>
+        </div>
+
+        <div class="layer" data-layer="ground" id="L-ground">
+          <div class="layer-head">
+            <span class="layer-title">Map on the ground</span>
+            <button class="about" type="button" data-about="ground-var">About this</button>
+          </div>
+          <div class="row">
+            <label for="groundVar">Show</label>
+            <select id="groundVar">
+              <option value="cloud" selected>Cloud fraction</option>
+              <option value="aodgap">Where clouds would block AOD</option>
+              <option value="no2_trop">NO₂ column, troposphere</option>
+              <option value="hcho">Formaldehyde (HCHO) column</option>
+              <option value="no2_strat">NO₂ column, stratosphere</option>
+              <option value="pbl">Boundary-layer height</option>
+              <option value="off">Nothing</option>
+            </select>
+          </div>
+          <div class="row">
+            <span id="drawAsLabel" style="color:var(--muted)">Draw as</span>
+            <div class="seg" role="group" aria-labelledby="drawAsLabel">
+              <button type="button" id="draw-flat" aria-pressed="true">Flat map</button>
+              <button type="button" id="draw-bars" aria-pressed="false">3D bars</button>
+            </div>
+          </div>
+          <div class="row"><input type="checkbox" id="showTgrid"><label for="showTgrid" style="color:var(--fg)"><span class="swatch" style="background:var(--sat)"></span> TEMPO pixel outlines</label></div>
+          <div class="row"><input type="checkbox" id="showAbi"><label for="showAbi" style="color:var(--fg)"><span class="swatch" style="background:var(--abi)"></span> ABI 2 km grid, for comparison</label></div>
+        </div>
+
+        <div class="layer" data-layer="platforms" id="L-platforms">
+          <div class="layer-head">
+            <span class="layer-title">Other ways to measure</span>
+            <button class="about" type="button" data-about="platforms">About this</button>
+          </div>
+          <div class="row"><input type="checkbox" id="showPlane"><label for="showPlane" style="color:var(--fg)">Research aircraft spiral (in situ)</label></div>
+          <div class="row"><input type="checkbox" id="showLidar"><label for="showLidar" style="color:var(--fg)"><span class="swatch" style="background:var(--laser)"></span> Satellite lidar curtain (active)</label></div>
+          <div class="row"><label for="fpSel">Pixel grid</label>
+            <select id="fpSel">
+              <option value="none" selected>None</option>
+              <option value="omi">OMI, 13 × 24 km</option>
+              <option value="modis">MODIS, 1 km</option>
+              <option value="viirs">VIIRS imagery, 375 m</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="layer" data-layer="pbl" id="L-pbl">
+          <div class="layer-head">
+            <span class="layer-title"><input type="checkbox" id="showPbl" checked aria-label="Show boundary layer top"> <span class="swatch" style="background:var(--pbl)"></span> Top of the boundary layer</span>
+            <button class="about" type="button" data-about="pbl-sheet">About this</button>
+          </div>
+        </div>
+
+        <div class="layer" data-layer="rays" id="L-rays">
+          <div class="layer-head">
+            <span class="layer-title"><input type="checkbox" id="showRays" checked aria-label="Show lines of sight"> Lines of sight</span>
+            <button class="about" type="button" data-about="rays">About this</button>
+          </div>
+          <div class="row"><span class="swatch" style="background:var(--sun)"></span> Toward the Sun</div>
+          <div class="row"><span class="swatch" style="background:var(--sat)"></span> Toward TEMPO</div>
+        </div>
+
+        <div class="layer" data-layer="city" id="L-city">
+          <div class="layer-head">
+            <span class="layer-title">Austin: downtown, river, St. Edward's</span>
+            <button class="about" type="button" data-about="city">About this</button>
+          </div>
+          <div class="row"><span class="swatch" style="background:var(--building)"></span> Buildings 45 m+ <span class="swatch" style="background:var(--campus)"></span> Campus <span class="swatch" style="background:var(--water)"></span> River</div>
+        </div>
+
+        <div class="layer" data-layer="ozone" id="L-ozone">
+          <div class="layer-head">
+            <span class="layer-title"><input type="checkbox" id="showOzone" aria-label="Show ozone profile"> Ozone, layer by layer</span>
+            <button class="about" type="button" data-about="ozone">About this</button>
+          </div>
+          <div class="row"><label for="ozMin">From</label><input type="range" id="ozMin" min="0" max="66" step="1" value="0"><span class="val" id="ozMinV"></span></div>
+          <div class="row"><label for="ozMax">Up to</label><input type="range" id="ozMax" min="1" max="66" step="1" value="66"><span class="val" id="ozMaxV"></span></div>
+          <div class="row"><input type="checkbox" id="ozCut"><label for="ozCut" style="color:var(--fg)">Cut away the south half</label></div>
+          <div class="row"><label for="ozOpacity">Opacity</label><input type="range" id="ozOpacity" min="0.15" max="1" step="0.05" value="1"><span class="val" id="ozOpacityV"></span></div>
+        </div>
+
+        <div class="layer" data-layer="vex" id="L-vex">
+          <div class="layer-head">
+            <span class="layer-title">Area and height</span>
+            <button class="about" type="button" data-about="vex">About this</button>
+          </div>
+          <div class="row"><label for="radius">Area radius</label><input type="range" id="radius" min="5" max="55" step="1" value="25"><span class="val" id="radiusV"></span></div>
+          <div class="row"><label for="vex">Height ×</label><input type="range" id="vex" min="1" max="8" step="0.5" value="5"><span class="val" id="vexV"></span></div>
+        </div>
+
+        <div class="explain" id="explain" aria-live="polite"></div>
+      </div>
+    </details>
+
+    <div class="content" id="content">
+      <div class="prose" id="prose"></div>
+      <div class="aside-col" id="asidecol"><div class="readout" id="readout" aria-live="polite"></div></div>
+    </div>
+
+    <div id="slides"></div>
+    <nav class="nextbar" id="nextbar" aria-label="Previous and next section"></nav>
+    <p class="foot" id="foot"></p>
+  </main>
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label="Training slide">
+  <div class="lb-inner">
+    <img id="lb-img" alt="">
+    <div class="lb-bar">
+      <p id="lb-cap"></p>
+      <button type="button" id="lb-prev">← Previous</button>
+      <button type="button" id="lb-next">Next →</button>
+      <button type="button" id="lb-close">Close</button>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/renderers/CSS2DRenderer.js"></script>
+<script src="data/tempo-data.js"></script>
+<script src="data/land-110m.js"></script>
+<script src="data/na-map.js"></script>
+<script src="assets/js/viewer.js"></script>
+<script src="assets/js/sections.js"></script>
+</body>
+</html>

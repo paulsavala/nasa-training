@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.pyc
+*.nc
+tools/tempo_austin.json
+tools/city.json

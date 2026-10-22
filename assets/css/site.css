@@ -64,6 +64,9 @@ button { font: inherit; }
 .sec-link.done .num { border-color: var(--navy-muted); color: var(--navy-fg); }
 .sec-link[aria-current="page"] { background: var(--navy-2); color: #fff; }
 .sec-link[aria-current="page"] .num { background: var(--accent-bright); border-color: var(--accent-bright); color: #fff; }
+.pg-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px; align-items: start; }
+.pg-two > * { min-width: 0; }
+p.eq { font-family: var(--font-mono); font-size: 14px; text-align: center; background: var(--card); border-radius: 8px; padding: 10px 12px; overflow-x: auto; color: var(--fg); }
 .kids-link { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; padding: 5px 12px 5px 9px; border-radius: 999px; background: #FFC23A; color: #1E2B47; font-size: 13px; font-weight: 600; text-decoration: none; box-shadow: 0 2px 0 #C98F10; transform: rotate(-2deg); transition: transform .15s; }
 .kids-link b { font-weight: 800; }
 .kids-link:hover { transform: rotate(0deg) scale(1.04); }

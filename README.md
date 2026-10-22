@@ -4,8 +4,9 @@ A companion website for NASA ARSET's training on TEMPO aerosol products, written
 
 - **Background:** fundamentals of satellite remote sensing (aerosols, what satellites measure, passive and active sensors, orbits and resolution).
 - **Part 1:** TEMPO's aerosol products, following NASA ARSET's 2026 training, with the training's slides.
-- **Part 2:** working with the measurements: columns vs. surface concentrations, matching instruments in space and time, a day of measurements, file contents and quality flags.
-- **Part 3:** a hands-on Python walkthrough (also as a Colab notebook in `notebooks/`).
+- **Part 2:** Pandora, the view from the ground: what a Pandora is, direct-sun and sky-scan modes, how a spectrum becomes a column, and one real day from the St. Edward's Pandora (Pandora 257).
+- **Part 3:** working with the measurements: columns vs. surface concentrations, matching instruments in space and time, a day of measurements, file contents and quality flags.
+- **Part 4:** a hands-on Python walkthrough (also as a Colab notebook in `notebooks/`).
 - **For kids:** *Air Detectives*, a separate illustrated picture book for curious young readers, at `kids/` (linked from the sidebar).
 
 Most sections are built around an interactive 3D scene made from one real TEMPO scan over Austin, Texas (August 27, 2026, 7:15 pm CDT), or around 2D interactive figures.
@@ -34,14 +35,14 @@ An internet connection is needed for three.js (loaded from jsDelivr) and the Goo
 |---|---|
 | `index.html` | Page skeleton: sidebar, 3D stage, scene controls, content area, slide lightbox. |
 | `assets/css/site.css` | All styles. Colors are CSS variables at the top, with a dark-mode set. |
-| `assets/js/sections.js` | **The content.** Every section's text, scene setup, "Try" buttons and slides, plus all the 2D and globe figures (light paths, spectrum, retrieval, orbits, viewing-angle map, mask builder, AOD lab, PM2.5 regression, Part 2 figures) and the Part 3 code cells. |
+| `assets/js/sections.js` | **The content.** Every section's text, scene setup, "Try" buttons and slides, plus all the 2D and globe figures (light paths, spectrum, retrieval, orbits, viewing-angle map, mask builder, AOD lab, PM2.5 regression, Pandora and Part 3 figures, plus the Pandora 257 data as `P257`) and the Part 4 code cells. |
 | `assets/js/viewer.js` | The three.js scene: TEMPO pixels, boundary layer, aerosol layer, city, ozone, aircraft, lidar, pixel grids. Exposes `window.VIZ` for `sections.js`. |
 | `data/tempo-data.js` | The TEMPO extract and Austin geometry, as `window.TEMPO_DATA`. |
 | `data/land-110m.js` | World land outline for the orbit globe (Natural Earth 1:110m). |
 | `data/na-map.js` | Detailed North America map for the viewing-angle explorer (Natural Earth 1:10m land, lakes, borders). |
 | `slides/` | Slide images: `p1-NN.jpg` (ARSET aerosols 2026, Part 1) and `f-NN.jpg` (remote sensing fundamentals, 2023). `NN` is the slide number. |
 | `kids/index.html` | *Air Detectives*, the kids' picture book. One self-contained page with no external data. |
-| `notebooks/hands_on.ipynb` | The Part 3 walkthrough as a notebook (opens in Google Colab from the site). Keep its cells in sync with `PY` in `sections.js`. |
+| `notebooks/hands_on.ipynb` | The Part 4 walkthrough as a notebook (opens in Google Colab from the site). Keep its cells in sync with `PY` in `sections.js`. |
 | `tools/` | Scripts that rebuild `data/tempo-data.js` from the original files. |
 
 ## Editing content
@@ -83,7 +84,7 @@ The scene uses TEMPO L2 V04 granules `TEMPO_HCHO_L2`, `TEMPO_NO2_L2` and `TEMPO_
 ## What is real and what is illustrative
 
 - **Real:** TEMPO pixels, cloud fraction, NO₂, HCHO, ozone profile, boundary-layer height, sun and viewing angles, building and river geometry, and the Pandora site location.
-- **Illustrative, and labeled as such on the page:** the aerosol layer, the research aircraft and lidar curtain, the pixel grids of other sensors, the simplified spectrum and retrieval models (the page explains what they simplify), and the orbit globe's timing (to scale in size, simplified in time), the mask builder and PM2.5 regression scenes (the regression itself follows the product documentation), and the illustrative curves in Part 2. The quality-flag figure in Part 2 uses the real scan. The TEMPO files used are trace-gas products and contain no aerosol data.
+- **Illustrative, and labeled as such on the page:** the aerosol layer, the research aircraft and lidar curtain, the pixel grids of other sensors, the simplified spectrum and retrieval models (the page explains what they simplify), and the orbit globe's timing (to scale in size, simplified in time), the mask builder and PM2.5 regression scenes (the regression itself follows the product documentation), the toy absorption cross-section in Part 2, and the illustrative curves in Part 3. The quality-flag figure in Part 3 uses the real scan, and Part 2's Pandora figures use real Pandora 257 files (August 27, 2026; all readings are flagged not-assured). The TEMPO files used are trace-gas products and contain no aerosol data.
 
 ## Credits
 
@@ -95,5 +96,5 @@ The scene uses TEMPO L2 V04 granules `TEMPO_HCHO_L2`, `TEMPO_NO2_L2` and `TEMPO_
 - Pandora site location: Pandonia Global Network.
 - Map data: © OpenStreetMap contributors, available under the Open Database License (ODbL).
 - World land outline and North America map: Natural Earth (public domain), via the `world-atlas`, `us-atlas` and `@geo-maps` packages.
-- Product details for Part 3: TEMPO AOD/ALH, TEMPO-ABI ADP and ABI ADP users' guides (NOAA STAR).
+- Product details for Part 4: TEMPO AOD/ALH, TEMPO-ABI ADP and ABI ADP users' guides (NOAA STAR).
 - 3D rendering: [three.js](https://threejs.org) r147 (MIT license).

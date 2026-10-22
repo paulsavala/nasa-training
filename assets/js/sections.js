@@ -16,7 +16,7 @@ const pathX = () => f1(() => V.airmass);
 const dl = t => `<span class="demo-link">${t}</span>`;
 
 // The scene every section starts from; sections override what they need.
-const BASE = { ground: "cloud", bars: false, ozone: false, cut: false, ozMin: 0, ozMax: 66, ozOpacity: 1, pbl: true, rays: true, vex: 5,
+const BASE = { scan: false, ground: "cloud", bars: false, ozone: false, cut: false, ozMin: 0, ozMax: 66, ozOpacity: 1, pbl: true, rays: true, vex: 5,
   aer: true, aerType: "smoke", aod: 0.8, alh: 0.9, thick: 1.2, aerBox: false, radius: 25, tgrid: false, abi: false, plane: false, lidar: false, fp: "none", view: "overview" };
 const NEAR = { aerType: "smoke", aod: 0.8, alh: 0.9, thick: 1.2 };
 const ALOFT = { aerType: "smoke", aod: 0.6, alh: 4.5, thick: 1.5 };
@@ -1031,7 +1031,7 @@ function initAodSpectrum() {
 }
 
 // =====================================================================
-// Part 2.1: columns vs. what you breathe
+// Part 3.1: columns vs. what you breathe
 // =====================================================================
 function columnLabHtml() {
   return fig("cl", `<div class="trybar" style="margin-top:0" role="group" aria-label="Times of day"><span class="lab">Try:</span>
@@ -1087,7 +1087,7 @@ function initColumnLab() {
 }
 
 // =====================================================================
-// Part 2.2: matching a ground instrument to a satellite pixel, in space and time
+// Part 3.2: matching a ground instrument to a satellite pixel, in space and time
 // =====================================================================
 function matchMapHtml() {
   return fig("mm", `<svg class="fig wide" id="mm-svg" viewBox="0 0 620 380" role="img" aria-label="Map of TEMPO pixels around St. Edward's University with the Pandora site and the ground track of its line of sight to the Sun."></svg>
@@ -1165,7 +1165,7 @@ function initMatchTime() {
 }
 
 // =====================================================================
-// Part 2.3: a day of measurements, and the UTC trap
+// Part 3.3: a day of measurements, and the UTC trap
 // =====================================================================
 function dayLabHtml() {
   return fig("dl", `<svg class="fig wide" id="dl-svg" viewBox="0 0 620 300" role="img" aria-label="One day of NO2 over Austin and when each instrument samples it."></svg>
@@ -1221,7 +1221,7 @@ function initDayLab() {
 }
 
 // =====================================================================
-// Part 2.4: inside a TEMPO file, and quality flags on the real scan
+// Part 3.4: inside a TEMPO file, and quality flags on the real scan
 // =====================================================================
 function fileAnatomyHtml() {
   const part = (t, d, cls = "") => `<span class="fn-part ${cls}"><b>${t}</b><i>${d}</i></span>`;
@@ -1275,7 +1275,234 @@ function initQaLab() {
 }
 
 // =====================================================================
-// Part 3: hands-on Python (code cells are kept in sync with notebooks/hands_on.ipynb)
+// Part 2: Pandora, the view from the ground (St. Edward's Pandora 257)
+// =====================================================================
+// Pandora 257 (St. Edward's University), local day Aug 27, 2026 (CDT), from PGN L2 files rnvh3 and rout2 (p1-8).
+// NO2 rows: [local hour, SZA, SAA, trop column (1e15 molec/cm2), uncertainty, qa, surface NO2 (ppb, at 298 K / 1 atm), heterogeneity flag, max horizontal distance (km)]
+// O3 rows: [local hour, SZA, SAA, total column (DU), air mass factor, qa, AOD estimate at fit-window center]
+const P257 = {"no2":[[7.5114,85.42,81.16,3.838,0.243,12,4.02,0,13.47],[7.9694,79.53,84.53,4.239,0.098,12,4.56,0,13.16],[8.095,77.91,85.45,3.929,0.079,12,4.37,0,13.87],[8.2628,75.74,86.68,3.025,0.09,12,4.69,0,13.79],[8.5119,72.51,88.53,6.345,0.075,11,7.16,0,14.03],[8.6292,71.0,89.41,7.103,0.058,11,8.5,0,14.55],[8.7894,68.92,90.62,7.137,0.058,11,11.48,0,14.77],[9.0294,65.81,92.47,7.213,0.049,11,15.9,0,14.6],[9.1575,64.16,93.48,8.112,0.046,11,15.09,0,13.49],[9.295,62.38,94.59,6.164,0.059,10,12.76,0,13.13],[9.4406,60.5,95.78,5.967,0.04,11,12.59,0,12.53],[9.5828,58.67,96.98,6.2,0.05,11,11.76,0,12.6],[9.9886,53.47,100.59,6.098,0.044,12,10.74,0,13.2],[10.1589,51.31,102.22,6.052,0.045,10,9.98,0,13.18],[10.3292,49.16,103.92,6.12,0.045,10,9.73,0,12.93],[10.4992,47.03,105.72,6.481,0.05,10,10.63,0,13.07],[10.6722,44.88,107.65,5.475,0.051,10,8.65,0,12.69],[10.9636,41.32,111.2,5.361,0.053,10,5.28,0,12.35],[11.1339,39.28,113.48,3.27,0.048,10,3.58,0,13.06],[11.3042,37.28,115.94,2.978,0.047,10,3.17,0,12.96],[11.4742,35.32,118.6,2.437,0.049,10,2.68,0,12.97],[11.6872,32.94,122.27,2.489,0.044,10,2.36,0,12.88],[11.9919,29.72,128.33,2.128,0.046,10,1.81,0,12.53],[12.1617,28.04,132.2,2.325,0.046,10,1.57,0,12.46],[12.3317,26.47,136.48,2.129,0.049,10,1.46,0,12.28],[12.5017,25.02,141.21,1.578,0.049,10,1.32,0,12.35],[12.7144,23.42,147.81,1.449,0.049,10,1.35,0,12.31],[13.0183,21.64,158.61,2.126,0.05,10,1.28,0,12.22],[13.1889,20.96,165.29,1.739,0.049,11,1.19,0,12.08],[13.3592,20.53,172.3,1.75,0.049,11,1.1,0,11.96],[13.53,20.37,179.51,1.933,0.049,11,1.31,0,11.84],[13.7428,20.57,188.49,2.094,0.052,11,0.92,0,10.99],[14.0475,21.58,200.73,2.341,0.047,11,0.8,0,10.43],[14.2181,22.47,207.02,3.458,0.044,11,1.1,0,11.36],[14.3761,23.49,212.4,3.761,0.047,11,1.38,0,11.47],[14.5206,24.56,216.95,2.67,0.047,11,1.27,0,11.28],[14.7336,26.34,223.0,3.615,0.048,11,1.25,0,11.73],[14.9969,28.81,229.51,4.559,0.048,11,1.25,0,11.32],[15.1681,30.55,233.23,6.377,0.054,11,1.44,0,10.02],[15.3403,32.38,236.63,2.972,0.062,11,1.15,0,10.58],[15.4483,33.56,238.6,1.13,0.056,11,1.66,0,12.76],[15.5992,35.25,241.17,2.259,0.06,11,1.18,0,12.24],[15.8547,38.21,245.1,5.714,0.056,11,2.05,0,11.25],[16.0272,40.26,247.5,5.926,0.059,11,1.38,0,10.92],[16.1553,41.8,249.17,5.053,0.061,11,2.11,0,12.58],[16.2633,43.12,250.51,4.876,0.069,11,2.18,0,11.14],[16.4217,45.07,252.38,5.834,0.061,11,2.5,0,11.76],[16.7292,48.9,255.72,5.991,0.055,11,3.25,0,13.69],[16.8408,50.31,256.85,6.093,0.079,12,3.44,0,12.72],[16.9517,51.71,257.94,6.963,0.084,11,3.86,0,13.13],[17.0692,53.2,259.06,9.998,0.176,12,3.66,0,7.96],[17.29,56.03,261.08,2.878,0.183,12,1.52,0,12.66],[17.4414,57.97,262.4,5.321,0.178,12,1.58,0,13.52],[17.5883,59.86,263.65,8.292,0.203,12,2.48,0,12.71],[17.7333,61.73,264.85,7.081,0.301,12,2.54,0,11.77],[18.0294,65.57,267.21,9.33,0.547,12,1.83,0,7.11],[18.1783,67.49,268.37,-8.202,0.605,12,0.67,0,4.65],[18.3817,70.13,269.92,-11.13,0.459,12,2.87,0,6.71],[18.6783,73.98,272.13,-8.355,0.254,12,1.58,0,8.05],[18.8153,75.75,273.14,-3.02,0.177,12,3.11,0,9.73],[18.9919,78.04,274.44,-0.326,0.133,12,2.62,0,11.02],[19.2269,81.07,276.16,3.643,0.123,12,2.79,0,11.43],[19.5806,85.62,278.76,2.891,0.112,12,4.23,0,14.16]],"o3":[[9.0569,65.45,92.69,284.6,2.361,12,1.191],[9.1925,63.7,93.76,268.5,2.22,12,2.619],[9.3211,62.04,94.8,284.0,2.103,12,0.494],[9.4014,61.0,95.46,282.0,2.036,12,2.079],[9.4739,60.07,96.06,284.1,1.98,12,0.878],[9.6181,58.21,97.28,277.0,1.878,12,3.042],[9.6944,57.23,97.94,254.0,1.829,12,3.589],[10.0217,53.05,100.9,284.2,1.652,12,0.332],[10.1075,51.96,101.72,284.3,1.612,10,0.324],[10.1922,50.89,102.55,284.3,1.576,12,0.425],[10.2778,49.81,103.4,284.1,1.541,12,0.456],[10.3622,48.74,104.26,284.3,1.508,10,0.382],[10.4478,47.67,105.16,284.7,1.478,12,0.399],[10.5961,45.82,106.79,283.5,1.429,12,3.011],[10.7414,44.03,108.45,283.5,1.386,12,2.015],[10.8878,42.24,110.23,284.0,1.346,10,0.359],[10.9969,40.92,111.63,284.1,1.319,10,0.316],[11.0825,39.9,112.77,283.9,1.3,12,0.354],[11.1672,38.89,113.94,284.1,1.281,10,0.326],[11.2528,37.88,115.17,284.0,1.264,10,0.35],[11.3375,36.89,116.44,284.0,1.247,12,0.674],[11.4228,35.91,117.77,284.7,1.232,12,0.52],[11.5078,34.94,119.15,284.4,1.217,12,0.487],[11.5892,34.03,120.53,284.6,1.204,10,0.359],[11.5972,33.94,120.67,284.7,1.203,12,0.359],[11.7631,32.12,123.69,284.1,1.179,12,0.55],[11.9153,30.51,126.71,283.8,1.159,12,0.581],[12.0217,29.42,128.99,283.8,1.147,12,0.437],[12.0297,29.34,129.16,283.6,1.146,12,0.437],[12.1067,28.57,130.91,283.9,1.137,12,0.404],[12.1147,28.5,131.09,283.6,1.137,10,0.404],[12.1914,27.76,132.92,283.9,1.129,10,0.397],[12.1994,27.68,133.12,283.8,1.128,10,0.397],[12.2764,26.97,135.04,284.4,1.121,10,0.405],[12.2844,26.89,135.25,284.6,1.12,10,0.405],[12.3614,26.2,137.27,283.8,1.113,10,0.276],[12.3694,26.13,137.49,283.9,1.113,10,0.276],[12.4464,25.47,139.62,284.6,1.107,10,0.228],[12.4544,25.41,139.85,284.0,1.106,10,0.228],[12.5314,24.78,142.08,284.6,1.1,10,0.23],[12.5392,24.72,142.32,284.6,1.1,10,0.23],[12.6167,24.12,144.68,284.7,1.095,10,0.233],[12.6247,24.06,144.93,284.7,1.094,10,0.233],[12.7867,22.94,150.24,284.7,1.085,10,0.227],[12.7947,22.89,150.51,284.8,1.085,10,0.227],[12.9397,22.04,155.66,284.8,1.078,10,0.179],[12.9475,21.99,155.96,284.6,1.078,10,0.179],[13.0483,21.5,159.75,284.9,1.074,10,0.158],[13.0561,21.47,160.06,285.1,1.074,10,0.158],[13.1336,21.15,163.08,285.0,1.072,10,0.173],[13.1417,21.12,163.4,285.2,1.071,10,0.173],[13.2186,20.86,166.49,285.0,1.07,11,0.19],[13.2267,20.84,166.82,284.6,1.069,11,0.19],[13.3042,20.64,170.0,285.1,1.068,11,0.181],[13.3119,20.62,170.33,285.2,1.068,11,0.181],[13.3892,20.48,173.56,285.6,1.067,11,0.188],[13.3972,20.47,173.89,285.3,1.067,11,0.188],[13.4747,20.39,177.17,285.5,1.066,11,0.188],[13.4828,20.39,177.51,285.5,1.066,11,0.188],[13.5597,20.38,180.78,285.7,1.066,11,0.198],[13.5678,20.38,181.12,285.7,1.066,11,0.198],[13.645,20.43,184.39,285.8,1.067,11,0.206],[13.6531,20.44,184.73,285.8,1.067,11,0.206],[13.815,20.73,191.49,285.3,1.069,11,0.27],[13.8231,20.76,191.82,285.6,1.069,11,0.27],[13.9672,21.23,197.62,285.9,1.072,11,0.318],[13.975,21.26,197.93,285.7,1.072,11,0.318],[14.0772,21.72,201.87,286.3,1.076,11,0.369],[14.0853,21.76,202.17,286.0,1.076,11,0.369],[14.1625,22.16,205.02,285.8,1.079,11,0.498],[14.1706,22.2,205.31,286.3,1.079,11,0.498],[14.2519,22.68,208.21,286.7,1.083,12,0.896],[14.3306,23.18,210.9,288.7,1.087,12,2.268],[14.4044,23.69,213.33,285.1,1.091,12,3.745],[14.4681,24.16,215.35,286.9,1.095,12,0.633],[14.5503,24.8,217.84,286.3,1.101,11,0.416],[14.5583,24.86,218.08,286.7,1.101,11,0.416],[14.6392,25.52,220.42,287.4,1.107,12,0.522],[14.8025,26.96,224.8,288.6,1.121,12,2.379],[14.9264,28.12,227.87,288.2,1.133,12,2.494],[15.0267,29.11,230.19,287.2,1.143,11,0.456],[15.0347,29.19,230.37,287.1,1.144,11,0.456],[15.1125,29.97,232.06,287.0,1.153,11,0.342],[15.1203,30.05,232.23,286.8,1.154,11,0.342],[15.1983,30.86,233.85,287.1,1.163,11,0.411],[15.2061,30.94,234.01,286.9,1.164,11,0.411],[15.2883,31.82,235.64,287.2,1.175,12,0.456],[15.8033,37.61,244.35,288.9,1.259,12,3.909],[15.8883,38.61,245.58,286.8,1.276,11,0.431],[15.9753,39.64,246.8,287.3,1.295,11,0.498],[16.4983,46.02,253.24,286.7,1.434,12,1.102],[16.6503,47.91,254.9,286.9,1.485,12,2.092]]};
+const PGN_TX = [   // PGN sites in Texas. Austin and the three Houston-area sites with sample files use the coordinates in their L2 files; the rest are placed at their city (approximate).
+  ["St. Edward's (Austin)", 30.2285, -97.7544, true], ["Houston (UH)", 29.7200, -95.3400], ["Aldine", 29.9011, -95.3262], ["La Porte", 29.6721, -95.0647],
+  ["San Jacinto", 29.76, -95.08], ["Liberty", 30.06, -94.80], ["San Antonio", 29.42, -98.49], ["Corpus Christi", 27.77, -97.40], ["Waco", 31.55, -97.15],
+  ["Arlington", 32.73, -97.11], ["Tyler", 32.35, -95.30], ["Palo Duro", 34.94, -101.66]];
+const DU_PER_MOLM2 = 2241.4;   // 1 mol/m² of ozone = 2241 Dobson units
+
+function pandoraIntroHtml() {
+  const lab = (x, y, t, anchor = "start") => `<text x="${x}" y="${y}" text-anchor="${anchor}">${t}</text>`;
+  const lead = (x1, y1, x2, y2) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:var(--muted);stroke-width:1"/>`;
+  const inst = `<svg class="fig" viewBox="0 0 320 300" role="img" aria-label="Diagram of a Pandora: a sun tracker on a tripod turns an optical head toward the Sun or the sky; a fiber carries the light to a spectrometer in a weatherproof box.">
+    <circle cx="48" cy="46" r="20" style="fill:var(--sun)"/>
+    <line x1="64" y1="58" x2="140" y2="118" style="stroke:var(--sun);stroke-width:2.5;stroke-dasharray:6 4"/>
+    <g style="stroke:var(--muted);stroke-width:2.5"><line x1="160" y1="160" x2="122" y2="250"/><line x1="160" y1="160" x2="198" y2="250"/><line x1="160" y1="160" x2="160" y2="250"/></g>
+    <rect x="140" y="138" width="40" height="26" rx="4" style="fill:var(--card);stroke:var(--fg);stroke-width:1.5"/>
+    <g transform="translate(160 132) rotate(-38)"><rect x="-34" y="-9" width="44" height="18" rx="4" style="fill:var(--accent-bright)"/><circle cx="-34" cy="0" r="6" style="fill:var(--fg)"/></g>
+    <path d="M180 154 C 230 160, 236 200, 238 214" style="fill:none;stroke:var(--warn-fg);stroke-width:2.2"/>
+    <rect x="212" y="214" width="78" height="40" rx="5" style="fill:var(--card);stroke:var(--fg);stroke-width:1.5"/>
+    <line x1="10" y1="252" x2="310" y2="252" style="stroke:var(--fg);stroke-width:2"/>
+    <text x="160" y="274" text-anchor="middle">rooftop</text>
+    ${lead(150, 108, 178, 74)}${lab(182, 62, "optical head")}${lab(182, 76, "(telescope + filters)")}
+    ${lead(182, 150, 214, 132)}${lab(218, 124, "sun tracker")}${lab(218, 138, "(turns in 2 axes)")}
+    ${lead(232, 184, 262, 184)}${lab(266, 180, "optical")}${lab(266, 194, "fiber")}
+    <text x="251" y="232" text-anchor="middle" class="strong">spectrometer</text><text x="251" y="246" text-anchor="middle">+ computer</text>
+    ${lab(64, 82, "direct sun", "end")}
+  </svg>`;
+  return `<figure class="retrieval" id="pi"><div class="pg-two">${inst}<svg class="fig" id="pi-map" viewBox="0 0 320 300" role="img" aria-label="Map of Pandonia Global Network sites in Texas, with the St. Edward's University Pandora in Austin highlighted."></svg></div>
+    <figcaption><span>Left: the parts of a Pandora. Right: Pandonia Global Network sites in Texas. The one on the roof at St. Edward's University is Pandora 257, site “AustinTX”. Houston has the densest cluster, from field campaigns studying its ship channel and petrochemical plants.</span><span class="note">Instrument drawing is schematic. Site markers for Austin, Houston (UH), Aldine and La Porte use the coordinates in their data files; other sites are placed at their city.</span></figcaption></figure>`;
+}
+function initPandoraIntro() {
+  const svg = document.getElementById("pi-map"); if (!svg || !window.NA_MAP) return;
+  const L0 = -107.2, L1 = -93.2, B0 = 25.6, B1 = 36.9, k = Math.cos(31 * RAD), sx = 300 / ((L1 - L0) * k), sy = 280 / (B1 - B0), s = Math.min(sx, sy);
+  const X = lo => 10 + (lo - L0) * k * s, Y = la => 290 - (la - B0) * s;
+  const near = ring => ring.some(([lo, la]) => lo > L0 - 3 && lo < L1 + 3 && la > B0 - 3 && la < B1 + 3);
+  const path = (ring, close) => "M" + ring.map(([lo, la]) => `${X(lo).toFixed(1)},${Y(la).toFixed(1)}`).join("L") + (close ? "Z" : "");
+  let g = `<defs><clipPath id="pi-clip"><rect x="10" y="10" width="300" height="280" rx="6"/></clipPath></defs><rect x="10" y="10" width="300" height="280" rx="6" style="fill:var(--accent-soft)"/><g clip-path="url(#pi-clip)">`;
+  g += `<path d="${NA_MAP.land.filter(near).map(r => path(r, true)).join("")}" style="fill:var(--card);stroke:none"/>`;
+  g += `<path d="${NA_MAP.states.filter(near).map(r => path(r, false)).join("")}" style="fill:none;stroke:var(--rule);stroke-width:.8"/>`;
+  g += `<path d="${NA_MAP.borders.filter(near).map(r => path(r, false)).join("")}" style="fill:none;stroke:var(--muted);stroke-width:1.2"/></g>`;
+  PGN_TX.forEach(([n, la, lo, me]) => { if (!me) g += `<circle cx="${X(lo)}" cy="${Y(la)}" r="4" style="fill:var(--accent-bright);stroke:var(--panel);stroke-width:1"/>`; });
+  const [, la, lo] = PGN_TX[0];
+  g += `<circle cx="${X(lo)}" cy="${Y(la)}" r="7" style="fill:var(--sun);stroke:var(--fg);stroke-width:1.5"/><text x="${X(lo) - 10}" y="${Y(la) - 10}" text-anchor="end" class="strong">St. Edward's</text>`;
+  g += `<text x="${X(-95.2)}" y="${Y(29.25)}" text-anchor="middle">Houston area</text><text x="${X(-95.2)}" y="${Y(29.25) + 13}" text-anchor="middle">(5 sites)</text>`;
+  [["San Antonio", -98.49, 29.42, "end", -8, 4], ["Corpus Christi", -97.40, 27.77, "end", -8, 4], ["Waco", -97.15, 31.55, "start", 8, 4], ["Arlington", -97.11, 32.73, "start", 8, 4], ["Tyler", -95.30, 32.35, "start", 8, 4], ["Palo Duro", -101.66, 34.94, "start", 8, 4]]
+    .forEach(([n, lo2, la2, a, dx, dy]) => { g += `<text x="${X(lo2) + dx}" y="${Y(la2) + dy}" text-anchor="${a}">${n}</text>`; });
+  g += `<text x="300" y="282" text-anchor="end" style="fill:var(--muted)">Gulf of Mexico</text>`;
+  svg.innerHTML = g;
+}
+
+// ---- Section: two ways of looking ----
+function lookTimelineHtml() {
+  return fig("lt", `<svg class="fig wide" id="lt-svg" viewBox="0 0 620 170" role="img" aria-label="When the St. Edward's Pandora measured on August 27, 2026: direct-sun ozone readings through the middle of the day and sky-scan NO2 readings from sunrise to sunset."></svg>`,
+    "Every measurement the St. Edward's Pandora reported on August 27, 2026 (local time). Direct-sun readings come every few minutes, but only while the tracker has a clear view of the Sun; sky scans take longer, about one every 10 minutes, and continue at low sun, right up to TEMPO's evening scan.",
+    "Real data: PGN files rnvh3 (sky scans) and rout2 (direct sun) for Pandora 257. Marker color shows each reading's quality class.");
+}
+function initLookTimeline() {
+  const svg = document.getElementById("lt-svg"); if (!svg) return;
+  const X = h => 150 + (h - 7) / 13 * 455, qc = q => q % 10 === 0 ? "var(--ok)" : q % 10 === 1 ? "var(--sun)" : "var(--abi)";
+  let g = "";
+  for (let h = 7; h <= 20; h++) g += `<line x1="${X(h)}" x2="${X(h)}" y1="18" y2="128" style="stroke:var(--line)"/><text x="${X(h)}" y="144" text-anchor="middle">${h % 2 ? "" : (h > 12 ? h - 12 : h) + (h >= 12 ? " pm" : " am")}</text>`;
+  [["Direct sun", "total ozone", 48, P257.o3], ["Sky scans", "NO₂ (+ water vapor)", 98, P257.no2]].forEach(([a, b, y, rows]) => {
+    g += `<text x="140" y="${y - 2}" text-anchor="end" class="strong">${a}</text><text x="140" y="${y + 12}" text-anchor="end">${b}</text>`;
+    rows.forEach(r => { g += `<line x1="${X(r[0])}" x2="${X(r[0])}" y1="${y - 12}" y2="${y + 12}" style="stroke:${qc(r[5])};stroke-width:2"/>`; });
+  });
+  const tT = 19 + 15.8 / 60;
+  g += `<line x1="${X(tT)}" x2="${X(tT)}" y1="14" y2="128" style="stroke:var(--sat);stroke-width:2;stroke-dasharray:5 3"/><text x="${X(tT) - 4}" y="22" text-anchor="end" class="strong" style="fill:var(--sat)">TEMPO scan</text>`;
+  g += `<g transform="translate(150 162)"><rect x="0" y="-8" width="10" height="10" style="fill:var(--ok)"/><text x="14" y="1">high quality</text><rect x="100" y="-8" width="10" height="10" style="fill:var(--sun)"/><text x="114" y="1">medium</text><rect x="180" y="-8" width="10" height="10" style="fill:var(--abi)"/><text x="194" y="1">low</text></g>`;
+  svg.innerHTML = g;
+}
+function sunControlHtml() {
+  return `<div class="retrieval" id="ps"><div class="rt-controls">${slider("ps-t", "Time of day, Aug 27 (CDT)", 7, 19.6, 0.05)}</div><div class="al-out" id="ps-out" aria-live="polite"></div></div>`;
+}
+function initSunControl() {
+  const $ = id => document.getElementById(id); if (!$("ps")) return;
+  const o = { t: 19 + 15.8 / 60 }, D0 = Date.UTC(2026, 7, 27), PBL = 1.5;
+  const fmtT = h => { const hh = Math.floor(h), m = Math.round((h - hh) * 60); return `${(hh % 12) || 12}:${String(m % 60).padStart(2, "0")} ${hh >= 12 ? "pm" : "am"}`; };
+  const sync = bindSliders(o, [["ps-t", "t", fmtT]], () => draw(true));
+  function draw(move) {
+    sync();
+    const sp = sunPos(D0 + (o.t + 5) * 3600000, PANDORA.lat, PANDORA.lon), el = sp.el;
+    if (move && V && V.setSun) V.setSun(90 - el, sp.az);
+    const dir = ["north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest"][Math.round(sp.az / 45) % 8];
+    $("ps-out").innerHTML = el <= 0.5 ? `<div><span class="al-k">Sun</span><b>below the horizon</b><span class="al-s">no direct-sun measurements</span></div>` :
+      `<div><span class="al-k">Sun</span><b>${el.toFixed(0)}° up</b><span class="al-s">toward the ${dir}</span></div>
+       <div><span class="al-k">Direct-sun path</span><b>${(1 / Math.cos((90 - el) * RAD)).toFixed(1)}×</b><span class="al-s">the vertical amount of air</span></div>
+       <div><span class="al-k">Leaves a ${PBL} km layer</span><b>${(PBL / Math.tan(el * RAD)).toFixed(1)} km</b><span class="al-s">from the roof, sideways</span></div>`;
+  }
+  draw(false);
+}
+
+// ---- Section: from a spectrum to a column ----
+function doasHtml() {
+  return fig("bl", `<svg class="fig wide" id="bl-svg" viewBox="0 0 620 330" role="img" aria-label="A toy NO2 absorption fingerprint: the light reaching the instrument, and the straight-line fit of its logarithm against the cross-section, whose slope is the slant column."></svg>
+    <div class="al-out" id="bl-out" aria-live="polite"></div>
+    <div class="rt-controls">${slider("bl-s", "NO₂ along the light path (slant column, × 10¹⁶ molecules/cm²)", 0, 8, 0.1)}
+      <div class="row"><input type="checkbox" id="bl-noise"><label for="bl-noise" style="color:var(--fg)">Add measurement noise</label></div></div>`,
+    "Left: the light that arrives, as a fraction of the light that would arrive with no NO₂. Each dip is NO₂'s fingerprint, and the dips deepen as the amount grows. Right: take the logarithm and plot it against NO₂'s absorption strength at each wavelength. The points fall on a line through the origin whose slope is the amount of NO₂ along the path. Add noise: the points scatter, but a least-squares fit still recovers the slope, with an uncertainty.",
+    "Toy cross-section with NO₂-like bands, exaggerated so the dips are visible. Real fits also remove a smooth polynomial (for scattering by air and particles) and fit several gases at once.");
+}
+function initDoas() {
+  const $ = id => document.getElementById(id); if (!$("bl")) return;
+  const o = { s: 3, noise: false };
+  const lam = Array.from({ length: 131 }, (_, i) => 400 + i * 0.5);
+  const sig = lam.map(l => { let v = 0.18 + 0.12 * Math.sin((l - 400) / 18); [404, 409, 413.5, 418, 423, 428, 433, 438.5, 443, 448.5, 453, 458.5, 463].forEach((c, j) => { v += (0.75 + 0.25 * Math.cos(j)) * Math.exp(-((l - c) ** 2) / (2 * 1.3 ** 2)); }); return v * 0.12; });   // ×1e-16 cm², exaggerated
+  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, gauss = () => { let u = 0; for (let i = 0; i < 6; i++) u += rnd(); return (u - 3) / Math.sqrt(0.5); };
+  const eps = lam.map(() => gauss());
+  const sync = bindSliders(o, [["bl-s", "s", v => v.toFixed(1)]], () => draw());
+  $("bl-noise").addEventListener("change", e => { o.noise = e.target.checked; draw(); });
+  const XL = l => 50 + (l - 400) / 65 * 250, YL = v => 30 + (1 - v) / 0.8 * 250;
+  const sMax = Math.max(...sig), XR = v => 370 + v / sMax * 230, YR = v => 280 - v / (sMax * 8) * 250;
+  function draw() {
+    sync();
+    const tau = sig.map((v, i) => v * o.s + (o.noise ? 0.012 * eps[i] : 0)), T = tau.map(t => Math.exp(-t));
+    const slope = tau.reduce((a, t, i) => a + t * sig[i], 0) / sig.reduce((a, v) => a + v * v, 0);
+    const res = tau.map((t, i) => t - slope * sig[i]), se = Math.sqrt(res.reduce((a, r) => a + r * r, 0) / (tau.length - 1) / sig.reduce((a, v) => a + v * v, 0));
+    let g = "";
+    [1, 0.8, 0.6, 0.4, 0.2].forEach(v => { g += `<line x1="50" x2="300" y1="${YL(v)}" y2="${YL(v)}" style="stroke:var(--line)"/><text x="44" y="${YL(v) + 3}" text-anchor="end">${v.toFixed(1)}</text>`; });
+    [400, 420, 440, 460].forEach(l => { g += `<text x="${XL(l)}" y="298" text-anchor="middle">${l}</text>`; });
+    g += `<text x="175" y="318" text-anchor="middle">wavelength (nm)</text><text x="14" y="155" transform="rotate(-90 14 155)" text-anchor="middle">light received, I / I₀</text>`;
+    g += `<polyline points="${lam.map((l, i) => `${XL(l).toFixed(1)},${YL(Math.max(0.2, T[i])).toFixed(1)}`).join(" ")}" style="fill:none;stroke:var(--accent-bright);stroke-width:2"/>`;
+    [0, 0.25, 0.5, 0.75, 1, 1.25].filter(v => v <= sMax * 8).forEach(v => { const y = YR(v); g += `<line x1="370" x2="600" y1="${y}" y2="${y}" style="stroke:var(--line)"/><text x="364" y="${y + 3}" text-anchor="end">${v.toFixed(2)}</text>`; });
+    g += `<text x="485" y="298" text-anchor="middle">NO₂ absorption strength σ(λ)</text><text x="485" y="318" text-anchor="middle" style="fill:var(--muted)">(toy units)</text><text x="330" y="155" transform="rotate(-90 330 155)" text-anchor="middle">ln(I₀ / I)</text>`;
+    tau.forEach((t, i) => { g += `<circle cx="${XR(sig[i]).toFixed(1)}" cy="${YR(Math.max(-0.05, t)).toFixed(1)}" r="2.4" style="fill:var(--accent-bright);opacity:.7"/>`; });
+    g += `<line x1="${XR(0)}" y1="${YR(0)}" x2="${XR(sMax)}" y2="${YR(slope * sMax)}" style="stroke:var(--sun);stroke-width:2.5"/><text x="${XR(sMax) - 4}" y="${Math.max(40, YR(slope * sMax) - 8)}" text-anchor="end" class="strong" style="fill:var(--sun)">slope = ${slope.toFixed(2)}</text>`;
+    $("bl-svg").innerHTML = g;
+    $("bl-out").innerHTML = `<div><span class="al-k">True slant column</span><b>${o.s.toFixed(1)}</b><span class="al-s">× 10¹⁶ molecules/cm²</span></div>
+      <div><span class="al-k">Fitted slope</span><b>${slope.toFixed(2)} ± ${(se).toFixed(2)}</b><span class="al-s">least squares through the origin</span></div>`;
+  }
+  draw();
+}
+function amfHtml() {
+  return fig("am", `<svg class="fig wide" id="am-svg" viewBox="0 0 620 300" role="img" aria-label="Slanted path through a layer, and the real air mass factors from the St. Edward's Pandora plotted against solar zenith angle with the curve 1/cos."></svg>
+    <div class="rt-controls">${slider("am-z", "Solar zenith angle θ", 0, 85, 1)}</div>`,
+    "Left: sunlight crossing a layer of thickness h at zenith angle θ travels h / cos θ, so it meets 1 / cos θ times the gas a vertical path would. Right: the air mass factors the St. Edward's Pandora used for ozone on August 27 (dots) against 1 / cos θ (line). They match within 2%; the small shortfall at low Sun comes from Earth's curvature, which the flat-layer picture ignores.",
+    "Real data: o3_amf from Pandora 257's direct-sun ozone file (rout2) for August 27, 2026.");
+}
+function initAmf() {
+  const $ = id => document.getElementById(id); if (!$("am")) return;
+  const o = { z: 60 };
+  const sync = bindSliders(o, [["am-z", "z", v => v + "°"]], () => draw());
+  const XR = z => 360 + z / 90 * 240, YR = a => 260 - (a - 1) / 5 * 230;
+  function draw() {
+    sync();
+    const th = o.z * RAD, h = 70, top = 120, bot = top + h, x0 = 230;
+    let g = `<rect x="20" y="${top}" width="260" height="${h}" style="fill:var(--accent-soft)"/><text x="26" y="${top + 16}">gas layer</text>`;
+    g += `<line x1="20" x2="280" y1="${bot}" y2="${bot}" style="stroke:var(--fg);stroke-width:2"/><circle cx="${x0}" cy="${bot}" r="5" style="fill:var(--sun);stroke:var(--fg)"/>`;
+    g += `<line x1="${x0}" x2="${x0}" y1="${bot}" y2="${top}" style="stroke:var(--muted);stroke-width:2;stroke-dasharray:4 3"/><text x="${x0 + 6}" y="${top + h / 2 + 4}">h</text>`;
+    const xe = x0 - Math.tan(th) * h, xs = Math.max(26, xe), ye = xe < 26 ? bot - (x0 - 26) / Math.tan(th) : top;
+    g += `<line x1="${x0}" y1="${bot}" x2="${xs}" y2="${ye}" style="stroke:var(--sun);stroke-width:3"/>`;
+    const lx = x0 - Math.sin(th) * 160, ly = bot - Math.cos(th) * 160;
+    g += `<line x1="${xs}" y1="${ye}" x2="${Math.max(30, lx)}" y2="${Math.max(30, ly)}" style="stroke:var(--sun);stroke-width:1.5;stroke-dasharray:5 4"/>`;
+    g += `<text x="150" y="${bot + 26}" text-anchor="middle">path through the layer = h / cos θ = <tspan class="strong">${(1 / Math.cos(th)).toFixed(2)} h</tspan></text>`;
+    g += `<path d="M ${x0} ${bot - 40} A 40 40 0 0 0 ${x0 - 40 * Math.sin(th)} ${bot - 40 * Math.cos(th)}" style="fill:none;stroke:var(--fg)"/><text x="${x0 - 14}" y="${bot - 46}">θ</text>`;
+    [1, 2, 3, 4, 5, 6].forEach(a => { g += `<line x1="360" x2="600" y1="${YR(a)}" y2="${YR(a)}" style="stroke:var(--line)"/><text x="354" y="${YR(a) + 3}" text-anchor="end">${a}</text>`; });
+    [0, 30, 60, 90].forEach(z => { g += `<text x="${XR(z)}" y="278" text-anchor="middle">${z}°</text>`; });
+    g += `<text x="480" y="296" text-anchor="middle">solar zenith angle θ</text><text x="326" y="145" transform="rotate(-90 326 145)" text-anchor="middle">air mass factor</text>`;
+    const pts = []; for (let z = 0; z <= 80.5; z += 0.5) pts.push(`${XR(z).toFixed(1)},${YR(1 / Math.cos(z * RAD)).toFixed(1)}`);
+    g += `<polyline points="${pts.join(" ")}" style="fill:none;stroke:var(--muted);stroke-width:2"/><text x="${XR(71) - 8}" y="${YR(3.25)}" text-anchor="end">1 / cos θ</text>`;
+    P257.o3.forEach(r => { g += `<circle cx="${XR(r[1]).toFixed(1)}" cy="${YR(r[4]).toFixed(1)}" r="3" style="fill:var(--accent-bright)"/>`; });
+    g += `<line x1="${XR(o.z)}" x2="${XR(o.z)}" y1="30" y2="260" style="stroke:var(--sun);stroke-width:1.5"/><circle cx="${XR(o.z)}" cy="${YR(Math.min(6.2, 1 / Math.cos(th)))}" r="5" style="fill:var(--sun)"/>`;
+    $("am-svg").innerHTML = g;
+  }
+  draw();
+}
+
+// ---- Section: products and quality flags (real day at St. Edward's) ----
+function pdayHtml() {
+  return fig("pd", `<svg class="fig wide" id="pd-svg" viewBox="0 0 620 320" role="img" aria-label="One day of real measurements from the St. Edward's Pandora, filtered by quality class, with TEMPO's value at its evening scan."></svg>
+    <div class="al-out" id="pd-out" aria-live="polite"></div>
+    <div class="rt-controls">
+      <div class="row"><span id="pd-vL" style="color:var(--muted);min-width:9em">Show</span><div class="seg" role="group" aria-labelledby="pd-vL"><button type="button" id="pd-v0">NO₂, sky scans</button><button type="button" id="pd-v1">Total ozone, direct sun</button></div></div>
+      <div class="row"><span id="pd-qL" style="color:var(--muted);min-width:9em">Keep</span><div class="seg" role="group" aria-labelledby="pd-qL"><button type="button" id="pd-q0">All readings</button><button type="button" id="pd-q1">High + medium</button><button type="button" id="pd-q2">High only (0, 10)</button></div></div>
+    </div>`,
+    "August 27, 2026 at St. Edward's, local time, with ±1 uncertainty bars; triangles at the bottom are readings below the scale (negative, i.e. noise). Filter by quality class and watch how much of the day survives. The blue diamond is TEMPO's pixel over the campus from its 7:15 pm scan.",
+    "Real data: PGN rnvh3 and rout2 files for Pandora 257, and the TEMPO V04 NO₂ and ozone files used for the 3D scene. Pandora NO₂ converted from moles/m² (× 6.022 × 10¹⁹); ozone from moles/m² to Dobson units (× 2241).");
+}
+function initPday() {
+  const $ = id => document.getElementById(id); if (!$("pd")) return;
+  const o = { v: 0, q: 2 }, tT = 19 + 15.8 / 60;
+  const tempoPix = () => { if (!V || !V.PIX) return null; let best = null, bd = 1e9; V.PIX.forEach(p => { const d = Math.hypot((p.lon - PANDORA.lon) * Math.cos(PANDORA.lat * RAD), p.lat - PANDORA.lat); if (d < bd) { bd = d; best = p; } }); return best; };
+  const keep = qa => o.q === 0 || (o.q === 1 ? qa % 10 <= 1 : qa % 10 === 0);
+  const X = h => 60 + (h - 7) / 13 * 545, qc = q => q % 10 === 0 ? "var(--ok)" : q % 10 === 1 ? "var(--sun)" : "var(--abi)";
+  function draw() {
+    [0, 1].forEach(k => $("pd-v" + k).setAttribute("aria-pressed", String(o.v === k)));
+    [0, 1, 2].forEach(k => $("pd-q" + k).setAttribute("aria-pressed", String(o.q === k)));
+    const no2 = o.v === 0, rows = no2 ? P257.no2.map(r => [r[0], r[3], r[4], r[5]]) : P257.o3.map(r => [r[0], r[3], null, r[5]]);
+    const lo = no2 ? -2 : 250, hi = no2 ? 14 : 300, Y = v => 270 - (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo) * 245;
+    let g = "";
+    const ticks = no2 ? [-2, 0, 2, 4, 6, 8, 10, 12, 14] : [250, 260, 270, 280, 290, 300];
+    ticks.forEach(v => { g += `<line x1="60" x2="605" y1="${Y(v)}" y2="${Y(v)}" style="stroke:${v === 0 ? "var(--rule)" : "var(--line)"}"/><text x="54" y="${Y(v) + 3}" text-anchor="end">${v}</text>`; });
+    for (let h = 8; h <= 20; h += 2) g += `<text x="${X(h)}" y="290" text-anchor="middle">${(h % 12) || 12} ${h >= 12 ? "pm" : "am"}</text>`;
+    g += `<text x="16" y="148" transform="rotate(-90 16 148)" text-anchor="middle">${no2 ? "tropospheric NO₂ (× 10¹⁵ molecules/cm²)" : "total ozone (Dobson units)"}</text>`;
+    let n = 0, sum = 0;
+    rows.forEach(([h, v, u, qa]) => {
+      const k = keep(qa); if (k) { n++; sum += v; }
+      const op = k ? 1 : 0.18;
+      if (u !== null) g += `<line x1="${X(h)}" x2="${X(h)}" y1="${Y(v - u)}" y2="${Y(v + u)}" style="stroke:${qc(qa)};stroke-width:1.2;opacity:${op}"/>`;
+      g += v < lo ? `<path d="M ${X(h) - 4} ${Y(lo) - 3} L ${X(h) + 4} ${Y(lo) - 3} L ${X(h)} ${Y(lo) + 4} Z" style="fill:${qc(qa)};opacity:${op}"/>` : `<circle cx="${X(h).toFixed(1)}" cy="${Y(v).toFixed(1)}" r="3.4" style="fill:${qc(qa)};opacity:${op}"/>`;
+    });
+    const tp = tempoPix(), tv = tp ? (no2 ? tp.no2_trop / 1e15 : null) : null, tO3 = 290.5;
+    const tval = no2 ? tv : tO3;
+    g += `<line x1="${X(tT)}" x2="${X(tT)}" y1="22" y2="270" style="stroke:var(--sat);stroke-width:1.5;stroke-dasharray:5 3"/>`;
+    if (tval !== null) {
+      const off = tval > hi, yy = off ? 30 : Y(tval);
+      g += `<path d="M ${X(tT)} ${yy - 7} L ${X(tT) + 7} ${yy} L ${X(tT)} ${yy + 7} L ${X(tT) - 7} ${yy} Z" style="fill:var(--sat);stroke:var(--panel);stroke-width:1.5"/>`;
+      g += `<text x="${X(tT) - 12}" y="${yy + 4}" text-anchor="end" class="strong" style="fill:var(--sat)">TEMPO ${no2 ? tval.toFixed(1) : tval.toFixed(0) + " DU"}${off ? " ↑ (off scale)" : ""}</text>`;
+    }
+    g += `<g transform="translate(70 312)"><rect x="0" y="-8" width="10" height="10" style="fill:var(--ok)"/><text x="14" y="1">high (0, 10)</text><rect x="100" y="-8" width="10" height="10" style="fill:var(--sun)"/><text x="114" y="1">medium (1, 11)</text><rect x="220" y="-8" width="10" height="10" style="fill:var(--abi)"/><text x="234" y="1">low (2, 12)</text></g>`;
+    $("pd-svg").innerHTML = g;
+    const last = P257.no2.reduce((b, r) => Math.abs(r[0] - tT) < Math.abs(b[0] - tT) ? r : b);
+    const qn = { 0: "high", 1: "medium", 2: "low" };
+    $("pd-out").innerHTML = `<div><span class="al-k">Readings kept</span><b>${n} of ${rows.length}</b><span class="al-s">all flagged not-assured (10–12)</span></div>
+      <div><span class="al-k">Day average kept</span><b>${n ? (sum / n).toFixed(no2 ? 1 : 0) : "—"}</b><span class="al-s">${no2 ? "× 10¹⁵ molecules/cm²" : "Dobson units"}</span></div>` +
+      (no2 ? `<div><span class="al-k">At TEMPO's scan</span><b>${last[3].toFixed(1)} vs ${tv !== null ? tv.toFixed(1) : "—"}</b><span class="al-s">Pandora (${qn[last[5] % 10]} quality, ${Math.floor(last[0]) - 12}:${String(Math.floor((last[0] % 1) * 60)).padStart(2, "0")} pm) vs TEMPO (flag ${tp ? tp.no2_q : "–"}, cloud ${tp ? tp.cloud.toFixed(1) : "–"})</span></div>`
+        : `<div><span class="al-k">TEMPO total ozone</span><b>${tO3.toFixed(0)} DU</b><span class="al-s">pixel over campus, 7:15 pm</span></div>`);
+  }
+  [0, 1].forEach(k => $("pd-v" + k).addEventListener("click", () => { o.v = k; draw(); }));
+  [0, 1, 2].forEach(k => $("pd-q" + k).addEventListener("click", () => { o.q = k; draw(); }));
+  draw();
+}
+
+// =====================================================================
+// Part 4: hands-on Python (code cells are kept in sync with notebooks/hands_on.ipynb)
 // =====================================================================
 const PY = {"cells": {"setup": "!pip install -q git+https://github.com/paulsavala/pandora-tools earthaccess xarray netCDF4 h5netcdf pyproj s3fs\nimport numpy as np, pandas as pd, xarray as xr, matplotlib.pyplot as plt\nimport pandora_tools as pdt", "pandora": "client = pdt.PandoraClient()\npandora = client.fetch(\"AustinTX\", 257, \"2026-08-27\", \"2026-08-28\", products=\"rnvh3\")\ngood = pandora[pandora[\"no2_qa\"].isin([0, 10])]        # assured or not-assured HIGH quality only\n# Pandora reports moles per m²; TEMPO reports molecules per cm². 1 mol/m² = 6.022e19 molecules/cm².\ngood = good.assign(no2_trop=good[\"no2_trop_col\"] * 6.022e19)\nlat0, lon0 = float(good[\"latitude\"].iloc[0]), float(good[\"longitude\"].iloc[0])\ngood.plot(x=\"local_time\", y=\"no2_trop\", style=\".\", ylabel=\"NO₂ tropospheric column (molecules/cm²)\")", "tempo-search": "import earthaccess\nearthaccess.login()                                     # free NASA Earthdata account\nresults = earthaccess.search_data(short_name=\"TEMPO_NO2_L2\", version=\"V04\",\n                                  temporal=(\"2026-08-27 13:00\", \"2026-08-28 02:00\"),\n                                  bounding_box=(lon0 - 0.5, lat0 - 0.5, lon0 + 0.5, lat0 + 0.5))\npaths = earthaccess.download(results, \"tempo_files\")", "tempo-open": "def open_tempo_no2(path):\n    \"\"\"One TEMPO NO2 L2 granule as a flat table: one row per pixel.\"\"\"\n    prod = xr.open_dataset(path, group=\"product\")\n    geo = xr.open_dataset(path, group=\"geolocation\")\n    sup = xr.open_dataset(path, group=\"support_data\")\n    table = pd.DataFrame({\n        \"lat\": geo[\"latitude\"].values.ravel(),\n        \"lon\": geo[\"longitude\"].values.ravel(),\n        \"time\": np.repeat(geo[\"time\"].values, geo.sizes[\"xtrack\"]),   # one time per mirror step\n        \"no2_trop\": prod[\"vertical_column_troposphere\"].values.ravel(),\n        \"flag\": prod[\"main_data_quality_flag\"].values.ravel(),\n        \"cloud\": sup[\"eff_cloud_fraction\"].values.ravel(),\n    })\n    table[\"time\"] = pd.to_datetime(table[\"time\"]).dt.tz_localize(\"UTC\")\n    return table.dropna(subset=[\"no2_trop\"])\n\ntempo = pd.concat([open_tempo_no2(p) for p in paths], ignore_index=True)\nprint(tempo[\"flag\"].value_counts())                     # 0 normal, 1 suspicious, 2 bad", "tempo-filter": "clean = tempo[(tempo[\"flag\"] == 0) & (tempo[\"cloud\"] < 0.2)]\nprint(f\"kept {len(clean)} of {len(tempo)} pixels\")", "match": "def nearest_pixels(table, lat, lon, max_km=3):\n    \"\"\"Pixels whose center is within max_km of a site (TEMPO pixels are ~2 x 5 km).\"\"\"\n    dx = (table[\"lon\"] - lon) * 111.32 * np.cos(np.radians(lat))\n    dy = (table[\"lat\"] - lat) * 110.57\n    return table[np.hypot(dx, dy) <= max_km]\n\nnear = nearest_pixels(clean, lat0, lon0)\npairs = []\nfor scan_time, pix in near.groupby(near[\"time\"].dt.floor(\"10min\")):\n    t = pix[\"time\"].mean()\n    window = good[(good[\"utc_time\"] - t).abs() <= pd.Timedelta(\"30min\")]   # Pandora within ±30 min\n    if len(window):\n        pairs.append({\"time\": t, \"tempo\": pix[\"no2_trop\"].mean(), \"pandora\": window[\"no2_trop\"].mean(), \"n_pandora\": len(window)})\npairs = pd.DataFrame(pairs)\npairs.plot.scatter(x=\"pandora\", y=\"tempo\")", "tempo-aod": "aod_results = earthaccess.search_data(short_name=\"TEMPO_AODALH_L2\",\n                                      temporal=(\"2026-08-27 13:00\", \"2026-08-28 02:00\"),\n                                      bounding_box=(lon0 - 0.5, lat0 - 0.5, lon0 + 0.5, lat0 + 0.5))\naod_paths = earthaccess.download(aod_results, \"tempo_aod\")\n\ndef open_tempo_aod(path):\n    \"\"\"TEMPO AOD (550 nm) and aerosol layer height, one row per pixel.\"\"\"\n    prod = xr.open_dataset(path, group=\"product\")\n    geo = xr.open_dataset(path, group=\"geolocation\")\n    qf = xr.open_dataset(path, group=\"quality_diagnostic_flags\")\n    return pd.DataFrame({\n        \"lat\": geo[\"latitude\"].values.ravel(), \"lon\": geo[\"longitude\"].values.ravel(),\n        \"aod550\": prod[\"aod550\"].values.ravel(),\n        \"alh_km\": prod[\"alh\"].values.ravel(),\n        \"dqf\": qf[\"dqf\"].values.ravel(),          # 0 high, 1 medium, 2 low, 3 no retrieval\n    }).dropna(subset=[\"aod550\"])\n\naod = pd.concat([open_tempo_aod(p) for p in aod_paths], ignore_index=True)\naod_q = aod[(aod[\"dqf\"] == 0) & (aod[\"aod550\"] <= 5)]     # quantitative use: high quality, no extreme values\nalh_q = aod_q[aod_q[\"aod550\"] > 0.2]                      # layer height is only retrieved where AOD > 0.2", "tempo-adp": "adp_results = earthaccess.search_data(short_name=\"TEMPOABI_ADP_L2\",\n                                      temporal=(\"2026-08-27 13:00\", \"2026-08-28 02:00\"),\n                                      bounding_box=(lon0 - 0.5, lat0 - 0.5, lon0 + 0.5, lat0 + 0.5))\nadp_paths = earthaccess.download(adp_results, \"tempo_adp\")\n\ndef open_tempo_adp(path):\n    \"\"\"TEMPO-ABI smoke/dust mask, UV aerosol index and confidence, one row per pixel.\"\"\"\n    prod = xr.open_dataset(path, group=\"product\")\n    geo = xr.open_dataset(path, group=\"geolocation\")\n    qc = xr.open_dataset(path, group=\"quality_diagnostic_flags\")[\"qc_flag\"].values.ravel().astype(\"int64\")\n    return pd.DataFrame({\n        \"lat\": geo[\"latitude\"].values.ravel(), \"lon\": geo[\"longitude\"].values.ravel(),\n        \"smoke\": prod[\"smoke\"].values.ravel(), \"dust\": prod[\"dust\"].values.ravel(),\n        \"uv_aai\": prod[\"uv_aai\"].values.ravel(),\n        \"smoke_conf\": qc & 0b001100,              # 0 high, 4 medium, 8 low\n        \"dust_conf\": qc & 0b110000,               # 0 high, 16 medium, 32 low\n    })\n\nadp = pd.concat([open_tempo_adp(p) for p in adp_paths], ignore_index=True)\nsmoke_q = adp[(adp[\"smoke\"] == 1) & adp[\"smoke_conf\"].isin([0, 4])]   # quantitative: high + medium confidence\nplt.scatter(adp[\"lon\"], adp[\"lat\"], c=adp[\"uv_aai\"], s=1, cmap=\"magma\"); plt.colorbar(label=\"UV aerosol index\")\nplt.scatter(smoke_q[\"lon\"], smoke_q[\"lat\"], s=1, c=\"k\"); plt.title(\"Smoke (high + medium confidence) over the UV aerosol index\")", "abi-aod": "import s3fs\nfrom pyproj import Proj\nfs = s3fs.S3FileSystem(anon=True)                         # NOAA's public bucket: no login needed\nfiles = fs.ls(\"noaa-goes19/ABI-L2-AODC/2026/239/19/\")      # year / day of year (Aug 27 = 239) / hour, UTC\nwith fs.open(files[0]) as f:\n    abi = xr.open_dataset(f, engine=\"h5netcdf\").load()\n\nproj = abi[\"goes_imager_projection\"].attrs                # ABI fixed grid -> latitude and longitude\nh = proj[\"perspective_point_height\"]\ngeos = Proj(proj=\"geos\", h=h, lon_0=proj[\"longitude_of_projection_origin\"], sweep=proj[\"sweep_angle_axis\"])\nX, Y = np.meshgrid(abi[\"x\"].values * h, abi[\"y\"].values * h)\nabi_lon, abi_lat = geos(X, Y, inverse=True)               # points off the Earth's disk come back as inf\nabi_aod = abi[\"AOD\"].where(abi[\"DQF\"] == 0).values         # ABI: high quality only for quantitative use"}, "steps": [["setup", "1. Set up", "Install the tools. In Google Colab, run this once per session. <code>pandora-tools</code> is the reader for Pandora files; <code>earthaccess</code> handles NASA Earthdata downloads (you need a free Earthdata account).", "tested"], ["pandora", "2. Pandora NO₂ at St. Edward's", "Download Pandora 257's sky-scan NO₂ (product <code>rnvh3</code>) for the evening of the scan used on this site. Keep only high-quality readings (flags 0 and 10) and convert moles/m² to molecules/cm², TEMPO's unit.", "tested"], ["tempo-search", "3. Find and download TEMPO NO₂ granules", "Search NASA's catalog for TEMPO NO₂ Level 2 files over the site for the same day, in UTC (see “A Day of Measurements”).", "login"], ["tempo-open", "4. Open a TEMPO file as a table", "Read the three groups described in “Inside a TEMPO File” and flatten the mirror-step × cross-track grid into one row per pixel.", "tested"], ["tempo-filter", "5. Filter by quality and clouds", "Normal-quality pixels only, then a cloud-fraction cutoff. Print how many survive.", "tested"], ["match", "6. Match Pandora to TEMPO", "For each scan, average the pixels within 3 km of the site and the Pandora readings within ±30 minutes of the pixels' own time (see “Matching Instruments in Space and Time”).", "tested"], ["tempo-aod", "7. TEMPO AOD and layer height", "TEMPO's combined aerosol product (<code>TEMPO_AODALH_L2</code>). Keep high-quality AOD for quantitative work; layer height exists only where AOD is above 0.2.", "guide"], ["tempo-adp", "8. TEMPO's smoke/dust mask", "The TEMPO-ABI aerosol detection product (<code>TEMPOABI_ADP_L2</code>): smoke and dust flags, the UV aerosol index, and confidence stored as bits in <code>qc_flag</code>. For quantitative use, keep high and medium confidence.", "guide"], ["abi-aod", "9. ABI AOD from NOAA's public cloud", "GOES-19 ABI AOD for the continental US, read straight from NOAA's open bucket on Amazon Web Services with no login. ABI data sit on a fixed grid of scan angles, so latitude and longitude are computed from the projection.", "guide"]]};
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -1684,7 +1911,7 @@ const SECTIONS = [
       <li><b>No height information.</b> AOD is a column total. For height, use TEMPO's new aerosol layer height product.</li>
       <li>Blocks of missing ABI AOD can occur at random.</li>
     </ul>
-    <p class="pointer">Comparing AOD with Pandora or ground monitors? See Part 2, <a href="#sec-columns">Columns vs. What You Breathe</a> and <a href="#sec-matching">Matching Instruments in Space and Time</a>.</p>`,
+    <p class="pointer">Comparing AOD with Pandora or ground monitors? See Part 3, <a href="#sec-columns">Columns vs. What You Breathe</a> and <a href="#sec-matching">Matching Instruments in Space and Time</a>.</p>`,
   after: () => { initAodLab(); initAodSpectrum(); },
   slides: [["p1-40", "Aerosol optical depth"], ["p1-41", "TEMPO AOD and layer height algorithm"], ["p1-42", "TEMPO and ABI synergy: AOD"], ["p1-43", "Quality flags: AOD"], ["p1-44", "Things to know: using AOD"]] },
 
@@ -1744,7 +1971,7 @@ const SECTIONS = [
       <li><b>No quality or confidence flags.</b></li>
       <li>Cloud contamination of TEMPO and ABI AOD adds noise, worse for TEMPO's estimate and especially along cloud edges. With ${cloudyPct()}% of pixels mostly cloudy, this evening over Austin would be a noisy hour.</li>
     </ul>
-    <p class="pointer">Working with ground monitors yourself? See Part 2, <a href="#sec-columns">Columns vs. What You Breathe</a>.</p>`,
+    <p class="pointer">Working with ground monitors yourself? See Part 3, <a href="#sec-columns">Columns vs. What You Breathe</a>.</p>`,
   after: () => initGwr(),
   slides: [["p1-46", "Estimated surface PM2.5 algorithm"], ["p1-47", "TEMPO and ABI synergy: PM2.5"], ["p1-48", "Things to know: estimated PM2.5"]] },
 
@@ -1776,7 +2003,104 @@ const SECTIONS = [
     </ul>`,
   slides: [["p1-49", "Things to remember: ABI vs. TEMPO"], ["p1-50", "Summary: TEMPO enhances ABI products"], ["p1-53", "Part 1 summary"]] },
 
-/* ------------------------------------------------------------------ PART 2 */
+/* ------------------------------------------------------------------ PART 2: PANDORA */
+{ id: "pandora", part: "p", title: "What a Pandora Is", stage: false, topFigure: () => pandoraIntroHtml(),
+  lede: "TEMPO looks down from space. A Pandora looks up from the ground, measuring the same gases from below, every few minutes, at one spot. On the roof at St. Edward's University there is one.",
+  scene: { view: "overview", ...NEAR }, start: "", tries: [],
+  body: () => `
+    <p>A <b>Pandora</b> is a small, automated spectrometer system. A tracker turns its optical head to point at the Sun or at chosen spots in the sky; the light travels through an optical fiber to a spectrometer, which splits it into a spectrum from the ultraviolet into the visible, much like TEMPO does from orbit. Software then retrieves how much of each gas the light passed through.</p>
+    <p>Pandoras are run as the <b>Pandonia Global Network</b> (PGN), a joint project of NASA and the European Space Agency with LuftBlick (an Austrian company that builds the processing software) and many host institutions. Every instrument is calibrated and processed the same way, and the results are public. The network's main jobs are to:</p>
+    <ul>
+      <li><b>Validate satellites.</b> Ground truth for TEMPO, TROPOMI and the other air-quality satellites. When a satellite retrieval changes version, its developers check it against Pandoras.</li>
+      <li><b>Watch the daily cycle.</b> A Pandora measures from sunrise to sunset, catching rush hours and afternoon chemistry that a once-a-day satellite misses.</li>
+      <li><b>Support air-quality research</b> at the sites themselves, often next to EPA or state monitors.</li>
+    </ul>
+    <h3>The St. Edward's Pandora</h3>
+    <p>The instrument on campus is <b>Pandora 257</b>, listed in the network as site <code>AustinTX</code> (30.2285° N, 97.7544° W, 205 m above sea level). It is the orange pin in this site's 3D scene. Its files are what the rest of this part uses: one real day, <b>August 27, 2026</b>, the same evening as the TEMPO scan behind the 3D scene.</p>
+    <p>It publishes four Level 2 products:</p>
+    <div class="tablewrap"><table class="t">
+      <thead><tr><th>Product code</th><th>How it looks</th><th>What you get</th></tr></thead>
+      <tbody>
+        <tr><th><code>rout2</code></th><td>Direct sun</td><td>Total ozone column</td></tr>
+        <tr><th><code>rnvh3</code></th><td>Sky scans</td><td>NO₂ and water vapor: tropospheric column, surface concentration and a rough profile</td></tr>
+        <tr><th><code>rfuh5</code></th><td>Sky scans</td><td>Formaldehyde: tropospheric column, surface concentration and a rough profile</td></tr>
+        <tr><th><code>rwvt1</code></th><td colspan="2">Water vapor (see the file header for details)</td></tr>
+      </tbody></table></div>
+    <p>Other Texas sites publish more, for example direct-sun total NO₂ (<code>rnvs3</code>) and total formaldehyde (<code>rfus5</code>) at Houston-area sites. The next section explains the two ways of looking.</p>`,
+  after: () => initPandoraIntro(),
+  slides: [] },
+
+{ id: "looking", part: "p", title: "Two Ways of Looking: Direct Sun and Sky Scans",
+  lede: "A Pandora measures in two modes. Looking straight at the Sun gives everything between the instrument and space; scanning the sky just above the horizon concentrates on the air near the ground.",
+  scene: { view: "pandora", rays: true, scan: true, aer: false, pbl: true },
+  start: "The orange line is the direct-sun view toward the low evening Sun, at the moment of TEMPO's scan. The green fan is the sky scan: the same instrument tilted to several angles toward the north, from 1° above the horizon to straight up. Drag to orbit.",
+  tries: [
+    { label: "Side view", scene: { view: "side" }, note: "From the side, the 1° and 2° sky-scan lines barely rise: they run many kilometers through the boundary layer (the green sheet) before leaving it. The higher angles leave it quickly." },
+    { label: "From above", scene: { view: "top" }, note: "From above, the direct-sun line and the sky-scan fan point in different directions, so the two modes sample different air, and both reach well beyond the TEMPO pixel over campus." },
+    { label: "Direct sun only", scene: { scan: false }, note: "Only the direct-sun view. Move the time-of-day slider below the scene to swing the Sun across the sky: at midday the line is steep and stays close to campus; in the evening it reaches far to the west." },
+  ],
+  body: () => `
+    ${sunControlHtml()}
+    <h3>Direct sun: the total column</h3>
+    <p>In <b>direct-sun</b> mode the tracker points at the Sun and the spectrometer records sunlight that has crossed the whole atmosphere along that line. The gases in the way leave their fingerprints, so the result is a <b>total column</b>: troposphere and stratosphere together. Direct sunlight is very bright, which makes these measurements precise, and the path is simple geometry (next section). The catch is that it only works when the Sun itself is clear of clouds, and, as the slider shows, at low Sun the line runs far sideways, so the air it samples can be many kilometers from the roof.</p>
+    <h3>Sky scans: the lower atmosphere</h3>
+    <p>In <b>sky-scan</b> mode (often called MAX-DOAS) the head tilts to a sequence of elevation angles, low to high, in one direction. The files for Pandora 257 give a largest pointing zenith angle of 89°, so the lowest view is 1° above the horizon. Light from a low view has traveled a long way through the boundary layer before scattering into the telescope, so it picks up the near-surface gas strongly. Comparing low and high views separates the lower atmosphere from everything above it, which gives:</p>
+    <ul>
+      <li>a <b>tropospheric column</b>, the amount in the lower atmosphere;</li>
+      <li>an estimated <b>surface concentration</b>, the closest thing to what an EPA monitor measures;</li>
+      <li>a rough <b>profile</b>, as partial columns in a few layers;</li>
+      <li>a <b>heterogeneity flag</b> for whether the air looked well mixed in the scan direction.</li>
+    </ul>
+    <p>Sky scans work with scattered light, so they continue at low Sun and through thin cloud, but the light paths are complicated and must be modeled, which makes them less precise than direct sun.</p>
+    ${lookTimelineHtml()}
+    <p class="pointer">Which mode matches TEMPO? TEMPO reports the tropospheric NO₂ column separately, so the closest Pandora match is the sky-scan tropospheric column, or a direct-sun total column minus an estimate of the stratosphere. Part 3 (<a href="#sec-columns">Columns vs. What You Breathe</a>) picks this up.</p>`,
+  after: () => { initSunControl(); initLookTimeline(); },
+  slides: [] },
+
+{ id: "doas", part: "p", title: "From a Spectrum to a Column", stage: false, topFigure: () => doasHtml(),
+  lede: "A Pandora never sees NO₂ or ozone directly. It sees sunlight with tiny dips at the wavelengths each gas absorbs, and turns the depth of those dips into an amount of gas.",
+  scene: { view: "overview", ...NEAR }, start: "", tries: [],
+  body: () => `
+    <h3>Fingerprints and the Beer–Lambert law</h3>
+    <p>Each gas absorbs light at its own set of wavelengths, with a strength called its <b>absorption cross-section</b>, σ(λ). Light traveling through gas of number density n(s) along a path s is dimmed exponentially:</p>
+    <p class="eq">I(λ) = I₀(λ) · exp( −σ(λ) · ∫ n(s) ds )</p>
+    <p>where I₀ is the light that would arrive with no gas. The integral is the <b>slant column</b> S: the number of molecules along the actual path, per unit area. Taking a logarithm turns the exponential into a straight line:</p>
+    <p class="eq">ln( I₀(λ) / I(λ) ) = σ(λ) · S</p>
+    <p>Measured at many wavelengths, this is a linear regression of ln(I₀/I) on σ(λ) with slope S, which is exactly what the figure above does. The cross-sections come from laboratory measurements, so the only unknown is S.</p>
+    <p>Real retrievals add two refinements. First, I₀ is not known outside the atmosphere, so the fit is made against a reference spectrum and solves for the difference. Second, air molecules and particles also dim the light, but smoothly across wavelengths, so a low-order polynomial is fit alongside to absorb that smooth part. Only the narrow, “differential” structure is attributed to gases, which is why the method is called <b>DOAS</b>, differential optical absorption spectroscopy. Several gases with overlapping bands (NO₂, ozone, water vapor, the oxygen dimer O₂–O₂) are fit at the same time.</p>
+    <h3>From slant to vertical: the air mass factor</h3>
+    <p>The slant column depends on the path the light took. To report something that doesn't depend on the Sun's position, the slant column is converted to a <b>vertical column</b> V = ∫ n(z) dz, the amount straight up. The ratio is the <b>air mass factor</b>:</p>
+    <p class="eq">AMF = S / V,&nbsp;&nbsp;so&nbsp;&nbsp;V = S / AMF</p>
+    <p>For direct sun the geometry is simple. In a flat layer the path element is ds = dz / cos θ, where θ is the solar zenith angle, so S = V / cos θ and AMF = 1 / cos θ:</p>
+    ${amfHtml()}
+    <p>For sky scans there is no single path. Scattered light reaches the telescope by many routes, so the air mass factors come from a radiative-transfer model, and the separation of the lower atmosphere from everything above relies on comparing different elevation angles. TEMPO faces the same problem from above; its air mass factors also need clouds, surface reflectance and an assumed gas profile, which is one reason satellite and ground retrievals can disagree.</p>`,
+  after: () => { initDoas(); initAmf(); },
+  slides: [] },
+
+{ id: "pgnfiles", part: "p", title: "Pandora's Products and Quality Flags", stage: false, topFigure: () => pdayHtml(),
+  lede: "One real day from the St. Edward's Pandora: what's in the files, what the quality flags mean, and how its readings compare with TEMPO's pixel over campus.",
+  scene: { view: "overview", ...NEAR }, start: "", tries: [],
+  body: () => `
+    <h3>The files</h3>
+    <p>PGN distributes plain-text Level 2 files, one per instrument, product and day. A file name such as <code>Pandora257s1_AustinTX_20260827_L2_rnvh3c2d20230110p1-8.txt</code> gives the instrument (257) and spectrometer (s1), the site, the date, the level, the product code (<code>rnvh3</code>), the calibration file version and date, and the processor version (p1-8). Each file starts with a header describing every column, then one row per measurement. Column numbers differ between products, so read columns by their description, never by position; <a href="https://github.com/paulsavala/pandora-tools" target="_blank" rel="noopener">pandora-tools</a> does that and returns a table with short names such as <code>no2_trop_col</code> and <code>no2_qa</code>.</p>
+    <p>Two practical traps:</p>
+    <ul>
+      <li><b>Units.</b> Pandora reports columns in <b>moles per square meter</b>. TEMPO uses molecules/cm²: multiply by 6.022 × 10¹⁹. Ozone is often quoted in Dobson units: multiply moles/m² by about 2241. Surface concentrations are in moles/m³.</li>
+      <li><b>Days.</b> A file's date is a local-time day: the August 27 Austin file runs until about 00:35 UTC on August 28, so the evening TEMPO scan (00:13 UTC, August 28) is in the August 27 file. Times inside the file are UTC.</li>
+    </ul>
+    <h3>Quality flags</h3>
+    <p>Every gas in every row carries a quality flag with two parts. The tens digit says whether the data have been reviewed: <b>0–2 assured</b>, <b>10–12 not assured</b> (not yet reviewed, typically while an instrument's calibration is being finalized), <b>20–22 unusable</b>. The ones digit is the quality class: <b>0 high, 1 medium, 2 low</b>. A common choice for analysis is to keep classes 0 and 10. Every reading on this day is not assured, as is usual for a recently installed instrument, so treat these numbers as provisional.</p>
+    <h3>What this day shows</h3>
+    <ul>
+      <li><b>Ozone agrees.</b> Pandora's direct-sun total ozone sits near 285 Dobson units all day; TEMPO's total ozone over campus at 7:15 pm is about 290. Ozone is mostly in the stratosphere, varies slowly, and both instruments measure it well.</li>
+      <li><b>NO₂ is harder.</b> At the moment of TEMPO's scan, the Pandora's sky scan (low quality, Sun 9° up) reads about 3.6 × 10¹⁵ molecules/cm², while TEMPO's pixel over campus reads about ten times more, but that pixel is flagged suspicious and fully cloudy. Neither number should go into a comparison. This is the situation the filtering in Part 3 (<a href="#sec-files">Inside a TEMPO File</a>) exists for.</li>
+      <li><b>Quality filtering is strict.</b> Keeping only the high class leaves 16 of the day's 63 NO₂ readings, all between about 9 am and 1 pm. A month of data is usually needed before a comparison means much.</li>
+    </ul>
+    <p class="pointer">Next: Part 3 compares these columns with ground monitors and matches Pandora with TEMPO in space and time. Part 4 does it in Python, starting from this same file.</p>`,
+  after: () => initPday(),
+  slides: [] },
+
+/* ------------------------------------------------------------------ PART 3: WORKING WITH THE MEASUREMENTS */
 { id: "columns", part: 2, title: "Columns vs. What You Breathe", stage: false, topFigure: () => columnLabHtml(),
   lede: "TEMPO and Pandora measure columns: everything above a patch of ground. Ground monitors measure the air at the surface. Comparing them means knowing how the two are connected.",
   scene: { view: "overview", ...NEAR }, start: "", tries: [],
@@ -1815,7 +2139,7 @@ const SECTIONS = [
     ${matchTimeHtml()}
     <ul>
       <li><b>Use the pixel's own time.</b> Each TEMPO pixel has an exact observation time (<code>geolocation/time</code>); the scan reaches Austin a few minutes past the hour, not on it.</li>
-      <li><b>Filter both sides first.</b> Apply TEMPO's quality and cloud filters and Pandora's quality flags before matching (Part 2, “Inside a TEMPO File”).</li>
+      <li><b>Filter both sides first.</b> Apply TEMPO's quality and cloud filters and Pandora's quality flags before matching (Part 3, “Inside a TEMPO File”).</li>
       <li><b>Keep the number of readings.</b> Report how many Pandora readings went into each average; a match built on one or two readings deserves less trust.</li>
     </ul>`,
   after: () => { initMatchMap(); initMatchTime(); },
@@ -1827,7 +2151,7 @@ const SECTIONS = [
   body: () => `
     <p>For studies of high-pollution days, the sampling pattern matters as much as the instrument:</p>
     <ul>
-      <li><b>Pandora</b> measures every few minutes in direct-sun mode and roughly every 20–30 minutes in sky-scan mode, but only when the Sun is up and not hidden by cloud.</li>
+      <li><b>Pandora</b> measures every few minutes in direct-sun mode and about every 10 minutes in sky-scan mode (Part 2), but only when the Sun is up and not hidden by cloud.</li>
       <li><b>TEMPO</b> gives one value per hourly scan in daylight; early-morning and late-evening scans come with a low Sun.</li>
       <li><b>Polar orbiters</b> such as TROPOMI, VIIRS or MODIS give one look a day, around the same local time, so they show a snapshot, not the daily cycle.</li>
       <li><b>Ground monitors</b> run around the clock, usually reported as hourly averages, but at a single point at the surface.</li>
@@ -1853,7 +2177,7 @@ const SECTIONS = [
   after: () => initQaLab(),
   slides: [] },
 
-/* ------------------------------------------------------------------ PART 3 */
+/* ------------------------------------------------------------------ PART 4: PYTHON */
 { id: "python", part: 3, title: "Hands-On in Python", stage: false,
   lede: "One worked example, start to finish: download Pandora and TEMPO data, filter them, match them, and look at TEMPO's aerosol products and the smoke/dust mask.",
   scene: { view: "overview", ...NEAR }, start: "", tries: [],
@@ -1883,7 +2207,7 @@ const SECTIONS = [
    PAGE ENGINE
    ===================================================================== */
 const $ = id => document.getElementById(id);
-const PARTS = { b: ["Background", "Fundamentals of satellite remote sensing"], 1: ["Part 1", "TEMPO's aerosol products"], 2: ["Part 2", "Working with the measurements"], 3: ["Part 3", "Hands-on in Python"], 0: ["Reference", ""] };
+const PARTS = { b: ["Background", "Fundamentals of satellite remote sensing"], 1: ["Part 1", "TEMPO's aerosol products"], p: ["Part 2", "Pandora, the view from the ground"], 2: ["Part 3", "Working with the measurements"], 3: ["Part 4", "Hands-on in Python"], 0: ["Reference", ""] };
 const deckOf = f => { const [d, n] = f.split("-"); return `${{ p1: "Aerosols 2026, Part 1", p2: "Aerosols 2026, Part 2", f: "Remote sensing fundamentals, 2023" }[d]}, slide ${+n}`; };
 const numbered = SECTIONS.filter(s => s.part);
 const numOf = s => numbered.indexOf(s) + 1;
@@ -1892,7 +2216,7 @@ try { visited = new Set(JSON.parse(localStorage.getItem("tempo-aerosols-visited"
 const saveVisited = () => { try { localStorage.setItem("tempo-aerosols-visited", JSON.stringify([...visited])); } catch (e) { /* ignore */ } };
 
 function renderNav(cur) {
-  const groups = ["b", 1, 2, 3, 0].map(p => {
+  const groups = ["b", 1, "p", 2, 3, 0].map(p => {
     const items = SECTIONS.filter(s => s.part === p).map(s => {
       const n = s.part ? numOf(s) : "§";
       return `<a class="sec-link${visited.has(s.id) ? " done" : ""}" href="#sec-${s.id}"${s === cur ? ' aria-current="page"' : ""}><span class="num">${n}</span><span>${s.title}</span></a>`;

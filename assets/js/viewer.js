@@ -91,7 +91,7 @@ scene.add(new THREE.AmbientLight(0xffffff, 0.75));
 const sunLight = new THREE.DirectionalLight(0xffffff, 0.45); sunLight.position.set(-80, 120, 60); scene.add(sunLight);
 
 const state = { ground: "cloud", bars: false, ozone: false, cut: false, ozMin: 0, ozMax: 66, ozOpacity: 1, pbl: true, rays: true, vex: 5, about: "intro", city: true, aerBox: false,
-  aer: true, aerType: "smoke", aod: 0.8, alh: 0.9, thick: 1.2, radius: 25, tgrid: false, abi: false, plane: false, lidar: false, fp: "none" };
+  aer: true, aerType: "smoke", aod: 0.8, alh: 0.9, thick: 1.2, radius: 25, tgrid: false, abi: false, plane: false, lidar: false, fp: "none", scan: false, sunOv: null };
 setRadius(state.radius);
 const groups = {};
 function setGroup(name, obj) {
@@ -222,13 +222,14 @@ function buildPbl() {
   return m;
 }
 
+const SCAN_AZ = 0, SCAN_ELEV = [1, 2, 4, 8, 15, 30, 90];   // sky scans: fixed azimuth (north, per the L2 files), low-to-high elevation angles
 function dirFrom(azDeg, zenDeg) {  // azimuth clockwise from north; returns a unit vector in scene axes (before height stretch)
   const az = azDeg * Math.PI / 180, el = (90 - zenDeg) * Math.PI / 180;
   return new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el));
 }
 function buildRays() {
   if (!state.rays) return null;
-  const grp = new THREE.Group(), a = META.angles, s = META.pandora;
+  const grp = new THREE.Group(), a = state.sunOv ? { ...META.angles, ...state.sunOv } : META.angles, s = META.pandora;
   const o = new THREE.Vector3(px(s.lon), 0.05, pz(s.lat));
   const topKm = contentTop();
   // each line rises to the top of the altitude axis (capped at 45 km sideways), so it never stretches the scene
@@ -242,7 +243,8 @@ function buildRays() {
   };
   const sunAz = (a.saa + 360) % 360;
   const sunTxt = `Sun ${fmt(90 - a.sza)}° up, ${compass(sunAz)}` + (state.aer ? ` · ${pctTxt(Math.exp(-state.aod / Math.cos(a.sza * Math.PI / 180)))} of direct light gets through` : "");
-  ray(dirFrom(sunAz, a.sza), 55, css("--sun"), sunTxt, "sun");
+  if (a.sza < 89.5) ray(dirFrom(sunAz, a.sza), 55, css("--sun"), sunTxt, "sun");
+  if (state.scan) SCAN_ELEV.forEach(el => ray(dirFrom(SCAN_AZ, 90 - el), 0, css("--laser"), "", "scan"));
   const satAz = (a.vaa + 360) % 360;
   ray(dirFrom(satAz, a.vza), 75, css("--sat"), `TEMPO: ${fmt(90 - a.vza, 0)}° up, ${compass(satAz)}, ~36,000 km away`, "sat");
   return grp;
@@ -793,6 +795,7 @@ const VIEWS = {
   top: () => view([0, Math.max(W, D) * 1.55, 0.01], [0, 0, 0]),
   east: () => { const H = contentTop() * state.vex; view([W * 0.85 + H * 0.35, H * 0.6, D * 0.2], [-W * 0.12, H * 0.3, 0]); },
   plane: () => { const s0 = META.pandora, cx = px(s0.lon), cz = pz(s0.lat), v = state.vex, d = 2.1 * PLANE_TOP * v + 8; view([cx + d * 0.45, PLANE_TOP * v * 0.55 + d * 0.12, cz + d * 0.9], [cx, PLANE_TOP * v * 0.42, cz]); },
+  pandora: () => { const s0 = META.pandora, cx = px(s0.lon), cz = pz(s0.lat), v = state.vex; view([cx + 13, 4 + 1.6 * v, cz + 15], [cx - 3.5, 0.45 * v, cz - 4.5]); },
   city: () => { const cx = px(-97.749), cz = pz(30.252); view([cx + 6.5, 3 + 1.1 * state.vex, cz + 10], [cx, 0.2 * state.vex, cz - 0.5]); },
 };
 $("v-overview").addEventListener("click", VIEWS.overview);
@@ -845,9 +848,10 @@ function syncControls() {
   $("showPbl").checked = state.pbl; $("showRays").checked = state.rays; $("showTgrid").checked = state.tgrid; $("showAbi").checked = state.abi; $("showPlane").checked = state.plane; $("showLidar").checked = state.lidar; $("fpSel").value = state.fp;
   $("radius").value = state.radius; $("radiusV").textContent = state.radius + " km"; setVex(state.vex); ozVals(); aerVals();
 }
-const SCENE_KEYS = ["ground", "bars", "ozone", "cut", "ozMin", "ozMax", "ozOpacity", "pbl", "rays", "vex", "city", "aerBox", "aer", "aerType", "aod", "alh", "thick", "tgrid", "abi", "plane", "lidar", "fp"];
+const SCENE_KEYS = ["ground", "bars", "ozone", "cut", "ozMin", "ozMax", "ozOpacity", "pbl", "rays", "vex", "city", "aerBox", "aer", "aerType", "aod", "alh", "thick", "tgrid", "abi", "plane", "lidar", "fp", "scan"];
 function applyScene(sc) {
   SCENE_KEYS.forEach(k => { if (k in sc) state[k] = sc[k]; });
+  state.sunOv = sc.sunOv || null;
   vexBeforeOzone = null;
   if ("radius" in sc) setRadius(sc.radius);
   syncControls(); rebuild();
@@ -855,5 +859,6 @@ function applyScene(sc) {
   (VIEWS[sc.view || "overview"] || VIEWS.overview)();
 }
 window.VIZ = { applyScene, state, M, META, NS, EW, PIX, CITY, fmt, sci, pctTxt, compass, sunEl, airmass, spectrumSvg, cadenceSvg, GLOSSARY,
-  startGlide: () => { glide = true; } };
+  startGlide: () => { glide = true; },
+  setSun: (sza, saa) => { state.sunOv = { sza, saa }; rebuild(["rays"]); } };
 })();
